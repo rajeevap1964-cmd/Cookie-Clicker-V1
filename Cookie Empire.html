@@ -1,0 +1,4313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🍪 Cookie Empire</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+    --bg:#080301;
+    --panel:#140804;
+    --panel2:#211006;
+    --border:#633617;
+    --gold:#ffd477;
+    --green:#6de29a;
+    --red:#ff6666;
+    --muted:#a38b77;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    color:white;
+    background:
+        radial-gradient(circle at 50% -10%,#6d3a18 0%,#241006 35%,#080301 75%);
+    user-select:none;
+    overflow-x:hidden;
+}
+
+button,input{font:inherit}
+button{cursor:pointer}
+
+.topbar{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    background:rgba(10,4,1,.96);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(12px);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:1000;
+}
+
+.logo span{color:#ffc45c}
+
+.top-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.top-btn{
+    padding:10px 14px;
+    color:white;
+    background:#251006;
+    border:1px solid #603418;
+    border-radius:10px;
+    transition:.15s;
+}
+
+.top-btn:hover{
+    background:#49220e;
+    transform:translateY(-1px);
+}
+
+.main{
+    min-height:calc(100vh - 72px);
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 500px;
+}
+
+.left{
+    min-height:700px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:35px;
+}
+
+.amount{
+    font-size:clamp(45px,6vw,82px);
+    font-weight:1000;
+    color:var(--gold);
+    text-shadow:0 0 35px rgba(255,180,50,.2);
+}
+
+.label{
+    color:#a48b77;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    font-size:12px;
+}
+
+.cps{
+    margin-top:8px;
+    color:var(--green);
+    font-size:14px;
+}
+
+.cookie-wrap{
+    width:min(400px,65vw);
+    height:min(400px,65vw);
+    margin-top:30px;
+    position:relative;
+}
+
+.cookie{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    border:12px solid #713510;
+    background:
+        radial-gradient(circle at 30% 25%,
+        #e39a50,#ae5c24 42%,#7a3715 72%,#481a09);
+    box-shadow:
+        inset 20px 20px 35px rgba(255,255,255,.13),
+        inset -30px -35px 50px rgba(0,0,0,.5),
+        0 30px 100px rgba(0,0,0,.7);
+    touch-action:none;
+    transition:transform .035s;
+}
+
+.cookie:hover{filter:brightness(1.08)}
+.cookie.pressed{transform:scale(.92)}
+
+.chip{
+    position:absolute;
+    width:35px;
+    height:28px;
+    border-radius:45%;
+    background:#351106;
+    box-shadow:inset 3px 3px 5px rgba(255,255,255,.05);
+}
+
+.c1{left:20%;top:25%}
+.c2{left:54%;top:17%}
+.c3{left:73%;top:39%}
+.c4{left:35%;top:52%}
+.c5{left:63%;top:67%}
+.c6{left:20%;top:70%}
+.c7{left:46%;top:34%}
+.c8{left:79%;top:72%}
+.c9{left:42%;top:79%}
+
+.shop{
+    background:rgba(12,5,2,.98);
+    border-left:1px solid #4c2915;
+    padding:18px;
+    overflow-y:auto;
+    max-height:calc(100vh - 72px);
+}
+
+.shop-tabs{
+    display:flex;
+    gap:7px;
+    margin-bottom:14px;
+    position:sticky;
+    top:-18px;
+    padding-top:18px;
+    padding-bottom:10px;
+    background:rgba(12,5,2,.98);
+    z-index:5;
+}
+
+.tab{
+    flex:1;
+    padding:11px 5px;
+    border:1px solid #563019;
+    background:#211006;
+    color:#a9917e;
+    border-radius:9px;
+}
+
+.tab.active{
+    color:white;
+    background:#4d230e;
+    border-color:#a6672e;
+}
+
+.section{display:none}
+.section.active{display:block}
+
+.item{
+    display:grid;
+    grid-template-columns:55px 1fr auto;
+    gap:10px;
+    align-items:center;
+    min-height:78px;
+    padding:9px;
+    margin-bottom:8px;
+    border-radius:13px;
+    background:linear-gradient(135deg,#3a1d0c,#1c0d06);
+    border:1px solid #4d2813;
+    transition:.12s;
+}
+
+.item:hover{
+    transform:translateX(-3px);
+    border-color:#885024;
+}
+
+.item.can{border-color:#a26a2d}
+.item.locked{opacity:.45}
+
+.icon{
+    width:55px;
+    height:55px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#241006;
+    font-size:28px;
+}
+
+.name{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.desc{
+    color:#967d6b;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.owned{
+    color:var(--green);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.cost{
+    color:#ffca69;
+    font-size:11px;
+    font-weight:bold;
+    text-align:right;
+}
+
+.golden{
+    display:none;
+    position:fixed;
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    align-items:center;
+    justify-content:center;
+    font-size:48px;
+    background:radial-gradient(circle,#fff5a1,#ffd431,#d68700);
+    box-shadow:0 0 35px #ffd431,0 0 100px rgba(255,190,20,.8);
+    z-index:500;
+    animation:gold .7s infinite alternate;
+}
+
+@keyframes gold{
+    from{transform:scale(1)}
+    to{transform:scale(1.13)}
+}
+
+.particle{
+    position:fixed;
+    pointer-events:none;
+    color:#ffd477;
+    font-weight:bold;
+    z-index:2000;
+    animation:particle .7s forwards;
+}
+
+@keyframes particle{
+    from{
+        opacity:1;
+        transform:translate(-50%,-50%);
+    }
+    to{
+        opacity:0;
+        transform:translate(
+            calc(-50% + var(--x)),
+            calc(-50% + var(--y))
+        );
+    }
+}
+
+/* PANELS */
+
+.panel{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.panel-box{
+    width:min(1000px,96%);
+    max-height:92vh;
+    overflow:auto;
+    padding:24px;
+    background:
+        radial-gradient(circle at top,#321609,#120603 60%);
+    border:1px solid #75401d;
+    border-radius:22px;
+    box-shadow:0 30px 120px #000;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.close{
+    background:#39180b;
+    border:1px solid #69351a;
+    color:white;
+    border-radius:8px;
+    padding:8px 12px;
+}
+
+.input{
+    width:100%;
+    padding:11px;
+    border-radius:9px;
+    border:1px solid #623519;
+    background:#0b0502;
+    color:white;
+    outline:none;
+}
+
+.admin-login{
+    display:flex;
+    gap:8px;
+}
+
+.admin-login button{
+    min-width:130px;
+}
+
+/* ADMIN */
+
+.admin-dashboard{display:none}
+
+.admin-nav{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+    margin-bottom:16px;
+}
+
+.admin-nav button{
+    padding:11px 5px;
+    background:#211006;
+    color:#bca18c;
+    border:1px solid #503019;
+    border-radius:9px;
+}
+
+.admin-nav button:hover{
+    background:#38200e;
+}
+
+.admin-nav button.active{
+    background:#51250e;
+    color:white;
+    border-color:#a6672e;
+}
+
+.admin-page{display:none}
+.admin-page.active{display:block}
+
+.admin-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.admin-card{
+    background:linear-gradient(135deg,#251107,#160905);
+    border:1px solid #4e2914;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:10px;
+}
+
+.admin-card h3{
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.admin-card p{
+    color:#a38b77;
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.admin-action{
+    width:100%;
+    padding:10px;
+    border-radius:9px;
+    border:1px solid #66371a;
+    background:#32160a;
+    color:white;
+    margin-top:6px;
+}
+
+.admin-action:hover{
+    background:#51250f;
+}
+
+.danger{
+    border-color:#8d2929;
+    background:#421313;
+}
+
+.abuse{
+    border-color:#a63b18;
+    background:linear-gradient(135deg,#4b1b08,#241006);
+}
+
+.abuse:hover{
+    background:linear-gradient(135deg,#70280c,#321408);
+}
+
+.online-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px;
+    border-radius:10px;
+    background:#160905;
+    border:1px solid #4e2914;
+    margin-bottom:12px;
+}
+
+.online-dot{
+    color:#6de29a;
+}
+
+.event-active{
+    padding:12px;
+    border-radius:10px;
+    background:#321609;
+    border:1px solid #a6672e;
+    color:#ffd477;
+    margin-bottom:12px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.stat{
+    background:#211006;
+    border:1px solid #4d2814;
+    padding:15px;
+    border-radius:12px;
+}
+
+.stat-title{
+    color:#8f7664;
+    font-size:11px;
+}
+
+.stat-value{
+    color:#ffd477;
+    font-size:23px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.admin-list{
+    max-height:430px;
+    overflow:auto;
+    margin-top:12px;
+}
+
+.admin-row{
+    display:grid;
+    grid-template-columns:45px 1fr 110px 100px;
+    gap:8px;
+    align-items:center;
+    padding:9px;
+    margin-bottom:6px;
+    border-radius:9px;
+    background:#1b0c06;
+    border:1px solid #422313;
+}
+
+.admin-row small{
+    color:#987e6b;
+}
+
+.admin-row input{
+    width:100%;
+    padding:7px;
+    border-radius:7px;
+    border:1px solid #573018;
+    background:#0c0502;
+    color:white;
+}
+
+.admin-row button{
+    padding:7px;
+    background:#3a190a;
+    border:1px solid #68371a;
+    color:white;
+    border-radius:7px;
+}
+
+.toast{
+    display:none;
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3000;
+    padding:12px 20px;
+    background:#251006;
+    border:1px solid #81471f;
+    border-radius:12px;
+    box-shadow:0 10px 40px #000;
+}
+
+/* GLOBAL ANNOUNCEMENT */
+
+.global-announcement{
+    display:none;
+    position:fixed;
+    top:88px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2500;
+    width:min(700px,90%);
+    padding:15px 20px;
+    text-align:center;
+    background:
+        linear-gradient(135deg,#51250e,#251006);
+    border:1px solid #d18a3c;
+    border-radius:14px;
+    color:#ffd477;
+    font-size:16px;
+    font-weight:bold;
+    box-shadow:0 15px 60px #000;
+}
+
+/* GLOBAL EVENT EFFECTS */
+
+.global-glitch{
+    animation:glitchScreen .12s infinite;
+}
+
+@keyframes glitchScreen{
+    0%{filter:none}
+    25%{filter:hue-rotate(40deg)}
+    50%{filter:contrast(1.4)}
+    75%{filter:hue-rotate(-40deg)}
+    100%{filter:none}
+}
+
+.frenzy-active .cookie{
+    box-shadow:
+        0 0 50px #ffb52e,
+        0 0 100px rgba(255,120,0,.5),
+        inset 20px 20px 35px rgba(255,255,255,.13),
+        inset -30px -35px 50px rgba(0,0,0,.5);
+}
+
+/* OWNERS */
+
+.owner-panel-box{
+    width:min(650px,96%);
+    text-align:center;
+}
+
+.owner-title{
+    font-size:30px;
+    font-weight:1000;
+    color:#ffd477;
+    text-shadow:0 0 25px rgba(255,190,50,.25);
+}
+
+.owner-subtitle{
+    color:#a38b77;
+    margin-top:6px;
+    margin-bottom:22px;
+}
+
+.owner-list{
+    display:grid;
+    gap:12px;
+}
+
+.owner-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:16px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#321609,#180904);
+    border:1px solid #603317;
+    text-align:left;
+    transition:.15s;
+}
+
+.owner-card:hover{
+    transform:translateY(-2px);
+    border-color:#a6672e;
+}
+
+.owner-icon{
+    width:58px;
+    height:58px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:#241006;
+    font-size:30px;
+    border:1px solid #593018;
+}
+
+.owner-name{
+    font-size:18px;
+    font-weight:1000;
+}
+
+.owner-role{
+    color:#ffd477;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.owner-desc{
+    color:#967d6b;
+    font-size:11px;
+    margin-top:3px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .shop{
+        max-height:none;
+        border-left:0;
+        border-top:1px solid #4d2915;
+    }
+
+    .admin-nav{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .topbar{
+        height:auto;
+        padding:12px;
+        flex-wrap:wrap;
+        gap:8px;
+    }
+
+    .top-buttons{
+        width:100%;
+    }
+
+    .top-btn{
+        flex:1;
+        min-width:90px;
+    }
+
+    .cookie-wrap{
+        width:290px;
+        height:290px;
+    }
+
+    .admin-grid,
+    .stat-grid{
+        grid-template-columns:1fr;
+    }
+
+    .admin-nav{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .admin-row{
+        grid-template-columns:40px 1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="logo">
+🍪 <span>COOKIE</span> EMPIRE
+</div>
+
+<div class="top-buttons">
+
+<button class="top-btn" id="musicBtn">
+🎵 OFF
+</button>
+
+<button class="top-btn" id="statsBtn">
+📊 Stats
+</button>
+
+<button class="top-btn" id="ownersBtn">
+👑 Owners
+</button>
+
+<button class="top-btn" id="adminBtn">
+👑 Admin++++
+</button>
+
+</div>
+
+</header>
+
+<main class="main">
+
+<section class="left">
+
+<div class="amount" id="cookies">0</div>
+
+<div class="label">Cookies</div>
+
+<div class="cps">
+<span id="cps">0</span> cookies per second
+</div>
+
+<div class="cookie-wrap">
+
+<div class="cookie" id="cookie">
+
+<div class="chip c1"></div>
+<div class="chip c2"></div>
+<div class="chip c3"></div>
+<div class="chip c4"></div>
+<div class="chip c5"></div>
+<div class="chip c6"></div>
+<div class="chip c7"></div>
+<div class="chip c8"></div>
+<div class="chip c9"></div>
+
+</div>
+</div>
+
+</section>
+
+<aside class="shop">
+
+<div class="shop-tabs">
+
+<button class="tab active" data-tab="buildings">
+🏪 Buildings <span id="buildingCount">180</span>
+</button>
+
+<button class="tab" data-tab="upgrades">
+⬆️ Upgrades <span id="upgradeCount">180</span>
+</button>
+
+</div>
+
+<div class="section active" id="buildings">
+<div id="buildingList"></div>
+</div>
+
+<div class="section" id="upgrades">
+<div id="upgradeList"></div>
+</div>
+
+</aside>
+
+</main>
+
+
+<!-- ONLINE -->
+
+<div
+id="onlinePlayers"
+style="
+position:fixed;
+bottom:15px;
+left:15px;
+padding:8px 12px;
+border:1px solid #633617;
+border-radius:10px;
+background:rgba(12,5,2,.9);
+color:#6de29a;
+font-size:12px;
+z-index:4000;
+">
+🔴 Connecting...
+</div>
+
+
+<!-- GLOBAL ANNOUNCEMENT -->
+
+<div
+class="global-announcement"
+id="globalAnnouncementDisplay">
+</div>
+
+
+<!-- STATS -->
+
+<div class="panel" id="statsPanel">
+
+<div class="panel-box">
+
+<div class="panel-header">
+
+<h2>📊 Statistics</h2>
+
+<button class="close" onclick="closePanel('statsPanel')">
+✕
+</button>
+
+</div>
+
+<div class="stat-grid">
+
+<div class="stat">
+<div class="stat-title">TOTAL COOKIES</div>
+<div class="stat-value" id="sTotal">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">CURRENT COOKIES</div>
+<div class="stat-value" id="sCurrent">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">CLICKS</div>
+<div class="stat-value" id="sClicks">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">CPS</div>
+<div class="stat-value" id="sCPS">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">BUILDINGS</div>
+<div class="stat-value" id="sBuildings">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">UPGRADES</div>
+<div class="stat-value" id="sUpgrades">0 / 180</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- OWNERS -->
+
+<div class="panel" id="ownersPanel">
+
+<div class="panel-box owner-panel-box">
+
+<div class="panel-header">
+
+<div>
+<h2 class="owner-title">👑 COOKIE EMPIRE</h2>
+<div class="owner-subtitle">
+The team behind the game
+</div>
+</div>
+
+<button class="close" onclick="closePanel('ownersPanel')">
+✕
+</button>
+
+</div>
+
+<div class="owner-list">
+
+<div class="owner-card">
+
+<div class="owner-icon">👑</div>
+
+<div>
+<div class="owner-name">Cash</div>
+<div class="owner-role">🌟 Website Owner</div>
+<div class="owner-desc">
+Owner of Cookie Empire
+</div>
+</div>
+
+</div>
+
+<div class="owner-card">
+
+<div class="owner-icon">🛠️</div>
+
+<div>
+<div class="owner-name">Fechu</div>
+<div class="owner-role">💻 Developer</div>
+<div class="owner-desc">
+Cookie Empire development team
+</div>
+</div>
+
+</div>
+
+<div class="owner-card">
+
+<div class="owner-icon">🛠️</div>
+
+<div>
+<div class="owner-name">Devaprayag</div>
+<div class="owner-role">💻 Developer</div>
+<div class="owner-desc">
+Cookie Empire development team
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- ADMIN -->
+
+<div class="panel" id="adminPanel">
+
+<div class="panel-box">
+
+<div class="panel-header">
+
+<h2>👑 COOKIE EMPIRE — ADMIN++++</h2>
+
+<button class="close" onclick="closePanel('adminPanel')">
+✕
+</button>
+
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="adminLogin">
+
+<p style="color:#9b8370;margin-bottom:10px">
+🔐 Administrator authentication required.
+</p>
+
+<div class="admin-login">
+
+<input
+class="input"
+id="adminPassword"
+type="password"
+placeholder="Admin password"
+>
+
+<button class="admin-action" onclick="loginAdmin()">
+🔓 LOGIN
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div class="admin-dashboard" id="adminDashboard">
+
+
+<div class="admin-nav">
+
+<button class="active" data-admin="overview">
+📊 Overview
+</button>
+
+<button data-admin="cookiesAdmin">
+🍪 Cookies
+</button>
+
+<button data-admin="buildingsAdmin">
+🏪 Buildings
+</button>
+
+<button data-admin="upgradesAdmin">
+⬆️ Upgrades
+</button>
+
+<button data-admin="abuseAdmin">
+🔥 Abuse
+</button>
+
+<button data-admin="toolsAdmin">
+🛠️ Tools
+</button>
+
+<button data-admin="settingsAdmin">
+⚙️ Settings
+</button>
+
+</div>
+
+
+<!-- OVERVIEW -->
+
+<div class="admin-page active" id="overview">
+
+<div class="online-box">
+
+<div>
+🟢 <b>GLOBAL SERVER</b>
+</div>
+
+<div id="adminOnlineCount">
+0 players
+</div>
+
+</div>
+
+<div
+class="event-active"
+id="activeEvent"
+style="display:none">
+🔥 GLOBAL EVENT ACTIVE
+</div>
+
+<div class="admin-grid">
+
+<div class="admin-card">
+<h3>🍪 Cookies</h3>
+<p id="aCookies">0</p>
+</div>
+
+<div class="admin-card">
+<h3>⚡ CPS</h3>
+<p id="aCPS">0</p>
+</div>
+
+<div class="admin-card">
+<h3>🖱️ Clicks</h3>
+<p id="aClicks">0</p>
+</div>
+
+<div class="admin-card">
+<h3>🏪 Buildings</h3>
+<p id="aBuildings">0</p>
+</div>
+
+<div class="admin-card">
+<h3>⬆️ Upgrades</h3>
+<p id="aUpgrades">0 / 180</p>
+</div>
+
+<div class="admin-card">
+<h3>✨ Prestige</h3>
+<p id="aPrestige">0</p>
+</div>
+
+</div>
+
+<button
+class="admin-action"
+onclick="saveGame();toast('💾 Game saved!')">
+💾 FORCE SAVE
+</button>
+
+<button
+class="admin-action"
+onclick="spawnGolden()">
+✨ SPAWN GOLDEN COOKIE
+</button>
+
+<button
+class="admin-action"
+onclick="adminAddMillion()">
+💰 +1,000,000 COOKIES
+</button>
+
+</div>
+
+
+<!-- COOKIES -->
+
+<div class="admin-page" id="cookiesAdmin">
+
+<div class="admin-card">
+
+<h3>🍪 Cookie Controls</h3>
+
+<input
+class="input"
+id="cookieAmount"
+type="number"
+placeholder="Amount"
+>
+
+<button
+class="admin-action"
+onclick="adminAddCookies()">
+➕ ADD COOKIES
+</button>
+
+<button
+class="admin-action"
+onclick="
+game.cookies=Infinity;
+render();
+saveGame();
+toast('♾️ Infinite cookies!')
+">
+♾️ INFINITE COOKIES
+</button>
+
+<button
+class="admin-action"
+onclick="
+game.cookies=0;
+render();
+saveGame();
+toast('🧹 Cookies set to 0')
+">
+🧹 SET COOKIES TO 0
+</button>
+
+<button
+class="admin-action"
+onclick="
+game.cookies=game.totalCookies;
+render();
+saveGame();
+toast('🍪 Restored total cookies!')
+">
+🔄 RESTORE TOTAL COOKIES
+</button>
+
+</div>
+
+</div>
+
+
+<!-- BUILDINGS -->
+
+<div class="admin-page" id="buildingsAdmin">
+
+<div class="admin-card">
+
+<h3>🏪 Building Controls — 180 Buildings</h3>
+
+<input
+class="input"
+id="buildingAmount"
+type="number"
+placeholder="Amount"
+value="100"
+>
+
+<button
+class="admin-action"
+onclick="adminGiveBuildings()">
+🏪 GIVE AMOUNT TO ALL 180
+</button>
+
+<button
+class="admin-action"
+onclick="setAllBuildings(0)">
+🧹 REMOVE ALL BUILDINGS
+</button>
+
+</div>
+
+<div
+class="admin-list"
+id="adminBuildingList">
+</div>
+
+</div>
+
+
+<!-- UPGRADES -->
+
+<div class="admin-page" id="upgradesAdmin">
+
+<div class="admin-card">
+
+<h3>⬆️ Upgrade Controls — 180 Upgrades</h3>
+
+<p>
+Purchased:
+<b id="adminUpgradeCount">0</b> / 180
+</p>
+
+<button
+class="admin-action"
+onclick="unlockAllUpgrades()">
+🔓 UNLOCK ALL 180 UPGRADES
+</button>
+
+<button
+class="admin-action"
+onclick="resetUpgrades()">
+🔒 RESET ALL UPGRADES
+</button>
+
+</div>
+
+<div
+class="admin-list"
+id="adminUpgradeList">
+</div>
+
+</div>
+
+
+<!-- ADMIN ABUSE -->
+
+<div class="admin-page" id="abuseAdmin">
+
+<div class="admin-card">
+
+<h3>🔥 GLOBAL ADMIN ABUSE</h3>
+
+<p>
+These events are sent through the server to every connected player.
+</p>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('cookieRain')">
+🌧️ GLOBAL COOKIE RAIN
+</button>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('frenzy')">
+⚡ ×100 GLOBAL FRENZY
+</button>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('goldenStorm')">
+🌟 GOLDEN COOKIE STORM
+</button>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('megaReward')">
+💰 EVERYONE +1 BILLION
+</button>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('glitch')">
+🌀 GLOBAL GLITCH
+</button>
+
+<button
+class="admin-action abuse"
+onclick="globalAbuse('apocalypse')">
+☠️ COOKIE APOCALYPSE
+</button>
+
+<button
+class="admin-action danger"
+onclick="globalAbuse('stop')">
+🛑 STOP GLOBAL EVENT
+</button>
+
+</div>
+
+
+<div class="admin-card">
+
+<h3>📢 GLOBAL ANNOUNCEMENT</h3>
+
+<input
+class="input"
+id="globalAnnouncement"
+maxlength="200"
+placeholder="Message every player..."
+>
+
+<button
+class="admin-action"
+onclick="sendAnnouncement()">
+📢 SEND TO EVERYONE
+</button>
+
+</div>
+
+
+<div class="admin-card">
+
+<h3>🌎 SERVER STATUS</h3>
+
+<p>
+Players currently connected:
+<b id="abuseOnline">0</b>
+</p>
+
+<p>
+WebSocket:
+<b style="color:#6de29a">
+LIVE
+</b>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- TOOLS -->
+
+<div class="admin-page" id="toolsAdmin">
+
+<div class="admin-grid">
+
+<div class="admin-card">
+
+<h3>⚡ PRESTIGE</h3>
+
+<p>
+Increase prestige and boost CPS.
+</p>
+
+<button
+class="admin-action"
+onclick="
+game.prestige++;
+render();
+saveGame();
+toast('⚡ Prestige +1')
+">
++1 PRESTIGE
+</button>
+
+</div>
+
+
+<div class="admin-card">
+
+<h3>✨ GOLDEN COOKIE</h3>
+
+<p>
+Spawn a bonus cookie.
+</p>
+
+<button
+class="admin-action"
+onclick="spawnGolden()">
+SPAWN
+</button>
+
+</div>
+
+
+<div class="admin-card">
+
+<h3>💾 SAVE</h3>
+
+<p>
+Save everything immediately.
+</p>
+
+<button
+class="admin-action"
+onclick="
+saveGame();
+toast('💾 Saved!')
+">
+SAVE
+</button>
+
+</div>
+
+
+<div class="admin-card">
+
+<h3>🔄 RELOAD</h3>
+
+<p>
+Reload the game page.
+</p>
+
+<button
+class="admin-action"
+onclick="location.reload()">
+RELOAD
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SETTINGS -->
+
+<div class="admin-page" id="settingsAdmin">
+
+<div class="admin-card">
+
+<h3>⚙️ Game Settings</h3>
+
+<button
+class="admin-action"
+onclick="toggleParticles()">
+✨ TOGGLE PARTICLES
+</button>
+
+<button
+class="admin-action"
+onclick="
+saveGame();
+toast('💾 Settings saved!')
+">
+💾 SAVE SETTINGS
+</button>
+
+</div>
+
+</div>
+
+
+<hr style="border-color:#40200f;margin:20px 0">
+
+<button
+class="admin-action danger"
+onclick="resetGame()">
+🗑️ DELETE ALL GAME DATA
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="golden" id="golden">
+🍪
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   COOKIE EMPIRE
+   GLOBAL EDITION
+========================================================= */
+
+
+/* =========================================================
+   WEBSOCKET
+========================================================= */
+
+let socket=null;
+
+let onlinePlayers=0;
+
+let globalEvent={
+    type:"none",
+    endsAt:0,
+    multiplier:1
+};
+
+let frenzyMultiplier=1;
+
+let eventTimer=null;
+
+
+function connectGlobalServer(){
+
+    const protocol=
+        location.protocol==="https:"
+        ?"wss:"
+        :"ws:";
+
+    socket=
+        new WebSocket(
+            protocol+
+            "//"+
+            location.host
+        );
+
+
+    socket.addEventListener(
+        "open",
+        ()=>{
+
+            console.log(
+                "🌎 Connected to Cookie Empire Global!"
+            );
+
+            updateConnectionUI(true);
+
+            toast(
+                "🌎 Connected to global server!"
+            );
+
+        }
+    );
+
+
+    socket.addEventListener(
+        "close",
+        ()=>{
+
+            console.log(
+                "🔴 Global server disconnected."
+            );
+
+            updateConnectionUI(false);
+
+            setTimeout(
+                connectGlobalServer,
+                3000
+            );
+
+        }
+    );
+
+
+    socket.addEventListener(
+        "error",
+        ()=>{
+
+            updateConnectionUI(false);
+
+        }
+    );
+
+
+    socket.addEventListener(
+        "message",
+        event=>{
+
+            let data;
+
+            try{
+
+                data=
+                    JSON.parse(
+                        event.data
+                    );
+
+            }catch{
+
+                return;
+
+            }
+
+            handleGlobalMessage(data);
+
+        }
+    );
+
+}
+
+
+function sendGlobal(data){
+
+    if(
+        socket&&
+        socket.readyState===
+        WebSocket.OPEN
+    ){
+
+        socket.send(
+            JSON.stringify(data)
+        );
+
+        return true;
+
+    }
+
+    toast(
+        "🔴 Not connected to server."
+    );
+
+    return false;
+
+}
+
+
+function updateConnectionUI(connected){
+
+    const el=
+        document.getElementById(
+            "onlinePlayers"
+        );
+
+    if(!connected){
+
+        el.textContent=
+            "🔴 Server offline";
+
+        el.style.color="#ff6666";
+
+        return;
+
+    }
+
+    el.style.color="#6de29a";
+
+    updateOnlineDisplay();
+
+}
+
+
+function updateOnlineDisplay(){
+
+    const el=
+        document.getElementById(
+            "onlinePlayers"
+        );
+
+    if(!el)return;
+
+    el.textContent=
+        "🟢 "+
+        onlinePlayers+
+        " players online";
+
+}
+
+
+function handleGlobalMessage(data){
+
+    if(data.type==="connected"){
+
+        onlinePlayers=
+            data.online||0;
+
+        updateOnlineDisplay();
+
+    }
+
+
+    if(data.type==="onlineCount"){
+
+        onlinePlayers=
+            data.count||0;
+
+        updateOnlineDisplay();
+
+        const adminOnline=
+            document.getElementById(
+                "adminOnlineCount"
+            );
+
+        const abuseOnline=
+            document.getElementById(
+                "abuseOnline"
+            );
+
+        if(adminOnline){
+
+            adminOnline.textContent=
+                onlinePlayers+
+                " players";
+
+        }
+
+        if(abuseOnline){
+
+            abuseOnline.textContent=
+                onlinePlayers;
+
+        }
+
+    }
+
+
+    if(data.type==="adminLoginResult"){
+
+        if(data.success){
+
+            adminLogged=true;
+
+            document.getElementById(
+                "adminLogin"
+            ).style.display="none";
+
+            document.getElementById(
+                "adminDashboard"
+            ).style.display="block";
+
+            toast(
+                "👑 GLOBAL ADMIN ACCESS GRANTED!"
+            );
+
+            updateAdminLists();
+            updateAdminStats();
+
+        }else{
+
+            toast(
+                "❌ Incorrect admin password!"
+            );
+
+        }
+
+    }
+
+
+    if(data.type==="globalEvent"){
+
+        globalEvent=
+            data.event||{
+                type:"none",
+                endsAt:0,
+                multiplier:1
+            };
+
+        applyGlobalEvent(
+            globalEvent
+        );
+
+    }
+
+
+    if(data.type==="globalReward"){
+
+        const amount=
+            Number(data.amount)||0;
+
+        game.cookies+=amount;
+
+        game.totalCookies+=amount;
+
+        render();
+
+        saveGame();
+
+        toast(
+            "🌎 GLOBAL REWARD +"+
+            fmt(amount)+
+            " 🍪"
+        );
+
+    }
+
+
+    if(data.type==="adminAnnouncement"){
+
+        showGlobalAnnouncement(
+            data.message
+        );
+
+    }
+
+
+    if(data.type==="announcement"){
+
+        showGlobalAnnouncement(
+            "📢 "+data.message
+        );
+
+    }
+
+
+    if(data.type==="error"){
+
+        toast(
+            "❌ "+data.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GLOBAL EVENTS
+========================================================= */
+
+function applyGlobalEvent(event){
+
+    clearInterval(eventTimer);
+
+    frenzyMultiplier=1;
+
+    document.body.classList.remove(
+        "frenzy-active"
+    );
+
+    document.body.classList.remove(
+        "global-glitch"
+    );
+
+
+    const active=
+        document.getElementById(
+            "activeEvent"
+        );
+
+
+    if(event.type==="none"){
+
+        if(active){
+
+            active.style.display="none";
+
+        }
+
+        toast(
+            "🛑 Global event ended."
+        );
+
+        return;
+
+    }
+
+
+    if(active){
+
+        active.style.display="block";
+
+        active.textContent=
+            "🔥 "+
+            event.type.toUpperCase()+
+            " ACTIVE";
+
+    }
+
+
+    if(event.type==="cookieRain"){
+
+        toast(
+            "🌧️ GLOBAL COOKIE RAIN!"
+        );
+
+        startCookieRainVisual();
+
+    }
+
+
+    if(event.type==="frenzy"){
+
+        frenzyMultiplier=
+            Number(event.multiplier)||100;
+
+        document.body.classList.add(
+            "frenzy-active"
+        );
+
+        toast(
+            "⚡ GLOBAL ×"+
+            frenzyMultiplier+
+            " FRENZY!"
+        );
+
+    }
+
+
+    if(event.type==="goldenStorm"){
+
+        toast(
+            "🌟 GOLDEN COOKIE STORM!"
+        );
+
+        startGoldenStorm();
+
+    }
+
+
+    if(event.type==="glitch"){
+
+        document.body.classList.add(
+            "global-glitch"
+        );
+
+        toast(
+            "🌀 GLOBAL GLITCH MODE!"
+        );
+
+    }
+
+
+    if(event.type==="apocalypse"){
+
+        toast(
+            "☠️ COOKIE APOCALYPSE!"
+        );
+
+        startCookieRainVisual();
+
+    }
+
+}
+
+
+/* =========================================================
+   COOKIE RAIN
+========================================================= */
+
+function startCookieRainVisual(){
+
+    const end=
+        globalEvent.endsAt||
+        Date.now()+30000;
+
+    clearInterval(eventTimer);
+
+    eventTimer=
+        setInterval(
+            ()=>{
+
+                if(Date.now()>=end){
+
+                    clearInterval(
+                        eventTimer
+                    );
+
+                    return;
+
+                }
+
+
+                for(
+                    let i=0;
+                    i<5;
+                    i++
+                ){
+
+                    const x=
+                        Math.random()*
+                        window.innerWidth;
+
+                    particle(
+                        "🍪",
+                        x,
+                        -30
+                    );
+
+                }
+
+
+                game.cookies+=10;
+
+                game.totalCookies+=10;
+
+            },
+            250
+        );
+
+}
+
+
+function startGoldenStorm(){
+
+    const end=
+        globalEvent.endsAt||
+        Date.now()+30000;
+
+    clearInterval(eventTimer);
+
+    eventTimer=
+        setInterval(
+            ()=>{
+
+                if(
+                    Date.now()>=end
+                ){
+
+                    clearInterval(
+                        eventTimer
+                    );
+
+                    return;
+
+                }
+
+                spawnGolden();
+
+            },
+            1500
+        );
+
+}
+
+
+/* =========================================================
+   GLOBAL ANNOUNCEMENT
+========================================================= */
+
+function showGlobalAnnouncement(message){
+
+    const box=
+        document.getElementById(
+            "globalAnnouncementDisplay"
+        );
+
+    box.textContent=
+        message;
+
+    box.style.display="block";
+
+    clearTimeout(
+        showGlobalAnnouncement.timer
+    );
+
+    showGlobalAnnouncement.timer=
+        setTimeout(
+            ()=>{
+                box.style.display="none";
+            },
+            5000
+        );
+
+}
+
+
+/* =========================================================
+   BUILDINGS
+========================================================= */
+
+const buildingNames=[
+"Cursor","Grandma","Cookie Farm","Cookie Factory",
+"Cookie Bank","Cookie Temple","Wizard Tower","Cookie Lab",
+"Cookie Portal","Time Machine","Antimatter Engine","Cookie Universe",
+"Cookie Mine","Cookie Foundry","Cookie Castle","Cookie Kingdom",
+"Cookie Fortress","Cookie Citadel","Cookie Reactor","Cookie Generator",
+"Cookie Forge","Cookie Printer","Cookie Vault","Cookie Tower",
+"Cookie Station","Cookie Factory X","Cookie Core","Cookie Nexus",
+"Cookie Network","Cookie Computer","Cookie AI","Cookie Robot",
+"Cookie Drone","Cookie Ship","Cookie Fleet","Cookie Planet",
+"Cookie Moon","Cookie Star","Cookie Galaxy","Cookie Nebula",
+"Cookie Dimension","Cookie Reality","Cookie Multiverse","Cookie Wormhole",
+"Cookie Singularity","Cookie Machine","Cookie Engine","Cookie Power Plant",
+"Cookie Reactor X","Cookie Accelerator","Cookie Collider","Cookie Quantum Lab",
+"Cookie Particle Lab","Cookie Gravity Lab","Cookie Energy Lab","Cookie Space Station",
+"Cookie Spaceport","Cookie Colony","Cookie Empire","Cookie Dominion",
+"Cookie Federation","Cookie Corporation","Cookie Megacorp","Cookie Hypercorp",
+"Cookie Conglomerate","Cookie Syndicate","Cookie Network X","Cookie Data Center",
+"Cookie Server","Cookie Supercomputer","Cookie Mainframe","Cookie Quantum Computer",
+"Cookie AI Core","Cookie Neural Network","Cookie Brain","Cookie Mind",
+"Cookie Oracle","Cookie Factory Omega","Cookie Forge Omega","Cookie Reactor Omega",
+"Cookie Core Omega","Cookie Nexus Omega","Cookie Portal Omega","Cookie Universe Omega",
+"Cookie Galaxy Omega","Cookie Star Omega","Cookie Planet Omega","Cookie Dimension Omega",
+"Cookie Reality Omega","Cookie Multiverse Omega","Cookie Infinity Engine",
+"Cookie Eternal Engine","Cookie Immortal Engine","Cookie God Machine",
+"Cookie Titan","Cookie Colossus","Cookie Leviathan","Cookie Behemoth",
+"Cookie Dragon","Cookie Phoenix","Cookie Overlord","Cookie Supreme",
+"Cookie Ultimate","Cookie Legendary","Cookie Mythic","Cookie Divine",
+"Cookie Celestial","Cookie Cosmic","Cookie Astral","Cookie Void",
+"Cookie Dark Matter","Cookie White Hole","Cookie Black Hole","Cookie Star Forge",
+"Cookie Universe Forge","Cookie Reality Forge","Cookie Time Forge",
+"Cookie Space Forge","Cookie Dimension Forge","Cookie Quantum Forge",
+"Cookie Infinity Forge","Cookie Eternity Forge","Cookie Omniverse Forge",
+"Cookie God Forge","Cookie Creation Engine","Cookie Genesis Engine",
+"Cookie Alpha Engine","Cookie Omega Engine","Cookie Final Engine",
+"Cookie Absolute Engine","Cookie Beyond Engine","Cookie Transcendent Engine",
+"Cookie Ascension Engine","Cookie Hyper Engine","Cookie Ultra Engine",
+"Cookie Mega Engine","Cookie Giga Engine","Cookie Tera Engine",
+"Cookie Peta Engine","Cookie Exa Engine","Cookie Zetta Engine",
+"Cookie Yotta Engine","Cookie Brontobyte Engine","Cookie Infinity Core",
+"Cookie Eternal Core","Cookie Omnipotent Core","Cookie Absolute Core",
+"Cookie Final Core","Cookie Last Core","Cookie Beyond Core",
+"Cookie Ultimate Core","Cookie Supreme Core","Cookie God Core",
+"Cookie Creator Core","Cookie Reality Core","Cookie Universe Core",
+"Cookie Omniverse Core","Cookie Infinite Core","Cookie Endless Core",
+"Cookie Forever Core","Cookie Finality Core","Cookie Eternity Core",
+"Cookie Absolute Infinity","Cookie THE END"
+];
+
+while(buildingNames.length<180){
+
+    buildingNames.push(
+        "Cookie Building #"+
+        (buildingNames.length+1)
+    );
+
+}
+
+if(buildingNames.length>180){
+
+    buildingNames.length=180;
+
+}
+
+
+const icons=[
+"🖱️","👵","🌾","🏭","🏦","🛕","🧙","🧪","🌀","⏱️",
+"⚛️","🌌","⛏️","🔥","🏰","👑","🛡️","🏯","🔋","⚡",
+"🔨","🖨️","🔐","🗼","🚉","🏭","💠","🔷","🌐","💻",
+"🤖","🦾","🚁","🛸","🚀","🪐","🌙","⭐","🌟","🌌",
+"🌀","🧿","🕳️","⚙️","🔧","⚡","🏗️","🔬","💥","☢️",
+"🧬","🧫","🧲","🔭","🛰️","🚀","🏝️","🏙️","🌎","🏛️",
+"🏢","🏭","💼","📡","🖥️","🧠","💡","🧠","🔮","🧙",
+"👁️","🏆","⚙️","🔥","💎","👹","🐉","🦅","👑","🌠",
+"☄️","🌑","⚫","⚪","🌞","🌌","⏳","🪐","♾️","∞"
+];
+
+
+const BUILDINGS=[];
+
+for(let i=0;i<180;i++){
+
+    BUILDINGS.push({
+
+        id:"building_"+(i+1),
+
+        number:i+1,
+
+        name:buildingNames[i],
+
+        icon:icons[i%icons.length],
+
+        cost:
+            15*Math.pow(1.16,i),
+
+        cps:
+            .1*Math.pow(1.145,i)
+
+    });
+
+}
+
+
+/* =========================================================
+   UPGRADES
+========================================================= */
+
+const upgradeGroups=[
+"Click Power","Cursor Power","Grandma Power",
+"Farm Power","Factory Power","Bank Power",
+"Temple Power","Wizard Power","Lab Power",
+"Portal Power","Time Power","Antimatter Power",
+"Universe Power","Cosmic Power","Golden Power",
+"Quantum Power","Legendary Power","Infinity Power"
+];
+
+const upgradeIcons=[
+"👆","🖱️","👵","🌾","🏭","🏦","🛕","🧙","🧪",
+"🌀","⏱️","⚛️","🌌","🌠","✨","🔬","👑","♾️"
+];
+
+const upgrades=[];
+
+for(let group=0;group<18;group++){
+
+    for(let level=1;level<=10;level++){
+
+        const id=
+            group*10+level;
+
+        upgrades.push({
+
+            id:id,
+
+            name:
+                upgradeGroups[group]+
+                " "+
+                level,
+
+            icon:
+                upgradeIcons[group],
+
+            description:
+                "+"+
+                (level*5)+
+                "% cookie production",
+
+            cost:
+                100*
+                Math.pow(
+                    1.6,
+                    id-1
+                ),
+
+            multiplier:
+                1+
+                level*.05,
+
+            group:group,
+
+            level:level
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let game={
+
+    cookies:0,
+
+    totalCookies:0,
+
+    clicks:0,
+
+    upgrades:0,
+
+    prestige:0,
+
+    buildings:{},
+
+    purchasedUpgrades:[]
+
+};
+
+
+let adminLogged=false;
+
+let particlesEnabled=true;
+
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+let audio=null;
+
+let musicOn=false;
+
+let musicTimer=null;
+
+let musicGain=null;
+
+
+function initAudio(){
+
+    if(audio)return;
+
+    audio=
+        new(
+            window.AudioContext||
+            window.webkitAudioContext
+        )();
+
+    musicGain=
+        audio.createGain();
+
+    musicGain.gain.value=.06;
+
+    musicGain.connect(
+        audio.destination
+    );
+
+}
+
+
+function tone(
+    frequency=220,
+    duration=.08,
+    volume=.06
+){
+
+    if(!audio)return;
+
+    const o=
+        audio.createOscillator();
+
+    const g=
+        audio.createGain();
+
+    o.type="triangle";
+
+    o.frequency.value=
+        frequency;
+
+    g.gain.setValueAtTime(
+        volume,
+        audio.currentTime
+    );
+
+    g.gain.exponentialRampToValueAtTime(
+        .001,
+        audio.currentTime+
+        duration
+    );
+
+    o.connect(g);
+
+    g.connect(
+        audio.destination
+    );
+
+    o.start();
+
+    o.stop(
+        audio.currentTime+
+        duration
+    );
+
+}
+
+
+function musicNote(){
+
+    if(!musicOn||!audio)return;
+
+    const notes=[
+        261.63,329.63,392,
+        523.25,392,329.63
+    ];
+
+    const o=
+        audio.createOscillator();
+
+    const g=
+        audio.createGain();
+
+    o.type="triangle";
+
+    o.frequency.value=
+        notes[
+            Math.floor(
+                Math.random()*
+                notes.length
+            )
+        ];
+
+    g.gain.setValueAtTime(
+        .025,
+        audio.currentTime
+    );
+
+    g.gain.exponentialRampToValueAtTime(
+        .001,
+        audio.currentTime+.45
+    );
+
+    o.connect(g);
+
+    g.connect(
+        musicGain
+    );
+
+    o.start();
+
+    o.stop(
+        audio.currentTime+.5
+    );
+
+}
+
+
+document.getElementById(
+    "musicBtn"
+).addEventListener(
+    "pointerdown",
+    ()=>{
+
+        initAudio();
+
+        audio.resume();
+
+        musicOn=!musicOn;
+
+        document.getElementById(
+            "musicBtn"
+        ).textContent=
+            musicOn
+            ?"🎵 ON"
+            :"🎵 OFF";
+
+        clearInterval(
+            musicTimer
+        );
+
+        if(musicOn){
+
+            musicNote();
+
+            musicTimer=
+                setInterval(
+                    musicNote,
+                    500
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FORMAT
+========================================================= */
+
+function fmt(n){
+
+    if(!Number.isFinite(n)){
+
+        return "∞";
+
+    }
+
+    if(n<1000){
+
+        if(
+            n>0&&
+            n<10&&
+            n%1!==0
+        ){
+
+            return n.toFixed(1);
+
+        }
+
+        return Math.floor(n)
+            .toLocaleString();
+
+    }
+
+    const units=[
+        "","K","M","B","T",
+        "Qa","Qi","Sx","Sp",
+        "Oc","No","Dc","Ud",
+        "Dd","Td","Qad","Qid",
+        "Sxd","Spd","Ocd","Nod"
+    ];
+
+    let i=0;
+
+    while(
+        n>=1000&&
+        i<units.length-1
+    ){
+
+        n/=1000;
+        i++;
+
+    }
+
+    if(n>=100){
+
+        return n.toFixed(0)+
+            units[i];
+
+    }
+
+    if(n>=10){
+
+        return n.toFixed(1)+
+            units[i];
+
+    }
+
+    return n.toFixed(2)+
+        units[i];
+
+}
+
+
+/* =========================================================
+   CPS
+========================================================= */
+
+function getCPS(){
+
+    let cps=0;
+
+    BUILDINGS.forEach(b=>{
+
+        cps+=
+            (game.buildings[b.id]||0)*
+            b.cps;
+
+    });
+
+
+    let multiplier=1;
+
+
+    game.purchasedUpgrades
+        .forEach(id=>{
+
+            const u=
+                upgrades.find(
+                    x=>x.id===id
+                );
+
+            if(u){
+
+                multiplier*=
+                    u.multiplier;
+
+            }
+
+        });
+
+
+    multiplier*=
+        1+
+        game.prestige*.25;
+
+
+    return cps*
+        multiplier*
+        frenzyMultiplier;
+
+}
+
+
+/* =========================================================
+   BUILDING COST
+========================================================= */
+
+function buildingCost(b){
+
+    return Math.floor(
+        b.cost*
+        Math.pow(
+            1.15,
+            game.buildings[b.id]||0
+        )
+    );
+
+}
+
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+function loadGame(){
+
+    const saved=
+        localStorage.getItem(
+            "COOKIE_EMPIRE_SAVE"
+        );
+
+    if(saved){
+
+        try{
+
+            const data=
+                JSON.parse(saved);
+
+            game.cookies=
+                Number(data.cookies)||0;
+
+            game.totalCookies=
+                Number(data.totalCookies)||0;
+
+            game.clicks=
+                Number(data.clicks)||0;
+
+            game.upgrades=
+                Number(data.upgrades)||0;
+
+            game.prestige=
+                Number(data.prestige)||0;
+
+            game.buildings=
+                data.buildings||{};
+
+            game.purchasedUpgrades=
+                Array.isArray(
+                    data.purchasedUpgrades
+                )
+                ?data.purchasedUpgrades
+                :[];
+
+        }catch(e){
+
+            console.log(
+                "Save error",
+                e
+            );
+
+        }
+
+    }
+
+
+    BUILDINGS.forEach(b=>{
+
+        if(
+            typeof game.buildings[b.id]
+            !=="number"
+        ){
+
+            game.buildings[b.id]=0;
+
+        }
+
+    });
+
+
+    game.upgrades=
+        game.purchasedUpgrades.length;
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveGame(){
+
+    localStorage.setItem(
+        "COOKIE_EMPIRE_SAVE",
+        JSON.stringify(game)
+    );
+
+}
+
+
+/* =========================================================
+   BUILDING RENDER
+========================================================= */
+
+function renderBuildings(){
+
+    const list=
+        document.getElementById(
+            "buildingList"
+        );
+
+    list.innerHTML="";
+
+
+    BUILDINGS.forEach(b=>{
+
+        const owned=
+            game.buildings[b.id]||0;
+
+        const price=
+            buildingCost(b);
+
+        const item=
+            document.createElement(
+                "div"
+            );
+
+        item.className=
+            "item "+
+            (
+                game.cookies>=price
+                ?"can"
+                :""
+            );
+
+
+        item.innerHTML=`
+
+            <div class="icon">
+                ${b.icon}
+            </div>
+
+            <div>
+
+                <div class="name">
+                    #${b.number} ${b.name}
+                </div>
+
+                <div class="desc">
+                    +${fmt(b.cps)} CPS
+                </div>
+
+                <div class="owned">
+                    Owned: ${owned}
+                </div>
+
+            </div>
+
+            <div class="cost">
+                🍪 ${fmt(price)}
+            </div>
+
+        `;
+
+
+        item.addEventListener(
+            "pointerdown",
+            e=>{
+
+                e.preventDefault();
+
+                buyBuilding(b);
+
+            },
+            {passive:false}
+        );
+
+
+        list.appendChild(item);
+
+    });
+
+}
+
+
+/* =========================================================
+   UPGRADES RENDER
+========================================================= */
+
+function renderUpgrades(){
+
+    const list=
+        document.getElementById(
+            "upgradeList"
+        );
+
+    list.innerHTML="";
+
+
+    upgrades.forEach(u=>{
+
+        const purchased=
+            game.purchasedUpgrades
+            .includes(u.id);
+
+
+        const previous=
+            u.id===1||
+            game.purchasedUpgrades
+            .includes(u.id-1);
+
+
+        const affordable=
+            game.cookies>=u.cost;
+
+
+        const item=
+            document.createElement(
+                "div"
+            );
+
+
+        item.className=
+            "item "+
+            (
+                purchased
+                ?"locked"
+                :""
+            )+
+            (
+                !purchased&&
+                affordable&&
+                previous
+                ?" can"
+                :""
+            );
+
+
+        item.innerHTML=`
+
+            <div class="icon">
+                ${u.icon}
+            </div>
+
+            <div>
+
+                <div class="name">
+                    #${u.id} ${u.name}
+                </div>
+
+                <div class="desc">
+                    ${u.description}
+                    • x${u.multiplier.toFixed(2)}
+                </div>
+
+                <div class="owned">
+
+                    ${
+                        purchased
+                        ?"✅ Purchased"
+                        :
+                        previous
+                        ?"🔓 Available"
+                        :"🔒 Locked"
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="cost">
+
+                ${
+                    purchased
+                    ?"OWNED"
+                    :
+                    "🍪 "+fmt(u.cost)
+                }
+
+            </div>
+
+        `;
+
+
+        if(
+            !purchased&&
+            previous
+        ){
+
+            item.addEventListener(
+                "pointerdown",
+                e=>{
+
+                    e.preventDefault();
+
+                    buyUpgrade(u);
+
+                },
+                {passive:false}
+            );
+
+        }
+
+
+        list.appendChild(item);
+
+    });
+
+}
+
+
+/* =========================================================
+   BUY BUILDING
+========================================================= */
+
+function buyBuilding(b){
+
+    const price=
+        buildingCost(b);
+
+    if(game.cookies<price){
+
+        return;
+
+    }
+
+
+    initAudio();
+
+    game.cookies-=price;
+
+    game.buildings[b.id]=
+        (game.buildings[b.id]||0)+1;
+
+
+    tone(
+        440,
+        .1,
+        .07
+    );
+
+
+    render();
+
+    saveGame();
+
+}
+
+
+/* =========================================================
+   BUY UPGRADE
+========================================================= */
+
+function buyUpgrade(u){
+
+    if(
+        game.purchasedUpgrades
+        .includes(u.id)
+    ){
+
+        return;
+
+    }
+
+
+    if(game.cookies<u.cost){
+
+        return;
+
+    }
+
+
+    if(
+        u.id>1&&
+        !game.purchasedUpgrades
+        .includes(u.id-1)
+    ){
+
+        toast(
+            "🔒 Buy the previous upgrade first!"
+        );
+
+        return;
+
+    }
+
+
+    initAudio();
+
+    game.cookies-=u.cost;
+
+    game.purchasedUpgrades
+        .push(u.id);
+
+
+    game.upgrades=
+        game.purchasedUpgrades.length;
+
+
+    tone(
+        660,
+        .15,
+        .08
+    );
+
+
+    toast(
+        "⬆️ "+
+        u.name+
+        " purchased!"
+    );
+
+
+    render();
+
+    saveGame();
+
+}
+
+
+/* =========================================================
+   COOKIE CLICK
+========================================================= */
+
+const cookie=
+    document.getElementById(
+        "cookie"
+    );
+
+
+cookie.addEventListener(
+    "pointerdown",
+    e=>{
+
+        e.preventDefault();
+
+        initAudio();
+
+        if(audio){
+
+            audio.resume();
+
+        }
+
+
+        const amount=
+            1*
+            frenzyMultiplier;
+
+
+        game.cookies+=amount;
+
+        game.totalCookies+=amount;
+
+        game.clicks++;
+
+
+        tone(
+            180,
+            .07,
+            .055
+        );
+
+
+        cookie.classList.add(
+            "pressed"
+        );
+
+
+        setTimeout(
+            ()=>{
+                cookie.classList.remove(
+                    "pressed"
+                );
+            },
+            35
+        );
+
+
+        if(particlesEnabled){
+
+            particle(
+                "+"+
+                fmt(amount)+
+                " 🍪",
+                e.clientX,
+                e.clientY
+            );
+
+        }
+
+
+        document.getElementById(
+            "cookies"
+        ).textContent=
+            fmt(game.cookies);
+
+    },
+    {passive:false}
+);
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function particle(text,x,y){
+
+    const p=
+        document.createElement(
+            "div"
+        );
+
+    p.className="particle";
+
+    p.textContent=text;
+
+    p.style.left=
+        x+"px";
+
+    p.style.top=
+        y+"px";
+
+
+    p.style.setProperty(
+        "--x",
+        ((Math.random()-.5)*120)+
+        "px"
+    );
+
+
+    p.style.setProperty(
+        "--y",
+        (-60-Math.random()*100)+
+        "px"
+    );
+
+
+    document.body.appendChild(p);
+
+
+    setTimeout(
+        ()=>p.remove(),
+        700
+    );
+
+}
+
+
+function toggleParticles(){
+
+    particlesEnabled=
+        !particlesEnabled;
+
+
+    toast(
+        particlesEnabled
+        ?"✨ Particles ON"
+        :"✨ Particles OFF"
+    );
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+    document.getElementById(
+        "cookies"
+    ).textContent=
+        fmt(game.cookies);
+
+
+    document.getElementById(
+        "cps"
+    ).textContent=
+        fmt(getCPS());
+
+
+    renderBuildings();
+
+    renderUpgrades();
+
+    updateAdminStats();
+
+}
+
+
+/* =========================================================
+   GAME LOOP
+========================================================= */
+
+let last=
+    performance.now();
+
+
+function loop(now){
+
+    const delta=
+        Math.min(
+            (now-last)/1000,
+            1
+        );
+
+
+    last=now;
+
+
+    const cps=
+        getCPS();
+
+
+    if(cps>0){
+
+        const earned=
+            cps*delta;
+
+        game.cookies+=
+            earned;
+
+        game.totalCookies+=
+            earned;
+
+    }
+
+
+    document.getElementById(
+        "cookies"
+    ).textContent=
+        fmt(game.cookies);
+
+
+    document.getElementById(
+        "cps"
+    ).textContent=
+        fmt(cps);
+
+
+    requestAnimationFrame(
+        loop
+    );
+
+}
+
+
+requestAnimationFrame(
+    loop
+);
+
+
+/* =========================================================
+   SHOP TABS
+========================================================= */
+
+document.querySelectorAll(
+    ".tab"
+)
+.forEach(tab=>{
+
+    tab.addEventListener(
+        "pointerdown",
+        ()=>{
+
+            document.querySelectorAll(
+                ".tab"
+            ).forEach(
+                x=>
+                    x.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            document.querySelectorAll(
+                ".section"
+            ).forEach(
+                x=>
+                    x.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            tab.classList.add(
+                "active"
+            );
+
+
+            document.getElementById(
+                tab.dataset.tab
+            ).classList.add(
+                "active"
+            );
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+document.getElementById(
+    "statsBtn"
+).addEventListener(
+    "pointerdown",
+    ()=>{
+
+        let buildings=0;
+
+
+        BUILDINGS.forEach(b=>{
+
+            buildings+=
+                game.buildings[b.id]||0;
+
+        });
+
+
+        document.getElementById(
+            "sTotal"
+        ).textContent=
+            fmt(game.totalCookies);
+
+
+        document.getElementById(
+            "sCurrent"
+        ).textContent=
+            fmt(game.cookies);
+
+
+        document.getElementById(
+            "sClicks"
+        ).textContent=
+            game.clicks.toLocaleString();
+
+
+        document.getElementById(
+            "sCPS"
+        ).textContent=
+            fmt(getCPS());
+
+
+        document.getElementById(
+            "sBuildings"
+        ).textContent=
+            buildings.toLocaleString();
+
+
+        document.getElementById(
+            "sUpgrades"
+        ).textContent=
+            game.upgrades+
+            " / 180";
+
+
+        document.getElementById(
+            "statsPanel"
+        ).style.display="flex";
+
+    }
+);
+
+
+/* =========================================================
+   OWNERS
+========================================================= */
+
+document.getElementById(
+    "ownersBtn"
+).addEventListener(
+    "pointerdown",
+    ()=>{
+
+        document.getElementById(
+            "ownersPanel"
+        ).style.display="flex";
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN OPEN
+========================================================= */
+
+document.getElementById(
+    "adminBtn"
+).addEventListener(
+    "pointerdown",
+    ()=>{
+
+        document.getElementById(
+            "adminPanel"
+        ).style.display="flex";
+
+
+        if(adminLogged){
+
+            updateAdminLists();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+function loginAdmin(){
+
+    const password=
+        document.getElementById(
+            "adminPassword"
+        ).value;
+
+
+    if(!password){
+
+        toast(
+            "❌ Enter the admin password."
+        );
+
+        return;
+
+    }
+
+
+    sendGlobal({
+
+        type:"adminLogin",
+
+        password:password
+
+    });
+
+}
+
+
+/* =========================================================
+   ADMIN NAV
+========================================================= */
+
+document.querySelectorAll(
+    ".admin-nav button"
+)
+.forEach(button=>{
+
+    button.addEventListener(
+        "pointerdown",
+        ()=>{
+
+            document.querySelectorAll(
+                ".admin-nav button"
+            ).forEach(
+                b=>
+                    b.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            document.querySelectorAll(
+                ".admin-page"
+            ).forEach(
+                p=>
+                    p.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            document.getElementById(
+                button.dataset.admin
+            ).classList.add(
+                "active"
+            );
+
+
+            updateAdminLists();
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   ADMIN STATS
+========================================================= */
+
+function updateAdminStats(){
+
+    if(!adminLogged)return;
+
+
+    let buildingTotal=0;
+
+
+    BUILDINGS.forEach(b=>{
+
+        buildingTotal+=
+            game.buildings[b.id]||0;
+
+    });
+
+
+    document.getElementById(
+        "aCookies"
+    ).textContent=
+        fmt(game.cookies);
+
+
+    document.getElementById(
+        "aCPS"
+    ).textContent=
+        fmt(getCPS());
+
+
+    document.getElementById(
+        "aClicks"
+    ).textContent=
+        game.clicks.toLocaleString();
+
+
+    document.getElementById(
+        "aBuildings"
+    ).textContent=
+        buildingTotal.toLocaleString();
+
+
+    document.getElementById(
+        "aUpgrades"
+    ).textContent=
+        game.upgrades+
+        " / 180";
+
+
+    document.getElementById(
+        "aPrestige"
+    ).textContent=
+        game.prestige;
+
+
+    document.getElementById(
+        "adminUpgradeCount"
+    ).textContent=
+        game.upgrades;
+
+}
+
+
+/* =========================================================
+   ADMIN LISTS
+========================================================= */
+
+function updateAdminLists(){
+
+    if(!adminLogged)return;
+
+
+    const bl=
+        document.getElementById(
+            "adminBuildingList"
+        );
+
+
+    if(bl){
+
+        bl.innerHTML="";
+
+
+        BUILDINGS.forEach(b=>{
+
+            const row=
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className=
+                "admin-row";
+
+
+            row.innerHTML=`
+
+                <div>
+                    ${b.icon}
+                </div>
+
+                <div>
+
+                    <b>
+                        #${b.number}
+                        ${b.name}
+                    </b>
+
+                    <br>
+
+                    <small>
+                        ${fmt(b.cps)} CPS
+                    </small>
+
+                </div>
+
+                <input
+                    type="number"
+                    value="${game.buildings[b.id]||0}"
+                    min="0"
+                    onchange="
+                        setBuilding(
+                            '${b.id}',
+                            this.value
+                        )
+                    "
+                >
+
+                <button
+                    onclick="
+                        addBuilding(
+                            '${b.id}',
+                            1
+                        )
+                    "
+                >
+                    +1
+                </button>
+
+            `;
+
+
+            bl.appendChild(row);
+
+        });
+
+    }
+
+
+    const ul=
+        document.getElementById(
+            "adminUpgradeList"
+        );
+
+
+    if(ul){
+
+        ul.innerHTML="";
+
+
+        upgrades.forEach(u=>{
+
+            const purchased=
+                game.purchasedUpgrades
+                .includes(u.id);
+
+
+            const row=
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className=
+                "admin-row";
+
+
+            row.innerHTML=`
+
+                <div>
+                    ${u.icon}
+                </div>
+
+                <div>
+
+                    <b>
+                        #${u.id}
+                        ${u.name}
+                    </b>
+
+                    <br>
+
+                    <small>
+                        ${u.description}
+                    </small>
+
+                </div>
+
+                <div>
+                    ${
+                        purchased
+                        ?"✅ OWNED"
+                        :"🔒 LOCKED"
+                    }
+                </div>
+
+                <button
+                    onclick="
+                        toggleUpgradeAdmin(
+                            ${u.id}
+                        )
+                    "
+                >
+                    ${
+                        purchased
+                        ?"REMOVE"
+                        :"GIVE"
+                    }
+                </button>
+
+            `;
+
+
+            ul.appendChild(row);
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN COOKIES
+========================================================= */
+
+function adminAddCookies(){
+
+    if(!adminLogged)return;
+
+
+    const amount=
+        Number(
+            document.getElementById(
+                "cookieAmount"
+            ).value
+        );
+
+
+    if(
+        !Number.isFinite(amount)||
+        amount<=0
+    ){
+
+        toast(
+            "❌ Invalid amount."
+        );
+
+        return;
+
+    }
+
+
+    game.cookies+=amount;
+
+    game.totalCookies+=amount;
+
+
+    document.getElementById(
+        "cookieAmount"
+    ).value="";
+
+
+    render();
+
+    saveGame();
+
+
+    toast(
+        "🍪 Added "+
+        fmt(amount)+
+        " cookies!"
+    );
+
+}
+
+
+function adminAddMillion(){
+
+    if(!adminLogged)return;
+
+
+    game.cookies+=1000000;
+
+    game.totalCookies+=1000000;
+
+
+    render();
+
+    saveGame();
+
+
+    toast(
+        "💰 +1,000,000 cookies!"
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN BUILDINGS
+========================================================= */
+
+function adminGiveBuildings(){
+
+    if(!adminLogged)return;
+
+
+    const amount=
+        Number(
+            document.getElementById(
+                "buildingAmount"
+            ).value
+        );
+
+
+    if(
+        !Number.isFinite(amount)||
+        amount<=0
+    ){
+
+        toast(
+            "❌ Invalid amount."
+        );
+
+        return;
+
+    }
+
+
+    BUILDINGS.forEach(b=>{
+
+        game.buildings[b.id]=
+            (game.buildings[b.id]||0)+
+            amount;
+
+    });
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+
+    toast(
+        "🏪 "+
+        amount+
+        " given to ALL 180 buildings!"
+    );
+
+}
+
+
+function addBuilding(id,amount){
+
+    game.buildings[id]=
+        (game.buildings[id]||0)+
+        amount;
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+}
+
+
+function setBuilding(id,value){
+
+    let amount=
+        Number(value);
+
+
+    if(
+        !Number.isFinite(amount)||
+        amount<0
+    ){
+
+        amount=0;
+
+    }
+
+
+    game.buildings[id]=
+        Math.floor(amount);
+
+
+    render();
+
+    saveGame();
+
+}
+
+
+function setAllBuildings(amount){
+
+    BUILDINGS.forEach(b=>{
+
+        game.buildings[b.id]=
+            amount;
+
+    });
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+
+    toast(
+        amount===0
+        ?"🧹 All buildings removed!"
+        :"🏪 Buildings updated!"
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN UPGRADES
+========================================================= */
+
+function unlockAllUpgrades(){
+
+    if(!adminLogged)return;
+
+
+    game.purchasedUpgrades=
+        upgrades.map(
+            u=>u.id
+        );
+
+
+    game.upgrades=180;
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+
+    toast(
+        "🔓 ALL 180 UPGRADES UNLOCKED!"
+    );
+
+}
+
+
+function resetUpgrades(){
+
+    if(!adminLogged)return;
+
+
+    game.purchasedUpgrades=[];
+
+    game.upgrades=0;
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+
+    toast(
+        "🔒 All upgrades reset!"
+    );
+
+}
+
+
+function toggleUpgradeAdmin(id){
+
+    if(!adminLogged)return;
+
+
+    const index=
+        game.purchasedUpgrades
+        .indexOf(id);
+
+
+    if(index===-1){
+
+        game.purchasedUpgrades
+            .push(id);
+
+
+        toast(
+            "🔓 Upgrade #"+
+            id+
+            " granted!"
+        );
+
+    }else{
+
+        game.purchasedUpgrades
+            .splice(index,1);
+
+
+        toast(
+            "🔒 Upgrade #"+
+            id+
+            " removed!"
+        );
+
+    }
+
+
+    game.upgrades=
+        game.purchasedUpgrades.length;
+
+
+    render();
+
+    saveGame();
+
+    updateAdminLists();
+
+}
+
+
+/* =========================================================
+   GLOBAL ADMIN ABUSE
+========================================================= */
+
+function globalAbuse(event){
+
+    if(!adminLogged){
+
+        toast(
+            "❌ Admin access required."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        sendGlobal({
+
+            type:"adminEvent",
+
+            event:event
+
+        })
+    ){
+
+        toast(
+            "🌎 Global event activated!"
+        );
+
+    }
+
+}
+
+
+function sendAnnouncement(){
+
+    if(!adminLogged)return;
+
+
+    const input=
+        document.getElementById(
+            "globalAnnouncement"
+        );
+
+
+    const message=
+        input.value.trim();
+
+
+    if(!message){
+
+        toast(
+            "❌ Enter a message."
+        );
+
+        return;
+
+    }
+
+
+    sendGlobal({
+
+        type:"announcement",
+
+        message:message
+
+    });
+
+
+    input.value="";
+
+}
+
+
+/* =========================================================
+   GOLDEN COOKIE
+========================================================= */
+
+const golden=
+    document.getElementById(
+        "golden"
+    );
+
+
+function spawnGolden(){
+
+    const x=
+        70+
+        Math.random()*
+        Math.max(
+            50,
+            window.innerWidth-140
+        );
+
+
+    const y=
+        100+
+        Math.random()*
+        Math.max(
+            50,
+            window.innerHeight-200
+        );
+
+
+    golden.style.left=
+        x+"px";
+
+    golden.style.top=
+        y+"px";
+
+    golden.style.display=
+        "flex";
+
+
+    setTimeout(
+        ()=>{
+
+            golden.style.display=
+                "none";
+
+        },
+        10000
+    );
+
+}
+
+
+golden.addEventListener(
+    "pointerdown",
+    e=>{
+
+        e.preventDefault();
+
+        initAudio();
+
+
+        const bonus=
+            Math.max(
+                77,
+                getCPS()*15
+            );
+
+
+        game.cookies+=bonus;
+
+        game.totalCookies+=bonus;
+
+
+        tone(
+            800,
+            .3,
+            .1
+        );
+
+
+        if(particlesEnabled){
+
+            particle(
+                "+"+
+                fmt(bonus)+
+                " GOLDEN! 🍪",
+                e.clientX,
+                e.clientY
+            );
+
+        }
+
+
+        golden.style.display=
+            "none";
+
+
+        render();
+
+        saveGame();
+
+
+        toast(
+            "✨ Golden cookie bonus: "+
+            fmt(bonus)
+        );
+
+    },
+    {passive:false}
+);
+
+
+/* =========================================================
+   RANDOM GOLDEN
+========================================================= */
+
+function goldenLoop(){
+
+    setTimeout(
+        ()=>{
+
+            spawnGolden();
+
+            goldenLoop();
+
+        },
+        30000+
+        Math.random()*30000
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+function closePanel(id){
+
+    document.getElementById(
+        id
+    ).style.display=
+        "none";
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+    const t=
+        document.getElementById(
+            "toast"
+        );
+
+
+    t.textContent=
+        message;
+
+    t.style.display=
+        "block";
+
+
+    clearTimeout(
+        toast.timer
+    );
+
+
+    toast.timer=
+        setTimeout(
+            ()=>{
+                t.style.display=
+                    "none";
+            },
+            1800
+        );
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetGame(){
+
+    if(!adminLogged)return;
+
+
+    if(
+        !confirm(
+            "⚠️ DELETE ALL COOKIE EMPIRE DATA?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "COOKIE_EMPIRE_SAVE"
+    );
+
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   AUTO SAVE
+========================================================= */
+
+setInterval(
+    saveGame,
+    10000
+);
+
+
+setInterval(
+    updateAdminStats,
+    500
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadGame();
+
+render();
+
+goldenLoop();
+
+connectGlobalServer();
+
+</script>
+
+</body>
+</html>
