@@ -1,3 +1,4 @@
+```js
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
@@ -10,11 +11,31 @@ const wss = new WebSocket.Server({ server });
 
 const PORT = process.env.PORT || 3000;
 
-// CHANGE THIS IN PRODUCTION.
-// Do NOT put the admin password inside index.html.
+// Set ADMIN_PASSWORD in Render Environment Variables.
+// Local fallback for testing only.
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Chain1964";
 
+/*
+ * ==============================
+ * STATIC WEBSITE
+ * ==============================
+ */
+
 app.use(express.static(path.join(__dirname)));
+
+// IMPORTANT:
+// This makes https://your-site.onrender.com/
+// automatically open Cookie Empire.html
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "Cookie Empire.html"));
+});
+
+
+/*
+ * ==============================
+ * GLOBAL SERVER DATA
+ * ==============================
+ */
 
 const players = new Map();
 
@@ -25,6 +46,13 @@ let globalEvent = {
 };
 
 let announcement = "";
+
+
+/*
+ * ==============================
+ * WEBSOCKET HELPERS
+ * ==============================
+ */
 
 function send(ws, data) {
     if (ws.readyState === WebSocket.OPEN) {
@@ -61,7 +89,15 @@ function broadcastOnline() {
     });
 }
 
+
+/*
+ * ==============================
+ * GLOBAL EVENTS
+ * ==============================
+ */
+
 function startEvent(type, duration, multiplier = 1) {
+
     globalEvent = {
         type,
         endsAt: Date.now() + duration,
@@ -72,9 +108,14 @@ function startEvent(type, duration, multiplier = 1) {
         type: "globalEvent",
         event: globalEvent
     });
+
+    console.log(
+        `🌎 Global event started: ${type} (${duration / 1000}s)`
+    );
 }
 
 function stopEvent() {
+
     globalEvent = {
         type: "none",
         endsAt: 0,
@@ -85,7 +126,16 @@ function stopEvent() {
         type: "globalEvent",
         event: globalEvent
     });
+
+    console.log("🛑 Global event stopped.");
 }
+
+
+/*
+ * ==============================
+ * WEBSOCKET CONNECTION
+ * ==============================
+ */
 
 wss.on("connection", ws => {
 
@@ -101,41 +151,83 @@ wss.on("connection", ws => {
 
     console.log("🍪 Player connected:", playerId);
 
+    /*
+     * Tell player they connected
+     */
+
     send(ws, {
         type: "connected",
         playerId,
         online: onlineCount()
     });
 
+
+    /*
+     * Send current global event
+     */
+
     if (globalEvent.type !== "none") {
+
         send(ws, {
             type: "globalEvent",
             event: globalEvent
         });
+
     }
 
+
+    /*
+     * Send current announcement
+     */
+
     if (announcement) {
+
         send(ws, {
             type: "announcement",
             message: announcement
         });
+
     }
 
+
+    /*
+     * Update online count
+     */
+
     broadcastOnline();
+
+
+    /*
+     * ==============================
+     * MESSAGE HANDLER
+     * ==============================
+     */
 
     ws.on("message", raw => {
 
         let data;
 
         try {
+
             data = JSON.parse(raw.toString());
+
         } catch {
+
+            send(ws, {
+                type: "error",
+                message: "Invalid message."
+            });
+
             return;
         }
 
+
         /*
+         * ==============================
          * ADMIN LOGIN
+         * ==============================
          */
+
         if (data.type === "adminLogin") {
 
             const password = String(data.password || "");
@@ -155,7 +247,10 @@ wss.on("connection", ws => {
                     success: true
                 });
 
-                console.log("👑 Admin logged in:", ws.playerId);
+                console.log(
+                    "👑 Admin logged in:",
+                    ws.playerId
+                );
 
             } else {
 
@@ -164,15 +259,24 @@ wss.on("connection", ws => {
                     success: false
                 });
 
+                console.log(
+                    "❌ Failed admin login:",
+                    ws.playerId
+                );
             }
 
             return;
         }
 
+
         /*
-         * EVERYTHING BELOW HERE REQUIRES ADMIN
+         * ==============================
+         * ADMIN PROTECTION
+         * ==============================
          */
+
         if (!ws.isAdmin) {
+
             send(ws, {
                 type: "error",
                 message: "Admin authentication required."
@@ -181,12 +285,21 @@ wss.on("connection", ws => {
             return;
         }
 
+
         /*
-         * COOKIE RAIN
+         * ==============================
+         * ADMIN EVENTS
+         * ==============================
          */
+
         if (data.type === "adminEvent") {
 
             switch (data.event) {
+
+
+                /*
+                 * COOKIE RAIN
+                 */
 
                 case "cookieRain":
 
@@ -204,6 +317,10 @@ wss.on("connection", ws => {
                     break;
 
 
+                /*
+                 * FRENZY
+                 */
+
                 case "frenzy":
 
                     startEvent(
@@ -219,6 +336,10 @@ wss.on("connection", ws => {
 
                     break;
 
+
+                /*
+                 * GOLDEN STORM
+                 */
 
                 case "goldenStorm":
 
@@ -236,6 +357,10 @@ wss.on("connection", ws => {
                     break;
 
 
+                /*
+                 * GLITCH
+                 */
+
                 case "glitch":
 
                     startEvent(
@@ -251,6 +376,10 @@ wss.on("connection", ws => {
 
                     break;
 
+
+                /*
+                 * APOCALYPSE
+                 */
 
                 case "apocalypse":
 
@@ -268,6 +397,10 @@ wss.on("connection", ws => {
                     break;
 
 
+                /*
+                 * MEGA REWARD
+                 */
+
                 case "megaReward":
 
                     broadcast({
@@ -277,11 +410,16 @@ wss.on("connection", ws => {
 
                     broadcast({
                         type: "adminAnnouncement",
-                        message: "💰 EVERYONE RECEIVED 1 BILLION COOKIES!"
+                        message:
+                            "💰 EVERYONE RECEIVED 1 BILLION COOKIES!"
                     });
 
                     break;
 
+
+                /*
+                 * STOP EVENT
+                 */
 
                 case "stop":
 
@@ -296,15 +434,25 @@ wss.on("connection", ws => {
 
 
                 default:
+
+                    send(ws, {
+                        type: "error",
+                        message: "Unknown admin event."
+                    });
+
                     break;
             }
 
             return;
         }
 
+
         /*
+         * ==============================
          * GLOBAL ANNOUNCEMENT
+         * ==============================
          */
+
         if (data.type === "announcement") {
 
             const message =
@@ -312,7 +460,9 @@ wss.on("connection", ws => {
                     .trim()
                     .slice(0, 200);
 
-            if (!message) return;
+            if (!message) {
+                return;
+            }
 
             announcement = message;
 
@@ -331,6 +481,13 @@ wss.on("connection", ws => {
 
     });
 
+
+    /*
+     * ==============================
+     * PLAYER DISCONNECTED
+     * ==============================
+     */
+
     ws.on("close", () => {
 
         players.delete(ws.playerId);
@@ -344,7 +501,30 @@ wss.on("connection", ws => {
 
     });
 
+
+    /*
+     * ==============================
+     * WEBSOCKET ERROR
+     * ==============================
+     */
+
+    ws.on("error", error => {
+
+        console.error(
+            "WebSocket error:",
+            error.message
+        );
+
+    });
+
 });
+
+
+/*
+ * ==============================
+ * EVENT TIMER
+ * ==============================
+ */
 
 setInterval(() => {
 
@@ -352,20 +532,43 @@ setInterval(() => {
         globalEvent.type !== "none" &&
         Date.now() >= globalEvent.endsAt
     ) {
+
         stopEvent();
+
     }
 
 }, 1000);
 
-server.listen(PORT, () => {
+
+/*
+ * ==============================
+ * START SERVER
+ * ==============================
+ */
+
+server.listen(PORT, "0.0.0.0", () => {
 
     console.log("");
     console.log("🍪 COOKIE EMPIRE GLOBAL");
     console.log("--------------------------------");
-    console.log(`🌎 Server: http://localhost:${PORT}`);
+    console.log(`🌎 Server running on port ${PORT}`);
     console.log("🔌 WebSocket: ACTIVE");
     console.log("👑 Global Admin Abuse: ACTIVE");
     console.log("--------------------------------");
     console.log("");
 
 });
+
+
+/*
+ * ==============================
+ * SERVER ERROR HANDLER
+ * ==============================
+ */
+
+server.on("error", error => {
+
+    console.error("❌ Server error:", error);
+
+});
+```
