@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,200 +7,181 @@
 <title>🍪 Cookie Empire</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-    --bg:#080301;
-    --panel:#140804;
-    --panel2:#211006;
-    --border:#5b2a0e;
-    --gold:#ffb52e;
-    --gold2:#ffd86b;
-    --orange:#ff7b19;
-    --red:#ff3b1f;
-    --green:#39e66b;
-    --text:#fff3dc;
-    --muted:#a98c70;
+--bg:#080301;
+--panel:#140804;
+--panel2:#211006;
+--border:#5b2a0e;
+--gold:#ffb52e;
+--gold2:#ffd86b;
+--orange:#ff7b19;
+--red:#ff3b1f;
+--green:#39e66b;
+--text:#fff3dc;
+--muted:#a98c70;
 }
 
 body{
-    min-height:100vh;
-    background:
-        radial-gradient(circle at top,#351507 0%,#120702 35%,#050201 100%);
-    color:var(--text);
-    font-family:Arial,Helvetica,sans-serif;
-    overflow-x:hidden;
+min-height:100vh;
+background:
+radial-gradient(circle at top,#351507 0%,#120702 35%,#050201 100%);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif;
+overflow-x:hidden;
 }
 
-button,input{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
+button,input{font:inherit}
+button{cursor:pointer}
 
 .header{
-    height:76px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px;
-    border-bottom:1px solid var(--border);
-    background:rgba(15,5,2,.95);
-    box-shadow:0 5px 30px rgba(0,0,0,.5);
-    position:sticky;
-    top:0;
-    z-index:50;
+height:76px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+border-bottom:1px solid var(--border);
+background:rgba(15,5,2,.95);
+box-shadow:0 5px 30px rgba(0,0,0,.5);
+position:sticky;
+top:0;
+z-index:50;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
-    color:var(--gold);
-    text-shadow:0 0 18px rgba(255,181,46,.4);
+font-size:25px;
+font-weight:900;
+color:var(--gold);
+text-shadow:0 0 18px rgba(255,181,46,.4);
 }
 
 .status{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#ddd;
-    font-size:14px;
+display:flex;
+align-items:center;
+gap:10px;
+color:#ddd;
+font-size:14px;
 }
 
 .dot{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:#e33;
-    box-shadow:0 0 10px #e33;
+width:10px;
+height:10px;
+border-radius:50%;
+background:#e33;
+box-shadow:0 0 10px #e33;
 }
 
 .dot.online{
-    background:var(--green);
-    box-shadow:0 0 12px var(--green);
+background:var(--green);
+box-shadow:0 0 12px var(--green);
 }
 
 .layout{
-    width:min(1400px,96%);
-    margin:22px auto;
-    display:grid;
-    grid-template-columns:250px 1fr 300px;
-    gap:18px;
+width:min(1400px,96%);
+margin:22px auto;
+display:grid;
+grid-template-columns:250px 1fr 330px;
+gap:18px;
 }
 
 .panel{
-    background:linear-gradient(180deg,rgba(33,16,6,.96),rgba(15,6,2,.96));
-    border:1px solid var(--border);
-    border-radius:15px;
-    box-shadow:0 15px 45px rgba(0,0,0,.35);
+background:linear-gradient(180deg,rgba(33,16,6,.96),rgba(15,6,2,.96));
+border:1px solid var(--border);
+border-radius:15px;
+box-shadow:0 15px 45px rgba(0,0,0,.35);
 }
 
 .panel-title{
-    padding:16px;
-    border-bottom:1px solid var(--border);
-    color:var(--gold);
-    font-size:16px;
-    font-weight:900;
+padding:16px;
+border-bottom:1px solid var(--border);
+color:var(--gold);
+font-size:16px;
+font-weight:900;
 }
 
-.side-content{
-    padding:15px;
-}
+.side-content{padding:15px}
 
 .stat{
-    padding:13px;
-    border:1px solid #47200c;
-    border-radius:10px;
-    margin-bottom:10px;
-    background:rgba(0,0,0,.18);
+padding:13px;
+border:1px solid #47200c;
+border-radius:10px;
+margin-bottom:10px;
+background:rgba(0,0,0,.18);
 }
 
 .stat-label{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:5px;
+color:var(--muted);
+font-size:12px;
+margin-bottom:5px;
 }
 
 .stat-value{
-    font-size:19px;
-    font-weight:900;
+font-size:19px;
+font-weight:900;
 }
 
-.player-name{
-    color:var(--gold2);
-    word-break:break-word;
-}
+.player-name{color:var(--gold2);word-break:break-word}
 
 .game{
-    min-height:650px;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
+min-height:650px;
+padding:25px;
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
 }
 
 .welcome{
-    font-size:18px;
-    color:#e9cda9;
-    margin-top:3px;
+font-size:18px;
+color:#e9cda9;
+margin-top:3px;
 }
 
 .cookies{
-    font-size:54px;
-    font-weight:900;
-    margin-top:10px;
-    color:var(--gold2);
-    text-shadow:0 0 20px rgba(255,181,46,.25);
+font-size:54px;
+font-weight:900;
+margin-top:10px;
+color:var(--gold2);
+text-shadow:0 0 20px rgba(255,181,46,.25);
 }
 
-.cps{
-    color:var(--muted);
-    margin-top:4px;
-}
+.cps{color:var(--muted);margin-top:4px}
 
 .cookie-wrap{
-    width:330px;
-    height:330px;
-    margin:35px auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+width:330px;
+height:330px;
+margin:35px auto;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .cookie{
-    width:265px;
-    height:265px;
-    border-radius:50%;
-    border:10px solid #7d3d10;
-    background:
-        radial-gradient(circle at 30% 25%,#ffd37a,#d88724 40%,#8e4311 100%);
-    box-shadow:
-        inset -15px -20px 30px rgba(75,28,3,.5),
-        inset 10px 10px 25px rgba(255,232,164,.45),
-        0 0 45px rgba(255,135,26,.25);
-    position:relative;
-    transition:.08s;
-    user-select:none;
+width:265px;
+height:265px;
+border-radius:50%;
+border:10px solid #7d3d10;
+background:
+radial-gradient(circle at 30% 25%,#ffd37a,#d88724 40%,#8e4311 100%);
+box-shadow:
+inset -15px -20px 30px rgba(75,28,3,.5),
+inset 10px 10px 25px rgba(255,232,164,.45),
+0 0 45px rgba(255,135,26,.25);
+position:relative;
+transition:.08s;
+user-select:none;
 }
 
-.cookie:active{
-    transform:scale(.93);
-}
+.cookie:active{transform:scale(.93)}
 
 .chip{
-    position:absolute;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:#5c2609;
-    box-shadow:inset 3px 3px 5px rgba(255,190,80,.15);
+position:absolute;
+width:20px;
+height:20px;
+border-radius:50%;
+background:#5c2609;
+box-shadow:inset 3px 3px 5px rgba(255,190,80,.15);
 }
 
 .c1{left:48px;top:60px}
@@ -213,1341 +194,1572 @@ button{
 .c8{left:38px;bottom:80px}
 
 .click-text{
-    color:#b9956e;
-    font-size:13px;
+color:#b9956e;
+font-size:13px;
 }
 
 .admin-btn{
-    width:100%;
-    margin-top:12px;
-    padding:11px;
-    border-radius:9px;
-    border:1px solid #71400e;
-    background:#251005;
-    color:var(--gold);
-    font-weight:800;
+width:100%;
+margin-top:12px;
+padding:11px;
+border-radius:9px;
+border:1px solid #71400e;
+background:#251005;
+color:var(--gold);
+font-weight:800;
 }
 
-.admin-btn:hover{
-    background:#391707;
-}
+.admin-btn:hover{background:#391707}
 
-.admin{
-    display:none;
-}
-
-.admin.show{
-    display:block;
-}
+.admin{display:none}
+.admin.show{display:block}
 
 .event{
-    display:none;
-    margin:0 auto 15px;
-    padding:12px 17px;
-    width:min(700px,100%);
-    border-radius:10px;
-    border:1px solid #8c4c12;
-    background:rgba(255,133,19,.12);
-    color:var(--gold2);
-    font-weight:900;
-    animation:pulse 1s infinite alternate;
+display:none;
+margin:0 auto 15px;
+padding:12px 17px;
+width:min(700px,100%);
+border-radius:10px;
+border:1px solid #8c4c12;
+background:rgba(255,133,19,.12);
+color:var(--gold2);
+font-weight:900;
+animation:pulse 1s infinite alternate;
 }
 
 @keyframes pulse{
-    from{box-shadow:0 0 5px rgba(255,160,30,.1)}
-    to{box-shadow:0 0 25px rgba(255,160,30,.3)}
+from{box-shadow:0 0 5px rgba(255,160,30,.1)}
+to{box-shadow:0 0 25px rgba(255,160,30,.3)}
 }
 
 .announcement{
-    display:none;
-    width:min(700px,100%);
-    margin-bottom:15px;
-    padding:12px;
-    border-radius:9px;
-    background:#251205;
-    border:1px solid #67400f;
-    color:#ffe3a1;
+display:none;
+width:min(700px,100%);
+margin-bottom:15px;
+padding:12px;
+border-radius:9px;
+background:#251205;
+border:1px solid #67400f;
+color:#ffe3a1;
+font-weight:800;
 }
 
-.admin-panel{
-    padding:15px;
-}
+.admin-panel{padding:15px}
 
 .input{
-    width:100%;
-    padding:11px;
-    margin-bottom:9px;
-    background:#0b0301;
-    color:white;
-    border:1px solid #5b2a0e;
-    border-radius:8px;
-    outline:none;
+width:100%;
+padding:11px;
+margin-bottom:9px;
+background:#0b0301;
+color:white;
+border:1px solid #5b2a0e;
+border-radius:8px;
+outline:none;
 }
 
-.input:focus{
-    border-color:var(--gold);
-}
+.input:focus{border-color:var(--gold)}
 
 .event-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
 }
 
 .event-btn{
-    padding:10px 6px;
-    border-radius:8px;
-    border:1px solid #69330d;
-    background:#1c0903;
-    color:#ffd27a;
-    font-weight:800;
-    font-size:12px;
+padding:10px 6px;
+border-radius:8px;
+border:1px solid #69330d;
+background:#1c0903;
+color:#ffd27a;
+font-weight:800;
+font-size:12px;
 }
 
 .event-btn:hover{
-    background:#341406;
-    border-color:#a75b16;
+background:#341406;
+border-color:#a75b16;
 }
 
-.stop{
-    color:#ff735e;
+.stop{color:#ff735e}
+
+.owner-panel{
+display:none;
+margin-top:15px;
+border-top:1px solid #63300c;
+padding-top:15px;
+}
+
+.owner-panel.show{display:block}
+
+.owner-title{
+color:#ffcf58;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.owner-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px;
+}
+
+.role-btn{
+padding:9px 5px;
+border-radius:8px;
+border:1px solid #69330d;
+background:#1b0803;
+color:#ffd27a;
+font-size:11px;
+font-weight:900;
+}
+
+.role-btn:hover{
+background:#351306;
+}
+
+.role-target{
+margin-top:10px;
 }
 
 .player-list{
-    max-height:350px;
-    overflow:auto;
-    padding:10px;
+max-height:350px;
+overflow:auto;
+padding:10px;
 }
 
 .player{
-    padding:10px;
-    border-bottom:1px solid #3b1909;
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    font-size:13px;
+padding:10px;
+border-bottom:1px solid #3b1909;
+display:flex;
+justify-content:space-between;
+gap:10px;
+font-size:13px;
 }
 
 .role{
-    color:#aaa;
-    font-size:11px;
+color:#aaa;
+font-size:11px;
+font-weight:800;
 }
 
-.role.admin{
-    display:inline;
-    color:var(--gold);
-}
+.role.admin{color:var(--gold)}
+.role.owner{color:#ffcf38}
+.role.coowner{color:#ff8b38}
+.role.developer{color:#66d9ff}
 
 .login{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.86);
-    backdrop-filter:blur(7px);
-    z-index:100;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.86);
+backdrop-filter:blur(7px);
+z-index:100;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
 }
 
-.login.hidden{
-    display:none;
-}
+.login.hidden{display:none}
 
 .login-box{
-    width:min(420px,100%);
-    padding:28px;
-    border-radius:17px;
-    background:linear-gradient(180deg,#281106,#100402);
-    border:1px solid #70400f;
-    box-shadow:0 25px 80px rgba(0,0,0,.7);
-    text-align:center;
+width:min(420px,100%);
+padding:28px;
+border-radius:17px;
+background:linear-gradient(180deg,#281106,#100402);
+border:1px solid #70400f;
+box-shadow:0 25px 80px rgba(0,0,0,.7);
+text-align:center;
 }
 
 .login-box h2{
-    color:var(--gold);
-    margin-bottom:8px;
+color:var(--gold);
+margin-bottom:8px;
 }
 
 .login-box p{
-    color:#b99877;
-    font-size:13px;
-    margin-bottom:20px;
+color:#b99877;
+font-size:13px;
+margin-bottom:20px;
 }
 
 .big-input{
-    width:100%;
-    padding:14px;
-    background:#080201;
-    color:white;
-    border:1px solid #63300c;
-    border-radius:10px;
-    outline:none;
-    margin-bottom:10px;
+width:100%;
+padding:14px;
+background:#080201;
+color:white;
+border:1px solid #63300c;
+border-radius:10px;
+outline:none;
+margin-bottom:10px;
 }
 
 .primary{
-    width:100%;
-    padding:13px;
-    border:0;
-    border-radius:10px;
-    background:linear-gradient(135deg,#ffb52e,#e86d14);
-    color:#170700;
-    font-weight:900;
+width:100%;
+padding:13px;
+border:0;
+border-radius:10px;
+background:linear-gradient(135deg,#ffb52e,#e86d14);
+color:#170700;
+font-weight:900;
+}
+
+.secondary{
+width:100%;
+padding:11px;
+margin-top:8px;
+border:1px solid #71400e;
+border-radius:10px;
+background:#251005;
+color:var(--gold);
+font-weight:900;
 }
 
 .error{
-    color:#ff6d55;
-    min-height:20px;
-    margin-top:10px;
-    font-size:13px;
+color:#ff6d55;
+min-height:20px;
+margin-top:10px;
+font-size:13px;
 }
 
 .toast{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    transform:translateX(-50%) translateY(100px);
-    background:#241006;
-    border:1px solid #76410e;
-    padding:13px 20px;
-    border-radius:10px;
-    color:#ffe2a4;
-    font-weight:800;
-    z-index:200;
-    transition:.25s;
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translateX(-50%) translateY(100px);
+background:#241006;
+border:1px solid #76410e;
+padding:13px 20px;
+border-radius:10px;
+color:#ffe2a4;
+font-weight:800;
+z-index:200;
+transition:.25s;
 }
 
 .toast.show{
-    transform:translateX(-50%) translateY(0);
+transform:translateX(-50%) translateY(0);
 }
 
 @media(max-width:1000px){
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .game{
-        min-height:auto;
-    }
-
-    .cookie-wrap{
-        width:280px;
-        height:280px;
-    }
+.layout{grid-template-columns:1fr}
+.game{min-height:auto}
+.cookie-wrap{width:280px;height:280px}
 }
 
 @media(max-width:500px){
-    .header{
-        padding:0 13px;
-    }
-
-    .logo{
-        font-size:18px;
-    }
-
-    .status{
-        font-size:11px;
-    }
-
-    .game{
-        padding:18px;
-    }
-
-    .cookie{
-        width:220px;
-        height:220px;
-    }
-
-    .cookie-wrap{
-        width:240px;
-        height:240px;
-    }
+.header{padding:0 13px}
+.logo{font-size:18px}
+.status{font-size:11px}
+.game{padding:18px}
+.cookie{width:220px;height:220px}
+.cookie-wrap{width:240px;height:240px}
 }
 </style>
+
 </head>
 
 <body>
 
 <header class="header">
-    <div class="logo">🍪 COOKIE EMPIRE</div>
+<div class="logo">🍪 COOKIE EMPIRE</div>
 
-    <div class="status">
-        <span id="statusDot" class="dot"></span>
-        <span id="connectionText">Connecting...</span>
-        <span>•</span>
-        <span>👥 <b id="online">0</b></span>
-    </div>
+<div class="status">
+<span id="statusDot" class="dot"></span>
+<span id="connectionText">Connecting...</span>
+<span>•</span>
+<span>👥 <b id="online">0</b></span>
+</div>
 </header>
 
 <div class="layout">
 
-<!-- LEFT -->
+<!-- LEFT PLAYER PANEL -->
+
 <aside class="panel">
 
-    <div class="panel-title">👤 PLAYER</div>
+<div class="panel-title">👤 PLAYER</div>
 
-    <div class="side-content">
+<div class="side-content">
 
-        <div class="stat">
-            <div class="stat-label">NICKNAME</div>
-            <div id="nicknameDisplay" class="stat-value player-name">
-                Unknown
-            </div>
-        </div>
+<div class="stat">
+<div class="stat-label">NICKNAME</div>
+<div id="nicknameDisplay" class="stat-value player-name">Unknown</div>
+</div>
 
-        <div class="stat">
-            <div class="stat-label">COOKIES</div>
-            <div id="sideCookies" class="stat-value">
-                0
-            </div>
-        </div>
+<div class="stat">
+<div class="stat-label">ROLE</div>
+<div id="roleDisplay" class="stat-value">PLAYER</div>
+</div>
 
-        <div class="stat">
-            <div class="stat-label">COOKIES PER SECOND</div>
-            <div id="sideCps" class="stat-value">
-                0
-            </div>
-        </div>
+<div class="stat">
+<div class="stat-label">COOKIES</div>
+<div id="sideCookies" class="stat-value">0</div>
+</div>
 
-        <button class="admin-btn" onclick="openAdmin()">
-            👑 Admin Panel
-        </button>
+<div class="stat">
+<div class="stat-label">COOKIES PER SECOND</div>
+<div id="sideCps" class="stat-value">0</div>
+</div>
 
-    </div>
+<button class="admin-btn" onclick="openAdmin()">
+👑 Admin Panel
+</button>
+
+</div>
 </aside>
 
+<!-- CENTER GAME -->
 
-<!-- CENTER -->
 <main class="panel game">
 
-    <div id="announcement" class="announcement"></div>
+<div id="announcement" class="announcement"></div>
 
-    <div id="event" class="event"></div>
+<div id="event" class="event"></div>
 
-    <div class="welcome">
-        Welcome, <b id="welcomeName">Unknown</b>!
-    </div>
+<div class="welcome">
+Welcome, <b id="welcomeName">Unknown</b>!
+</div>
 
-    <div id="cookies" class="cookies">
-        0
-    </div>
+<div id="cookies" class="cookies">0</div>
 
-    <div class="cps">
-        🍪 cookies
-        &nbsp; • &nbsp;
-        <span id="cps">0</span> CPS
-    </div>
+<div class="cps">
+🍪 cookies &nbsp; • &nbsp;
+<span id="cps">0</span> CPS
+</div>
 
-    <div class="cookie-wrap">
-        <button id="cookie" class="cookie" aria-label="Click cookie">
-            <span class="chip c1"></span>
-            <span class="chip c2"></span>
-            <span class="chip c3"></span>
-            <span class="chip c4"></span>
-            <span class="chip c5"></span>
-            <span class="chip c6"></span>
-            <span class="chip c7"></span>
-            <span class="chip c8"></span>
-        </button>
-    </div>
+<div class="cookie-wrap">
 
-    <div class="click-text">
-        CLICK THE COOKIE TO BUILD YOUR EMPIRE
-    </div>
+<button id="cookie" class="cookie" aria-label="Click cookie">
+
+<span class="chip c1"></span> <span class="chip c2"></span> <span class="chip c3"></span> <span class="chip c4"></span> <span class="chip c5"></span> <span class="chip c6"></span> <span class="chip c7"></span> <span class="chip c8"></span>
+
+</button>
+
+</div>
+
+<div class="click-text">
+CLICK THE COOKIE TO BUILD YOUR EMPIRE
+</div>
 
 </main>
 
-
 <!-- RIGHT -->
+
 <aside>
 
-    <div class="panel admin">
-        <div class="panel-title">👑 ADMIN ABUSE</div>
+<!-- ADMIN -->
 
-        <div class="admin-panel">
+<div class="panel admin">
 
-            <div class="event-grid">
+<div class="panel-title">👑 ADMIN ABUSE</div>
 
-                <button class="event-btn"
-                    onclick="adminEvent('cookieRain')">
-                    🌧️ Cookie Rain
-                </button>
+<div class="admin-panel">
 
-                <button class="event-btn"
-                    onclick="adminEvent('frenzy')">
-                    ⚡ ×100 Frenzy
-                </button>
+<div class="event-grid">
 
-                <button class="event-btn"
-                    onclick="adminEvent('goldenStorm')">
-                    🌟 Golden Storm
-                </button>
+<button class="event-btn" onclick="adminEvent('cookieRain')">
+🌧️ Cookie Rain
+</button>
 
-                <button class="event-btn"
-                    onclick="adminEvent('glitch')">
-                    🌀 Glitch
-                </button>
+<button class="event-btn" onclick="adminEvent('frenzy')">
+⚡ ×100 Frenzy
+</button>
 
-                <button class="event-btn"
-                    onclick="adminEvent('apocalypse')">
-                    ☠️ Apocalypse
-                </button>
+<button class="event-btn" onclick="adminEvent('goldenStorm')">
+🌟 Golden Storm
+</button>
 
-                <button class="event-btn"
-                    onclick="adminEvent('megaReward')">
-                    💰 +1B Everyone
-                </button>
+<button class="event-btn" onclick="adminEvent('glitch')">
+🌀 Glitch
+</button>
 
-                <button class="event-btn stop"
-                    onclick="adminEvent('stop')">
-                    🛑 Stop Event
-                </button>
+<button class="event-btn" onclick="adminEvent('apocalypse')">
+☠️ Apocalypse
+</button>
 
-            </div>
+<button class="event-btn" onclick="adminEvent('megaReward')">
+💰 +1B Everyone
+</button>
 
-            <br>
+<button class="event-btn stop" onclick="adminEvent('stop')">
+🛑 Stop Event
+</button>
 
-            <input
-                id="announcementInput"
-                class="input"
-                maxlength="200"
-                placeholder="Global announcement..."
-            >
+</div>
 
-            <button
-                class="event-btn"
-                style="width:100%"
-                onclick="sendAnnouncement()">
-                📢 Send Global Announcement
-            </button>
+<br>
 
-        </div>
-    </div>
+<input
+id="announcementInput"
+class="input"
+maxlength="200"
+placeholder="Global announcement..."
 
+>
 
-    <div class="panel" style="margin-top:18px">
+<button
+class="event-btn"
+style="width:100%"
+onclick="sendAnnouncement()">
+📢 Send Global Announcement </button>
 
-        <div class="panel-title">
-            👥 PLAYERS
-        </div>
+<!-- OWNER PANEL -->
 
-        <div id="players" class="player-list">
-            <div class="player">
-                <span>Waiting for players...</span>
-            </div>
-        </div>
+<div id="ownerPanel" class="owner-panel">
 
-    </div>
+<div class="owner-title">
+👑 OWNER PANEL
+</div>
+
+<input
+id="ownerTarget"
+class="input"
+placeholder="Player ID"
+
+>
+
+<div class="owner-buttons">
+
+<button class="role-btn" onclick="setRole('ADMIN')">
+👑 Add Admin
+</button>
+
+<button class="role-btn" onclick="setRole('CO-OWNER')">
+👑 Add Co-Owner
+</button>
+
+<button class="role-btn" onclick="setRole('DEVELOPER')">
+🧑‍💻 Add Developer
+</button>
+
+<button class="role-btn" onclick="setRole('PLAYER')">
+👤 Set Player
+</button>
+
+<button
+class="role-btn"
+style="grid-column:1/-1"
+onclick="removeRole()">
+❌ Remove Role </button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<!-- PLAYER LIST -->
+
+<div class="panel" style="margin-top:18px">
+
+<div class="panel-title">
+👥 PLAYERS
+</div>
+
+<div id="players" class="player-list">
+
+<div class="player">
+<span>Waiting for players...</span>
+</div>
+
+</div>
+
+</div>
 
 </aside>
 
 </div>
 
-
-<!-- NICKNAME -->
+<!-- NICKNAME MODAL -->
 
 <div id="nicknameModal" class="login">
 
-    <div class="login-box">
+<div class="login-box">
 
-        <h2>🍪 Welcome to Cookie Empire</h2>
+<h2>🍪 Welcome to Cookie Empire</h2>
 
-        <p>
-            Choose your nickname to enter the empire.
-        </p>
+<p>Choose your nickname to enter the empire.</p>
 
-        <input
-            id="nicknameInput"
-            class="big-input"
-            maxlength="20"
-            placeholder="Nickname:"
-            autocomplete="off"
-        >
+<input
+id="nicknameInput"
+class="big-input"
+maxlength="20"
+placeholder="Nickname:"
+autocomplete="off"
 
-        <button
-            class="primary"
-            onclick="submitNickname()">
-            ENTER EMPIRE 👑
-        </button>
+>
 
-        <div id="nicknameError" class="error"></div>
+<button class="primary" onclick="submitNickname()">
+ENTER EMPIRE 👑
+</button>
 
-    </div>
+<div id="nicknameError" class="error"></div>
 
 </div>
+</div>
 
-
-<!-- ADMIN LOGIN -->
+<!-- ADMIN MODAL -->
 
 <div id="adminModal" class="login hidden">
 
-    <div class="login-box">
+<div class="login-box">
 
-        <h2>👑 Admin Login</h2>
+<h2>👑 Admin Login</h2>
 
-        <p>
-            Enter the administrator password.
-        </p>
+<p>Enter the administrator password.</p>
 
-        <input
-            id="adminPassword"
-            class="big-input"
-            type="password"
-            placeholder="Admin Password"
-        >
+<input
+id="adminPassword"
+class="big-input"
+type="password"
+placeholder="Admin Password"
 
-        <button
-            class="primary"
-            onclick="loginAdmin()">
-            LOGIN
-        </button>
+>
 
-        <div id="adminError" class="error"></div>
+<button class="primary" onclick="loginAdmin()">
+LOGIN AS ADMIN
+</button>
 
-        <button
-            class="admin-btn"
-            onclick="closeAdmin()">
-            Cancel
-        </button>
+<button class="secondary" onclick="openOwnerLogin()">
+👑 OWNER LOGIN
+</button>
 
-    </div>
+<div id="adminError" class="error"></div>
 
+<button class="admin-btn" onclick="closeAdmin()">
+Cancel
+</button>
+
+</div>
+</div>
+
+<!-- OWNER LOGIN -->
+
+<div id="ownerModal" class="login hidden">
+
+<div class="login-box">
+
+<h2>👑 Owner Login</h2>
+
+<p>Enter the Owner password.</p>
+
+<input
+id="ownerPassword"
+class="big-input"
+type="password"
+placeholder="Owner Password"
+
+>
+
+<button class="primary" onclick="loginOwner()">
+ENTER OWNER PANEL
+</button>
+
+<div id="ownerError" class="error"></div>
+
+<button class="admin-btn" onclick="closeOwnerLogin()">
+Cancel
+</button>
+
+</div>
 </div>
 
 <div id="toast" class="toast"></div>
 
-
 <script>
 
-/* =========================================
-   COOKIE EMPIRE CLIENT
-========================================= */
+let socket=null;
 
-let socket = null;
+let nickname=
+localStorage.getItem("cookieEmpireNickname") || "";
 
-let nickname =
-    localStorage.getItem("cookieEmpireNickname") || "";
+let cookies=
+Number(localStorage.getItem("cookieEmpireCookies") || 0);
 
-let cookies =
-    Number(localStorage.getItem("cookieEmpireCookies") || 0);
+let cps=0;
+let multiplier=1;
 
-let cps = 0;
+let isAdmin=false;
+let isOwner=false;
 
-let multiplier = 1;
-
-let isAdmin = false;
-
-let currentEvent = null;
-
-let reconnectTimer = null;
+let reconnectTimer=null;
+let toastTimer=null;
 
 
-/* =========================================
-   FORMAT NUMBERS
-========================================= */
+/* FORMAT */
 
 function formatNumber(num){
 
-    num = Number(num) || 0;
+num=Number(num)||0;
 
-    if(num < 1000)
-        return Math.floor(num).toString();
+if(num<1000)
+return Math.floor(num).toString();
 
-    if(num < 1000000)
-        return (num/1000).toFixed(1) + "K";
+if(num<1000000)
+return (num/1000).toFixed(1)+"K";
 
-    if(num < 1000000000)
-        return (num/1000000).toFixed(1) + "M";
+if(num<1000000000)
+return (num/1000000).toFixed(1)+"M";
 
-    if(num < 1000000000000)
-        return (num/1000000000).toFixed(1) + "B";
+if(num<1000000000000)
+return (num/1000000000).toFixed(1)+"B";
 
-    return (num/1000000000000).toFixed(1) + "T";
+return (num/1000000000000).toFixed(1)+"T";
 }
 
 
-/* =========================================
-   UPDATE UI
-========================================= */
+/* UI */
 
 function updateCookies(){
 
-    const text = formatNumber(cookies);
+const text=formatNumber(cookies);
 
-    document.getElementById("cookies").textContent = text;
+document.getElementById("cookies").textContent=text;
+document.getElementById("sideCookies").textContent=text;
 
-    document.getElementById("sideCookies").textContent = text;
+document.getElementById("cps").textContent=
+formatNumber(cps*multiplier);
 
-    document.getElementById("cps").textContent =
-        formatNumber(cps * multiplier);
+document.getElementById("sideCps").textContent=
+formatNumber(cps*multiplier);
 
-    document.getElementById("sideCps").textContent =
-        formatNumber(cps * multiplier);
-
-    localStorage.setItem(
-        "cookieEmpireCookies",
-        String(cookies)
-    );
+localStorage.setItem(
+"cookieEmpireCookies",
+String(cookies)
+);
 }
 
 
 function updateNickname(){
 
-    document.getElementById("nicknameDisplay")
-        .textContent = nickname || "Unknown";
+document.getElementById("nicknameDisplay").textContent=
+nickname||"Unknown";
 
-    document.getElementById("welcomeName")
-        .textContent = nickname || "Unknown";
+document.getElementById("welcomeName").textContent=
+nickname||"Unknown";
 }
 
 
-/* =========================================
-   WEBSOCKET CONNECTION
-========================================= */
+function updateRole(role){
+
+const el=document.getElementById("roleDisplay");
+
+el.textContent=role||"PLAYER";
+
+if(role==="OWNER")
+el.style.color="#ffcf38";
+else if(role==="CO-OWNER")
+el.style.color="#ff8b38";
+else if(role==="ADMIN")
+el.style.color="#ffd15c";
+else if(role==="DEVELOPER")
+el.style.color="#66d9ff";
+else
+el.style.color="";
+}
+
+
+/* CONNECT */
 
 function connect(){
 
-    if(
-        socket &&
-        (
-            socket.readyState === WebSocket.OPEN ||
-            socket.readyState === WebSocket.CONNECTING
-        )
-    ){
-        return;
-    }
+if(
+socket &&
+(
+socket.readyState===WebSocket.OPEN ||
+socket.readyState===WebSocket.CONNECTING
+)
+)
+return;
 
-    const protocol =
-        location.protocol === "https:"
-            ? "wss:"
-            : "ws:";
+const protocol=
+location.protocol==="https:" ? "wss:" : "ws:";
 
-    const wsUrl =
-        protocol + "//" + location.host;
+const wsUrl=protocol+"//"+location.host;
 
-    try{
+try{
+socket=new WebSocket(wsUrl);
+}catch{
+scheduleReconnect();
+return;
+}
 
-        socket = new WebSocket(wsUrl);
+socket.addEventListener("open",()=>{
 
-    }catch(error){
+document.getElementById("statusDot")
+.classList.add("online");
 
-        scheduleReconnect();
-        return;
+document.getElementById("connectionText")
+.textContent="Connected";
 
-    }
+clearTimeout(reconnectTimer);
 
+if(nickname){
 
-    socket.addEventListener("open", () => {
+socket.send(JSON.stringify({
+type:"setNickname",
+nickname:nickname
+}));
 
-        document.getElementById("statusDot")
-            .classList.add("online");
+}
 
-        document.getElementById("connectionText")
-            .textContent = "Connected";
+});
 
-        clearTimeout(reconnectTimer);
 
-        showToast("🌎 Connected to Cookie Empire!");
+socket.addEventListener("close",()=>{
 
-        /*
-         * Re-send saved nickname after every reconnect.
-         */
-        if(nickname){
+document.getElementById("statusDot")
+.classList.remove("online");
 
-            socket.send(JSON.stringify({
-                type:"setNickname",
-                nickname:nickname
-            }));
+document.getElementById("connectionText")
+.textContent="Disconnected";
 
-        }
+scheduleReconnect();
 
-    });
+});
 
 
-    socket.addEventListener("close", () => {
+socket.addEventListener("error",()=>{
 
-        document.getElementById("statusDot")
-            .classList.remove("online");
+document.getElementById("connectionText")
+.textContent="Connection Error";
 
-        document.getElementById("connectionText")
-            .textContent = "Disconnected";
+});
 
-        scheduleReconnect();
 
-    });
+socket.addEventListener("message",event=>{
 
+let data;
 
-    socket.addEventListener("error", () => {
+try{
+data=JSON.parse(event.data);
+}catch{
+return;
+}
 
-        document.getElementById("connectionText")
-            .textContent = "Connection Error";
 
-    });
+/* CONNECTED */
 
+if(data.type==="connected"){
 
-    socket.addEventListener("message", event => {
-
-        let data;
-
-        try{
-
-            data = JSON.parse(event.data);
-
-        }catch{
-
-            return;
-
-        }
-
-
-        /* =====================================
-           CONNECTED
-        ===================================== */
-
-        if(data.type === "connected"){
-
-            if(typeof data.online === "number"){
-
-                document.getElementById("online")
-                    .textContent = data.online;
-
-            }
-
-        }
-
-
-        /* =====================================
-           ONLINE COUNT
-        ===================================== */
-
-        if(data.type === "onlineCount"){
-
-            document.getElementById("online")
-                .textContent = data.count;
-
-        }
-
-
-        /* =====================================
-           NICKNAME
-        ===================================== */
-
-        if(data.type === "nicknameResult"){
-
-            if(data.success){
-
-                nickname = data.nickname;
-
-                localStorage.setItem(
-                    "cookieEmpireNickname",
-                    nickname
-                );
-
-                updateNickname();
-
-                document.getElementById("nicknameModal")
-                    .classList.add("hidden");
-
-                document.getElementById("nicknameError")
-                    .textContent = "";
-
-                showToast(
-                    "👤 Welcome, " + nickname + "!"
-                );
-
-            }else{
-
-                document.getElementById("nicknameError")
-                    .textContent =
-                    data.message || "Nickname error.";
-
-            }
-
-        }
-
-
-        /* =====================================
-           ADMIN LOGIN
-        ===================================== */
-
-        if(data.type === "adminLoginResult"){
-
-            if(data.success){
-
-                isAdmin = true;
-
-                document.querySelector(".admin")
-                    .classList.add("show");
-
-                document.getElementById("adminModal")
-                    .classList.add("hidden");
-
-                document.getElementById("adminError")
-                    .textContent = "";
-
-                showToast("👑 Admin Mode Activated!");
-
-            }else{
-
-                document.getElementById("adminError")
-                    .textContent =
-                    "❌ Incorrect password.";
-
-            }
-
-        }
-
-
-        /* =====================================
-           PLAYER LIST
-        ===================================== */
-
-        if(data.type === "playerList"){
-
-            renderPlayers(data.players);
-
-        }
-
-
-        /* =====================================
-           GLOBAL EVENT
-        ===================================== */
-
-        if(data.type === "globalEvent"){
-
-            applyEvent(data.event);
-
-        }
-
-
-        /* =====================================
-           ADMIN ANNOUNCEMENT
-        ===================================== */
-
-        if(data.type === "adminAnnouncement"){
-
-            showToast(data.message);
-
-        }
-
-
-        /* =====================================
-           GLOBAL ANNOUNCEMENT
-        ===================================== */
-
-        if(data.type === "announcement"){
-
-            const box =
-                document.getElementById("announcement");
-
-            box.textContent =
-                "📢 " + data.message;
-
-            box.style.display = "block";
-
-        }
-
-
-        /* =====================================
-           GLOBAL REWARD
-        ===================================== */
-
-        if(data.type === "globalReward"){
-
-            const amount =
-                Number(data.amount || 0);
-
-            cookies += amount;
-
-            updateCookies();
-
-            showToast(
-                "💰 Everyone received " +
-                formatNumber(amount) +
-                " cookies!"
-            );
-
-        }
-
-
-        /* =====================================
-           SERVER ERROR
-        ===================================== */
-
-        if(data.type === "error"){
-
-            showToast("⚠️ " + data.message);
-
-        }
-
-    });
+if(typeof data.online==="number")
+document.getElementById("online").textContent=data.online;
 
 }
 
 
-/* =========================================
-   RECONNECT
-========================================= */
+/* ONLINE */
+
+if(data.type==="onlineCount"){
+
+document.getElementById("online").textContent=data.count;
+
+}
+
+
+/* NICKNAME */
+
+if(data.type==="nicknameResult"){
+
+if(data.success){
+
+nickname=data.nickname;
+
+localStorage.setItem(
+"cookieEmpireNickname",
+nickname
+);
+
+updateNickname();
+
+document.getElementById("nicknameModal")
+.classList.add("hidden");
+
+document.getElementById("nicknameError")
+.textContent="";
+
+showToast("👤 Welcome, "+nickname+"!");
+
+}else{
+
+document.getElementById("nicknameError")
+.textContent=
+data.message||"Nickname error.";
+
+}
+
+}
+
+
+/* ADMIN LOGIN */
+
+if(data.type==="adminLoginResult"){
+
+if(data.success){
+
+isAdmin=true;
+
+document.querySelector(".admin")
+.classList.add("show");
+
+document.getElementById("adminModal")
+.classList.add("hidden");
+
+updateRole(data.role||"ADMIN");
+
+showToast("👑 Admin Mode Activated!");
+
+}else{
+
+document.getElementById("adminError")
+.textContent="❌ Incorrect password.";
+
+}
+
+}
+
+
+/* OWNER LOGIN */
+
+if(data.type==="ownerLoginResult"){
+
+if(data.success){
+
+isOwner=true;
+isAdmin=true;
+
+document.querySelector(".admin")
+.classList.add("show");
+
+document.getElementById("ownerPanel")
+.classList.add("show");
+
+document.getElementById("ownerModal")
+.classList.add("hidden");
+
+updateRole("OWNER");
+
+showToast("👑 OWNER MODE ACTIVATED!");
+
+}else{
+
+document.getElementById("ownerError")
+.textContent="❌ Incorrect Owner password.";
+
+}
+
+}
+
+
+/* ROLE UPDATED */
+
+if(data.type==="roleUpdated"){
+
+updateRole(data.role||"PLAYER");
+
+isAdmin=data.admin===true;
+isOwner=data.owner===true;
+
+if(!isAdmin){
+
+document.querySelector(".admin")
+.classList.remove("show");
+
+}
+
+if(!isOwner){
+
+document.getElementById("ownerPanel")
+.classList.remove("show");
+
+}
+
+showToast("🛡️ Your role is now "+(data.role||"PLAYER"));
+
+}
+
+
+/* PLAYER LIST */
+
+if(data.type==="playerList"){
+
+renderPlayers(data.players);
+
+}
+
+
+/* ROLE RESULT */
+
+if(data.type==="roleResult"){
+
+if(data.success){
+
+showToast(
+"✅ "+data.nickname+" → "+data.role
+);
+
+}else{
+
+showToast("❌ "+data.message);
+
+}
+
+}
+
+
+/* GLOBAL EVENT */
+
+if(data.type==="globalEvent"){
+
+applyEvent(data.event);
+
+}
+
+
+/* ANNOUNCEMENT */
+
+if(data.type==="announcement"){
+
+showAnnouncement(
+data.message,
+data.sender,
+data.expiresAt
+);
+
+}
+
+
+/* CLEAR ANNOUNCEMENT */
+
+if(data.type==="announcementClear"){
+
+clearAnnouncement();
+
+}
+
+
+/* REWARD */
+
+if(data.type==="globalReward"){
+
+const amount=Number(data.amount||0);
+
+cookies+=amount;
+
+updateCookies();
+
+showToast(
+"💰 Everyone received "+
+formatNumber(amount)+
+" cookies!"
+);
+
+}
+
+
+/* ADMIN ANNOUNCEMENT */
+
+if(data.type==="adminAnnouncement"){
+
+showToast(data.message);
+
+}
+
+
+/* ERROR */
+
+if(data.type==="error"){
+
+showToast("⚠️ "+data.message);
+
+}
+
+});
+
+}
+
+
+/* RECONNECT */
 
 function scheduleReconnect(){
 
-    clearTimeout(reconnectTimer);
+clearTimeout(reconnectTimer);
 
-    reconnectTimer = setTimeout(() => {
-
-        connect();
-
-    },3000);
+reconnectTimer=setTimeout(()=>{
+connect();
+},3000);
 
 }
 
 
-/* =========================================
-   NICKNAME
-========================================= */
+/* NICKNAME */
 
 function submitNickname(){
 
-    const input =
-        document.getElementById("nicknameInput");
+const input=
+document.getElementById("nicknameInput");
 
-    let name =
-        input.value.trim().slice(0,20);
+const name=
+input.value.trim().slice(0,20);
 
-    if(!name){
+if(!name){
 
-        document.getElementById("nicknameError")
-            .textContent =
-            "Please enter a nickname.";
+document.getElementById("nicknameError")
+.textContent="Please enter a nickname.";
 
-        return;
+return;
+}
 
-    }
+if(
+!socket ||
+socket.readyState!==WebSocket.OPEN
+){
 
+document.getElementById("nicknameError")
+.textContent="Connecting to server...";
 
-    if(
-        !socket ||
-        socket.readyState !== WebSocket.OPEN
-    ){
+connect();
 
-        document.getElementById("nicknameError")
-            .textContent =
-            "Connecting to server...";
+return;
+}
 
-        connect();
-
-        return;
-
-    }
-
-
-    socket.send(JSON.stringify({
-
-        type:"setNickname",
-
-        nickname:name
-
-    }));
+socket.send(JSON.stringify({
+type:"setNickname",
+nickname:name
+}));
 
 }
 
 
-/* =========================================
-   COOKIE CLICK
-========================================= */
+/* COOKIE */
 
 document.getElementById("cookie")
-    .addEventListener("click", () => {
+.addEventListener("click",()=>{
 
-        const amount =
-            1 * multiplier;
+cookies+=1*multiplier;
 
-        cookies += amount;
+updateCookies();
 
-        updateCookies();
-
-    });
+});
 
 
-/* =========================================
-   CPS
-========================================= */
+/* CPS */
 
-setInterval(() => {
+setInterval(()=>{
 
-    if(cps > 0){
+if(cps>0){
 
-        cookies += cps * multiplier;
+cookies+=cps*multiplier;
 
-        updateCookies();
+updateCookies();
 
-    }
+}
 
 },1000);
 
 
-/* =========================================
-   GLOBAL EVENTS
-========================================= */
+/* EVENTS */
 
 function applyEvent(event){
 
-    currentEvent = event;
+if(
+!event ||
+event.type==="none"
+){
 
-    const box =
-        document.getElementById("event");
+multiplier=1;
 
+document.getElementById("event")
+.style.display="none";
 
-    if(
-        !event ||
-        event.type === "none"
-    ){
+updateCookies();
 
-        multiplier = 1;
+return;
+}
 
-        box.style.display = "none";
+multiplier=
+Number(event.multiplier||1);
 
-        updateCookies();
+const box=
+document.getElementById("event");
 
-        return;
+const names={
 
-    }
+cookieRain:"🌧️ COOKIE RAIN",
 
+frenzy:"⚡ GLOBAL ×100 COOKIE FRENZY",
 
-    multiplier =
-        Number(event.multiplier || 1);
+goldenStorm:"🌟 GOLDEN COOKIE STORM",
 
+glitch:"🌀 GLOBAL GLITCH EVENT",
 
-    box.style.display = "block";
+apocalypse:"☠️ COOKIE APOCALYPSE"
 
+};
 
-    const names = {
+box.textContent=
+names[event.type]||
+"🌎 GLOBAL EVENT";
 
-        cookieRain:
-            "🌧️ COOKIE RAIN",
+box.style.display="block";
 
-        frenzy:
-            "⚡ GLOBAL ×100 COOKIE FRENZY",
-
-        goldenStorm:
-            "🌟 GOLDEN COOKIE STORM",
-
-        glitch:
-            "🌀 GLOBAL GLITCH EVENT",
-
-        apocalypse:
-            "☠️ COOKIE APOCALYPSE"
-
-    };
-
-
-    box.textContent =
-        names[event.type] ||
-        "🌎 GLOBAL EVENT";
-
-
-    updateCookies();
+updateCookies();
 
 }
 
 
-/* =========================================
-   ADMIN LOGIN
-========================================= */
+/* ADMIN */
 
 function openAdmin(){
 
-    if(isAdmin){
+if(isAdmin){
 
-        document.querySelector(".admin")
-            .classList.add("show");
+document.querySelector(".admin")
+.classList.add("show");
 
-        return;
+return;
+}
 
-    }
+document.getElementById("adminModal")
+.classList.remove("hidden");
 
+document.getElementById("adminError")
+.textContent="";
 
-    document.getElementById("adminModal")
-        .classList.remove("hidden");
+document.getElementById("adminPassword").value="";
 
-    document.getElementById("adminError")
-        .textContent = "";
-
-    document.getElementById("adminPassword")
-        .value = "";
-
-    document.getElementById("adminPassword")
-        .focus();
+document.getElementById("adminPassword").focus();
 
 }
 
 
 function closeAdmin(){
 
-    document.getElementById("adminModal")
-        .classList.add("hidden");
+document.getElementById("adminModal")
+.classList.add("hidden");
 
 }
 
 
 function loginAdmin(){
 
-    const password =
-        document.getElementById("adminPassword")
-            .value;
+if(!socket ||
+socket.readyState!==WebSocket.OPEN){
 
+document.getElementById("adminError")
+.textContent="Server is not connected.";
 
-    if(
-        !socket ||
-        socket.readyState !== WebSocket.OPEN
-    ){
+return;
+}
 
-        document.getElementById("adminError")
-            .textContent =
-            "Server is not connected.";
+const password=
+document.getElementById("adminPassword").value;
 
-        return;
+socket.send(JSON.stringify({
 
-    }
+type:"adminLogin",
+password:password
 
-
-    socket.send(JSON.stringify({
-
-        type:"adminLogin",
-
-        password:password
-
-    }));
+}));
 
 }
 
 
-/* =========================================
-   ADMIN EVENTS
-========================================= */
+/* OWNER LOGIN */
+
+function openOwnerLogin(){
+
+document.getElementById("adminModal")
+.classList.add("hidden");
+
+document.getElementById("ownerModal")
+.classList.remove("hidden");
+
+document.getElementById("ownerPassword").value="";
+
+document.getElementById("ownerError").textContent="";
+
+document.getElementById("ownerPassword").focus();
+
+}
+
+
+function closeOwnerLogin(){
+
+document.getElementById("ownerModal")
+.classList.add("hidden");
+
+}
+
+
+function loginOwner(){
+
+if(!socket ||
+socket.readyState!==WebSocket.OPEN){
+
+document.getElementById("ownerError")
+.textContent="Server is not connected.";
+
+return;
+}
+
+const password=
+document.getElementById("ownerPassword").value;
+
+socket.send(JSON.stringify({
+
+type:"ownerLogin",
+password:password
+
+}));
+
+}
+
+
+/* ADMIN EVENTS */
 
 function adminEvent(event){
 
-    if(!isAdmin)
-        return;
+if(!isAdmin)
+return;
 
+if(!socket ||
+socket.readyState!==WebSocket.OPEN){
 
-    if(
-        !socket ||
-        socket.readyState !== WebSocket.OPEN
-    ){
+showToast("⚠️ Server is not connected.");
 
-        showToast("⚠️ Server is not connected.");
+return;
+}
 
-        return;
+socket.send(JSON.stringify({
 
-    }
+type:"adminEvent",
+event:event
 
-
-    socket.send(JSON.stringify({
-
-        type:"adminEvent",
-
-        event:event
-
-    }));
+}));
 
 }
 
 
-/* =========================================
-   GLOBAL ANNOUNCEMENT
-========================================= */
+/* ANNOUNCEMENT */
 
 function sendAnnouncement(){
 
-    if(!isAdmin)
-        return;
+if(!isAdmin)
+return;
 
+if(!socket ||
+socket.readyState!==WebSocket.OPEN){
 
-    if(
-        !socket ||
-        socket.readyState !== WebSocket.OPEN
-    ){
+showToast("⚠️ Server is not connected.");
 
-        showToast("⚠️ Server is not connected.");
+return;
+}
 
-        return;
+const input=
+document.getElementById("announcementInput");
 
-    }
+const message=
+input.value.trim().slice(0,200);
 
+if(!message)
+return;
 
-    const input =
-        document.getElementById("announcementInput");
+socket.send(JSON.stringify({
 
+type:"announcement",
+message:message
 
-    const message =
-        input.value.trim().slice(0,200);
+}));
 
-
-    if(!message)
-        return;
-
-
-    socket.send(JSON.stringify({
-
-        type:"announcement",
-
-        message:message
-
-    }));
-
-
-    input.value = "";
+input.value="";
 
 }
 
 
-/* =========================================
-   PLAYER LIST
-========================================= */
+/* SHOW ANNOUNCEMENT */
+
+function showAnnouncement(message,sender,expiresAt){
+
+const box=
+document.getElementById("announcement");
+
+box.textContent=
+"📢 "+(sender||"Admin")+": "+message;
+
+box.style.display="block";
+
+const remaining=
+Math.max(
+100,
+Number(expiresAt||Date.now()+5000)-Date.now()
+);
+
+clearTimeout(window.announcementTimer);
+
+window.announcementTimer=
+setTimeout(()=>{
+clearAnnouncement();
+},remaining);
+
+}
+
+
+function clearAnnouncement(){
+
+const box=
+document.getElementById("announcement");
+
+box.style.display="none";
+box.textContent="";
+
+clearTimeout(window.announcementTimer);
+
+}
+
+
+/* PLAYER LIST */
 
 function renderPlayers(list){
 
-    const container =
-        document.getElementById("players");
+const container=
+document.getElementById("players");
+
+container.innerHTML="";
+
+if(
+!Array.isArray(list) ||
+list.length===0
+){
+
+container.innerHTML=
+`<div class="player">
+<span>No players online.</span>
+</div>`;
+
+return;
+}
 
 
-    container.innerHTML = "";
+list.forEach(player=>{
 
+const row=
+document.createElement("div");
 
-    if(
-        !Array.isArray(list) ||
-        list.length === 0
-    ){
+row.className="player";
 
-        container.innerHTML =
-            `<div class="player">
-                <span>No players online.</span>
-             </div>`;
+const name=
+document.createElement("span");
 
-        return;
+name.textContent=
+player.nickname||"Unknown";
 
-    }
+const role=
+document.createElement("span");
 
+role.className="role";
 
-    list.forEach(player => {
+const playerRole=
+player.role||(
+player.owner
+?"OWNER"
+:
+player.admin
+?"ADMIN"
+:"PLAYER"
+);
 
-        const row =
-            document.createElement("div");
+role.textContent=
+playerRole==="OWNER"
+?"👑 OWNER"
+:
+playerRole==="CO-OWNER"
+?"👑 CO-OWNER"
+:
+playerRole==="DEVELOPER"
+?"🧑‍💻 DEVELOPER"
+:
+playerRole==="ADMIN"
+?"🛡️ ADMIN"
+:"PLAYER";
 
-        row.className = "player";
+if(playerRole==="OWNER")
+role.classList.add("owner");
 
+if(playerRole==="CO-OWNER")
+role.classList.add("coowner");
 
-        const name =
-            document.createElement("span");
+if(playerRole==="ADMIN")
+role.classList.add("admin");
 
-        name.textContent =
-            player.nickname || "Unknown";
+if(playerRole==="DEVELOPER")
+role.classList.add("developer");
 
+row.appendChild(name);
+row.appendChild(role);
 
-        const role =
-            document.createElement("span");
+if(isOwner){
 
-        role.className = "role";
+row.style.cursor="pointer";
 
+row.title=
+"Click to select "+(player.nickname||"player");
 
-        role.textContent =
-            player.admin
-                ? "👑 ADMIN"
-                : "PLAYER";
+row.addEventListener("click",()=>{
 
+document.getElementById("ownerTarget")
+.value=player.id;
 
-        if(player.admin)
-            role.classList.add("admin");
+showToast(
+"🎯 Selected "+(player.nickname||"player")
+);
 
+});
 
-        row.appendChild(name);
+}
 
-        row.appendChild(role);
+container.appendChild(row);
 
-        container.appendChild(row);
-
-    });
+});
 
 }
 
 
-/* =========================================
-   TOAST
-========================================= */
+/* OWNER ROLE MANAGEMENT */
 
-let toastTimer = null;
+function setRole(role){
+
+if(!isOwner){
+
+showToast("❌ Owner access required.");
+
+return;
+}
+
+const target=
+document.getElementById("ownerTarget")
+.value.trim();
+
+if(!target){
+
+showToast(
+"⚠️ Click a player in the list first."
+);
+
+return;
+}
+
+socket.send(JSON.stringify({
+
+type:"ownerRole",
+playerId:target,
+role:role
+
+}));
+
+}
+
+
+function removeRole(){
+
+if(!isOwner){
+
+showToast("❌ Owner access required.");
+
+return;
+}
+
+const target=
+document.getElementById("ownerTarget")
+.value.trim();
+
+if(!target){
+
+showToast(
+"⚠️ Select a player first."
+);
+
+return;
+}
+
+socket.send(JSON.stringify({
+
+type:"removeRole",
+playerId:target
+
+}));
+
+}
+
+
+/* TOAST */
 
 function showToast(message){
 
-    const toast =
-        document.getElementById("toast");
+const toast=
+document.getElementById("toast");
 
+toast.textContent=message;
 
-    toast.textContent = message;
+toast.classList.add("show");
 
+clearTimeout(toastTimer);
 
-    toast.classList.add("show");
+toastTimer=
+setTimeout(()=>{
 
+toast.classList.remove("show");
 
-    clearTimeout(toastTimer);
-
-
-    toastTimer =
-        setTimeout(() => {
-
-            toast.classList.remove("show");
-
-        },3000);
+},3000);
 
 }
 
 
-/* =========================================
-   ENTER KEY SUPPORT
-========================================= */
+/* ENTER */
 
 document.getElementById("nicknameInput")
-    .addEventListener("keydown", e => {
+.addEventListener("keydown",e=>{
 
-        if(e.key === "Enter")
-            submitNickname();
+if(e.key==="Enter")
+submitNickname();
 
-    });
-
+});
 
 document.getElementById("adminPassword")
-    .addEventListener("keydown", e => {
+.addEventListener("keydown",e=>{
 
-        if(e.key === "Enter")
-            loginAdmin();
+if(e.key==="Enter")
+loginAdmin();
 
-    });
+});
+
+document.getElementById("ownerPassword")
+.addEventListener("keydown",e=>{
+
+if(e.key==="Enter")
+loginOwner();
+
+});
 
 
-/* =========================================
-   START
-========================================= */
+/* START */
 
 updateNickname();
-
 updateCookies();
-
+updateRole("PLAYER");
 
 if(nickname){
 
-    document.getElementById("nicknameModal")
-        .classList.add("hidden");
+document.getElementById("nicknameModal")
+.classList.add("hidden");
 
 }else{
 
-    document.getElementById("nicknameModal")
-        .classList.remove("hidden");
+document.getElementById("nicknameModal")
+.classList.remove("hidden");
 
 }
-
 
 connect();
 
@@ -1555,4 +1767,3 @@ connect();
 
 </body>
 </html>
-
