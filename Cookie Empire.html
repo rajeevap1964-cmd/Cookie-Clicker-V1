@@ -1,18 +1,12 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>🍪 Cookie Empire</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -20,1875 +14,808 @@
 }
 
 :root{
-
     --bg:#080301;
     --panel:#140804;
     --panel2:#211006;
-    --border:#633617;
-
-    --gold:#ffd477;
-    --gold2:#ffad32;
-
-    --text:#fff4df;
-    --muted:#b99d80;
-
-    --red:#ff4d4d;
-    --green:#56ff91;
-    --blue:#65baff;
-    --purple:#b77cff;
+    --border:#5b2a0e;
+    --gold:#ffb52e;
+    --gold2:#ffd86b;
+    --orange:#ff7b19;
+    --red:#ff3b1f;
+    --green:#39e66b;
+    --text:#fff3dc;
+    --muted:#a98c70;
 }
 
 body{
-
     min-height:100vh;
-
     background:
-        radial-gradient(
-            circle at top,
-            #32170a 0%,
-            #120602 35%,
-            #080301 75%
-        );
-
+        radial-gradient(circle at top,#351507 0%,#120702 35%,#050201 100%);
     color:var(--text);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
 
-/* ================================================
-   NICKNAME SCREEN
-================================================ */
-
-#nicknameScreen{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:9999;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:
-        radial-gradient(
-            circle,
-            #3a1b08,
-            #100502 65%,
-            #050201
-        );
+button,input{
+    font:inherit;
 }
 
-.nicknameBox{
-
-    width:min(450px,90%);
-
-    padding:40px;
-
-    border:1px solid var(--border);
-
-    border-radius:24px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(35,15,7,.98),
-            rgba(12,4,2,.98)
-        );
-
-    box-shadow:
-        0 0 60px rgba(255,170,50,.15),
-        inset 0 0 40px rgba(255,150,50,.04);
-
-    text-align:center;
-}
-
-.nicknameCookie{
-
-    font-size:80px;
-
-    filter:
-        drop-shadow(
-            0 0 20px
-            rgba(255,200,80,.35)
-        );
-
-    animation:
-        cookieFloat 2s ease-in-out infinite;
-}
-
-@keyframes cookieFloat{
-
-    0%,100%{
-        transform:translateY(0)
-        rotate(-2deg);
-    }
-
-    50%{
-        transform:translateY(-8px)
-        rotate(2deg);
-    }
-}
-
-.nicknameBox h1{
-
-    margin-top:10px;
-
-    color:var(--gold);
-
-    font-size:34px;
-}
-
-.nicknameBox p{
-
-    margin-top:8px;
-
-    color:var(--muted);
-
-    font-size:14px;
-}
-
-.nicknameInput{
-
-    width:100%;
-
-    margin-top:25px;
-
-    padding:16px 18px;
-
-    border-radius:12px;
-
-    border:1px solid var(--border);
-
-    outline:none;
-
-    background:#090302;
-
-    color:white;
-
-    font-size:17px;
-
-    text-align:center;
-}
-
-.nicknameInput:focus{
-
-    border-color:var(--gold);
-
-    box-shadow:
-        0 0 20px
-        rgba(255,190,80,.12);
-}
-
-.nicknameButton{
-
-    width:100%;
-
-    margin-top:14px;
-
-    padding:15px;
-
-    border:0;
-
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffd477,
-            #ff9f22
-        );
-
-    color:#1b0901;
-
-    font-size:17px;
-
-    font-weight:900;
-
+button{
     cursor:pointer;
-
-    transition:.2s;
 }
-
-.nicknameButton:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 10px 30px
-        rgba(255,170,40,.25);
-}
-
-.nicknameError{
-
-    min-height:20px;
-
-    margin-top:12px;
-
-    color:var(--red);
-
-    font-size:13px;
-}
-
-/* ================================================
-   APP
-================================================ */
-
-#app{
-
-    display:none;
-
-    min-height:100vh;
-}
-
-/* ================================================
-   HEADER
-================================================ */
 
 .header{
-
-    height:72px;
-
+    height:76px;
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
-    padding:0 22px;
-
+    padding:0 25px;
     border-bottom:1px solid var(--border);
-
-    background:
-        rgba(15,5,2,.9);
-
-    backdrop-filter:blur(15px);
-
+    background:rgba(15,5,2,.95);
+    box-shadow:0 5px 30px rgba(0,0,0,.5);
     position:sticky;
-
     top:0;
-
-    z-index:100;
+    z-index:50;
 }
 
 .logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-size:21px;
-
-    font-weight:1000;
-
+    font-size:25px;
+    font-weight:900;
     color:var(--gold);
+    text-shadow:0 0 18px rgba(255,181,46,.4);
 }
 
-.logo span{
-
-    font-size:30px;
-}
-
-.headerRight{
-
+.status{
     display:flex;
-
     align-items:center;
-
     gap:10px;
+    color:#ddd;
+    font-size:14px;
 }
 
-.nickDisplay{
-
-    padding:8px 12px;
-
-    border-radius:9px;
-
-    background:#211006;
-
-    border:1px solid var(--border);
-
-    color:var(--gold);
-
-    font-size:13px;
-
-    font-weight:bold;
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#e33;
+    box-shadow:0 0 10px #e33;
 }
 
-.roleBadge{
-
-    display:none;
-
-    padding:7px 10px;
-
-    border-radius:9px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffdd73,
-            #d58b16
-        );
-
-    color:#180800;
-
-    font-size:11px;
-
-    font-weight:1000;
-
-    box-shadow:
-        0 0 15px
-        rgba(255,190,60,.2);
-}
-
-/* ================================================
-   MAIN
-================================================ */
-
-.main{
-
-    width:min(1300px,96%);
-
-    margin:0 auto;
-
-    padding:25px 0 50px;
+.dot.online{
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
 }
 
 .layout{
-
+    width:min(1400px,96%);
+    margin:22px auto;
     display:grid;
-
-    grid-template-columns:
-        1fr
-        350px;
-
-    gap:20px;
-}
-
-/* ================================================
-   GAME PANEL
-================================================ */
-
-.gamePanel{
-
-    min-height:650px;
-
-    padding:35px;
-
-    border:1px solid var(--border);
-
-    border-radius:22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(32,14,6,.96),
-            rgba(14,5,2,.96)
-        );
-
-    box-shadow:
-        0 20px 70px
-        rgba(0,0,0,.3);
-
-    text-align:center;
-}
-
-.cookieCount{
-
-    color:var(--gold);
-
-    font-size:
-        clamp(42px,7vw,75px);
-
-    font-weight:1000;
-
-    text-shadow:
-        0 0 25px
-        rgba(255,190,60,.15);
-}
-
-.cookieLabel{
-
-    margin-top:3px;
-
-    color:var(--muted);
-
-    font-size:13px;
-
-    text-transform:uppercase;
-
-    letter-spacing:3px;
-}
-
-.cookieButton{
-
-    width:270px;
-
-    height:270px;
-
-    max-width:75vw;
-
-    margin:55px auto 35px;
-
-    border-radius:50%;
-
-    border:8px solid #7b451d;
-
-    background:
-        radial-gradient(
-            circle at 32% 27%,
-            #f6c477,
-            #bd702d 55%,
-            #71350e 100%
-        );
-
-    box-shadow:
-
-        inset
-        -20px -25px 35px
-        rgba(70,25,3,.35),
-
-        inset
-        12px 10px 25px
-        rgba(255,230,170,.25),
-
-        0 20px 50px
-        rgba(0,0,0,.4),
-
-        0 0 40px
-        rgba(255,150,40,.08);
-
-    cursor:pointer;
-
-    position:relative;
-
-    transition:
-        transform .06s,
-        filter .15s;
-}
-
-.cookieButton:hover{
-
-    filter:
-        brightness(1.08);
-}
-
-.cookieButton:active{
-
-    transform:
-        scale(.94);
-}
-
-.chip{
-
-    position:absolute;
-
-    width:15px;
-
-    height:11px;
-
-    border-radius:50%;
-
-    background:#542407;
-
-    box-shadow:
-        inset 2px 2px 2px
-        rgba(255,190,100,.15);
-}
-
-.c1{top:24%;left:27%}
-.c2{top:38%;left:58%}
-.c3{top:57%;left:31%}
-.c4{top:68%;left:63%}
-.c5{top:73%;left:44%}
-.c6{top:28%;left:68%}
-.c7{top:51%;left:72%}
-.c8{top:46%;left:18%}
-
-.cookieEmoji{
-
-    font-size:130px;
-
-    filter:
-        drop-shadow(
-            0 8px 10px
-            rgba(60,20,0,.25)
-        );
-
-    pointer-events:none;
-}
-
-.stats{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:12px;
-
-    max-width:650px;
-
-    margin:auto;
-}
-
-.stat{
-
-    padding:17px 10px;
-
-    border-radius:13px;
-
-    background:#160904;
-
-    border:1px solid #47230f;
-}
-
-.statTitle{
-
-    color:var(--muted);
-
-    font-size:11px;
-
-    text-transform:uppercase;
-}
-
-.statValue{
-
-    margin-top:5px;
-
-    color:white;
-
-    font-size:22px;
-
-    font-weight:900;
-}
-
-.statValue.gold{
-
-    color:var(--gold);
-}
-
-/* ================================================
-   SIDE PANEL
-================================================ */
-
-.sidePanel{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-}
-
-.card{
-
-    padding:20px;
-
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #211006,
-            #100502
-        );
-
-    border:1px solid var(--border);
-}
-
-.cardTitle{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:15px;
-
-    color:var(--gold);
-
-    font-weight:900;
-}
-
-/* ================================================
-   PLAYER LIST
-================================================ */
-
-.playerList{
-
-    max-height:420px;
-
-    overflow-y:auto;
-}
-
-.player{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:8px;
-
-    padding:12px;
-
-    margin-bottom:8px;
-
-    border-radius:11px;
-
-    background:#120603;
-
-    border:1px solid #3d1c0d;
-}
-
-.playerLeft{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    min-width:0;
-}
-
-.playerAvatar{
-
-    width:31px;
-
-    height:31px;
-
-    flex-shrink:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:#39200d;
-
-    font-size:15px;
-}
-
-.playerName{
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    white-space:nowrap;
-
-    font-size:13px;
-
-    font-weight:bold;
-}
-
-.playerRole{
-
-    margin-left:5px;
-
-    color:var(--gold);
-
-    font-size:10px;
-
-    font-weight:1000;
-}
-
-.youTag{
-
-    color:var(--green);
-
-    font-size:9px;
-
-    margin-left:5px;
-}
-
-.playerCookies{
-
-    color:var(--muted);
-
-    font-size:10px;
-
-    white-space:nowrap;
-}
-
-.empty{
-
-    padding:20px;
-
-    color:var(--muted);
-
-    text-align:center;
-
-    font-size:13px;
-}
-
-/* ================================================
-   BUTTONS
-================================================ */
-
-.btn{
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    padding:10px 13px;
-
-    background:#170803;
-
-    color:white;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:.15s;
-}
-
-.btn:hover{
-
-    border-color:var(--gold);
-
-    transform:translateY(-1px);
-}
-
-.btn.gold{
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffd477,
-            #e99525
-        );
-
-    color:#1a0800;
-
-    border:0;
-}
-
-.btn.red{
-
-    background:#35100d;
-
-    color:#ff7c72;
-
-    border-color:#6e221c;
-}
-
-.btn.blue{
-
-    background:#0b1f32;
-
-    color:#6ebeff;
-
-    border-color:#174b75;
-}
-
-.btn.green{
-
-    background:#0a2818;
-
-    color:#61ff9a;
-
-    border-color:#185e37;
-}
-
-/* ================================================
-   PANELS
-================================================ */
-
-.overlay{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:5000;
-
-    display:none;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:20px;
-
-    background:
-        rgba(0,0,0,.78);
-
-    backdrop-filter:blur(8px);
+    grid-template-columns:250px 1fr 300px;
+    gap:18px;
 }
 
 .panel{
-
-    width:min(900px,96vw);
-
-    max-height:90vh;
-
-    overflow:auto;
-
-    padding:25px;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #241006,
-            #0d0402
-        );
-
+    background:linear-gradient(180deg,rgba(33,16,6,.96),rgba(15,6,2,.96));
     border:1px solid var(--border);
-
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.6);
+    border-radius:15px;
+    box-shadow:0 15px 45px rgba(0,0,0,.35);
 }
 
-.panelHeader{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-}
-
-.panelHeader h2{
-
+.panel-title{
+    padding:16px;
+    border-bottom:1px solid var(--border);
     color:var(--gold);
+    font-size:16px;
+    font-weight:900;
 }
 
-.closeBtn{
+.side-content{
+    padding:15px;
+}
 
-    width:35px;
-
-    height:35px;
-
+.stat{
+    padding:13px;
+    border:1px solid #47200c;
     border-radius:10px;
+    margin-bottom:10px;
+    background:rgba(0,0,0,.18);
+}
 
-    border:1px solid var(--border);
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:5px;
+}
 
-    background:#160703;
+.stat-value{
+    font-size:19px;
+    font-weight:900;
+}
 
-    color:white;
+.player-name{
+    color:var(--gold2);
+    word-break:break-word;
+}
 
-    cursor:pointer;
+.game{
+    min-height:650px;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
 
+.welcome{
     font-size:18px;
+    color:#e9cda9;
+    margin-top:3px;
 }
 
-/* ================================================
-   ADMIN GRID
-================================================ */
-
-.adminGrid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:15px;
+.cookies{
+    font-size:54px;
+    font-weight:900;
+    margin-top:10px;
+    color:var(--gold2);
+    text-shadow:0 0 20px rgba(255,181,46,.25);
 }
 
-.adminCard{
-
-    padding:18px;
-
-    border-radius:14px;
-
-    background:#130603;
-
-    border:1px solid #48230f;
+.cps{
+    color:var(--muted);
+    margin-top:4px;
 }
 
-.adminCard h3{
+.cookie-wrap{
+    width:330px;
+    height:330px;
+    margin:35px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
+.cookie{
+    width:265px;
+    height:265px;
+    border-radius:50%;
+    border:10px solid #7d3d10;
+    background:
+        radial-gradient(circle at 30% 25%,#ffd37a,#d88724 40%,#8e4311 100%);
+    box-shadow:
+        inset -15px -20px 30px rgba(75,28,3,.5),
+        inset 10px 10px 25px rgba(255,232,164,.45),
+        0 0 45px rgba(255,135,26,.25);
+    position:relative;
+    transition:.08s;
+    user-select:none;
+}
+
+.cookie:active{
+    transform:scale(.93);
+}
+
+.chip{
+    position:absolute;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#5c2609;
+    box-shadow:inset 3px 3px 5px rgba(255,190,80,.15);
+}
+
+.c1{left:48px;top:60px}
+.c2{left:125px;top:35px}
+.c3{right:45px;top:78px}
+.c4{left:75px;top:145px}
+.c5{right:80px;top:145px}
+.c6{left:140px;bottom:45px}
+.c7{right:38px;bottom:55px}
+.c8{left:38px;bottom:80px}
+
+.click-text{
+    color:#b9956e;
+    font-size:13px;
+}
+
+.admin-btn{
+    width:100%;
+    margin-top:12px;
+    padding:11px;
+    border-radius:9px;
+    border:1px solid #71400e;
+    background:#251005;
     color:var(--gold);
+    font-weight:800;
+}
 
-    margin-bottom:12px;
+.admin-btn:hover{
+    background:#391707;
+}
+
+.admin{
+    display:none;
+}
+
+.admin.show{
+    display:block;
+}
+
+.event{
+    display:none;
+    margin:0 auto 15px;
+    padding:12px 17px;
+    width:min(700px,100%);
+    border-radius:10px;
+    border:1px solid #8c4c12;
+    background:rgba(255,133,19,.12);
+    color:var(--gold2);
+    font-weight:900;
+    animation:pulse 1s infinite alternate;
+}
+
+@keyframes pulse{
+    from{box-shadow:0 0 5px rgba(255,160,30,.1)}
+    to{box-shadow:0 0 25px rgba(255,160,30,.3)}
+}
+
+.announcement{
+    display:none;
+    width:min(700px,100%);
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:9px;
+    background:#251205;
+    border:1px solid #67400f;
+    color:#ffe3a1;
+}
+
+.admin-panel{
+    padding:15px;
 }
 
 .input{
-
     width:100%;
-
-    padding:12px;
-
+    padding:11px;
     margin-bottom:9px;
-
-    border-radius:9px;
-
-    border:1px solid #533018;
-
-    background:#080302;
-
+    background:#0b0301;
     color:white;
-
+    border:1px solid #5b2a0e;
+    border-radius:8px;
     outline:none;
 }
 
 .input:focus{
-
     border-color:var(--gold);
 }
 
-.buttonRow{
-
-    display:flex;
-
+.event-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
     gap:8px;
-
-    flex-wrap:wrap;
 }
 
-/* ================================================
-   LOGIN
-================================================ */
+.event-btn{
+    padding:10px 6px;
+    border-radius:8px;
+    border:1px solid #69330d;
+    background:#1c0903;
+    color:#ffd27a;
+    font-weight:800;
+    font-size:12px;
+}
 
-.loginBox{
+.event-btn:hover{
+    background:#341406;
+    border-color:#a75b16;
+}
 
-    width:min(420px,95vw);
+.stop{
+    color:#ff735e;
+}
 
-    padding:30px;
+.player-list{
+    max-height:350px;
+    overflow:auto;
+    padding:10px;
+}
 
-    border-radius:20px;
+.player{
+    padding:10px;
+    border-bottom:1px solid #3b1909;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:13px;
+}
 
-    background:#180904;
+.role{
+    color:#aaa;
+    font-size:11px;
+}
 
-    border:1px solid var(--border);
+.role.admin{
+    display:inline;
+    color:var(--gold);
+}
 
+.login{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.86);
+    backdrop-filter:blur(7px);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login.hidden{
+    display:none;
+}
+
+.login-box{
+    width:min(420px,100%);
+    padding:28px;
+    border-radius:17px;
+    background:linear-gradient(180deg,#281106,#100402);
+    border:1px solid #70400f;
+    box-shadow:0 25px 80px rgba(0,0,0,.7);
     text-align:center;
 }
 
-.loginBox h2{
-
+.login-box h2{
     color:var(--gold);
-
     margin-bottom:8px;
 }
 
-.loginBox p{
-
-    color:var(--muted);
-
+.login-box p{
+    color:#b99877;
     font-size:13px;
-
     margin-bottom:20px;
 }
 
-.loginError{
+.big-input{
+    width:100%;
+    padding:14px;
+    background:#080201;
+    color:white;
+    border:1px solid #63300c;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:10px;
+}
 
-    color:var(--red);
+.primary{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ffb52e,#e86d14);
+    color:#170700;
+    font-weight:900;
+}
 
+.error{
+    color:#ff6d55;
     min-height:20px;
-
     margin-top:10px;
-
     font-size:13px;
 }
 
-/* ================================================
-   TOAST
-================================================ */
-
-#toastContainer{
-
-    position:fixed;
-
-    right:18px;
-
-    bottom:18px;
-
-    z-index:10000;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:9px;
-}
-
 .toast{
-
-    min-width:240px;
-
-    max-width:350px;
-
-    padding:13px 15px;
-
-    border-radius:12px;
-
-    border:1px solid var(--border);
-
-    background:#1d0b04;
-
-    color:white;
-
-    box-shadow:
-        0 10px 35px
-        rgba(0,0,0,.4);
-
-    animation:
-        toastIn .2s ease;
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(100px);
+    background:#241006;
+    border:1px solid #76410e;
+    padding:13px 20px;
+    border-radius:10px;
+    color:#ffe2a4;
+    font-weight:800;
+    z-index:200;
+    transition:.25s;
 }
 
-@keyframes toastIn{
-
-    from{
-        opacity:0;
-        transform:translateX(20px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateX(0);
-    }
+.toast.show{
+    transform:translateX(-50%) translateY(0);
 }
 
-/* ================================================
-   RESPONSIVE
-================================================ */
-
-@media(max-width:900px){
-
+@media(max-width:1000px){
     .layout{
-
         grid-template-columns:1fr;
     }
 
-    .sidePanel{
+    .game{
+        min-height:auto;
+    }
 
-        display:grid;
-
-        grid-template-columns:
-            repeat(2,1fr);
+    .cookie-wrap{
+        width:280px;
+        height:280px;
     }
 }
 
-@media(max-width:600px){
-
+@media(max-width:500px){
     .header{
-
-        padding:0 12px;
+        padding:0 13px;
     }
 
     .logo{
-
-        font-size:16px;
+        font-size:18px;
     }
 
-    .nickDisplay{
-
-        display:none;
+    .status{
+        font-size:11px;
     }
 
-    .gamePanel{
-
-        padding:22px 12px;
+    .game{
+        padding:18px;
     }
 
-    .cookieButton{
-
-        width:230px;
-
-        height:230px;
+    .cookie{
+        width:220px;
+        height:220px;
     }
 
-    .cookieEmoji{
-
-        font-size:105px;
-    }
-
-    .stats{
-
-        grid-template-columns:1fr;
-    }
-
-    .sidePanel{
-
-        display:flex;
-    }
-
-    .adminGrid{
-
-        grid-template-columns:1fr;
+    .cookie-wrap{
+        width:240px;
+        height:240px;
     }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- ================================================
-     NICKNAME SCREEN
-================================================ -->
+<header class="header">
+    <div class="logo">🍪 COOKIE EMPIRE</div>
 
-<div id="nicknameScreen">
+    <div class="status">
+        <span id="statusDot" class="dot"></span>
+        <span id="connectionText">Connecting...</span>
+        <span>•</span>
+        <span>👥 <b id="online">0</b></span>
+    </div>
+</header>
 
-    <div class="nicknameBox">
+<div class="layout">
 
-        <div class="nicknameCookie">🍪</div>
+<!-- LEFT -->
+<aside class="panel">
 
-        <h1>Cookie Empire</h1>
+    <div class="panel-title">👤 PLAYER</div>
 
-        <p>Choose your Empire nickname</p>
+    <div class="side-content">
+
+        <div class="stat">
+            <div class="stat-label">NICKNAME</div>
+            <div id="nicknameDisplay" class="stat-value player-name">
+                Unknown
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">COOKIES</div>
+            <div id="sideCookies" class="stat-value">
+                0
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">COOKIES PER SECOND</div>
+            <div id="sideCps" class="stat-value">
+                0
+            </div>
+        </div>
+
+        <button class="admin-btn" onclick="openAdmin()">
+            👑 Admin Panel
+        </button>
+
+    </div>
+</aside>
+
+
+<!-- CENTER -->
+<main class="panel game">
+
+    <div id="announcement" class="announcement"></div>
+
+    <div id="event" class="event"></div>
+
+    <div class="welcome">
+        Welcome, <b id="welcomeName">Unknown</b>!
+    </div>
+
+    <div id="cookies" class="cookies">
+        0
+    </div>
+
+    <div class="cps">
+        🍪 cookies
+        &nbsp; • &nbsp;
+        <span id="cps">0</span> CPS
+    </div>
+
+    <div class="cookie-wrap">
+        <button id="cookie" class="cookie" aria-label="Click cookie">
+            <span class="chip c1"></span>
+            <span class="chip c2"></span>
+            <span class="chip c3"></span>
+            <span class="chip c4"></span>
+            <span class="chip c5"></span>
+            <span class="chip c6"></span>
+            <span class="chip c7"></span>
+            <span class="chip c8"></span>
+        </button>
+    </div>
+
+    <div class="click-text">
+        CLICK THE COOKIE TO BUILD YOUR EMPIRE
+    </div>
+
+</main>
+
+
+<!-- RIGHT -->
+<aside>
+
+    <div class="panel admin">
+        <div class="panel-title">👑 ADMIN ABUSE</div>
+
+        <div class="admin-panel">
+
+            <div class="event-grid">
+
+                <button class="event-btn"
+                    onclick="adminEvent('cookieRain')">
+                    🌧️ Cookie Rain
+                </button>
+
+                <button class="event-btn"
+                    onclick="adminEvent('frenzy')">
+                    ⚡ ×100 Frenzy
+                </button>
+
+                <button class="event-btn"
+                    onclick="adminEvent('goldenStorm')">
+                    🌟 Golden Storm
+                </button>
+
+                <button class="event-btn"
+                    onclick="adminEvent('glitch')">
+                    🌀 Glitch
+                </button>
+
+                <button class="event-btn"
+                    onclick="adminEvent('apocalypse')">
+                    ☠️ Apocalypse
+                </button>
+
+                <button class="event-btn"
+                    onclick="adminEvent('megaReward')">
+                    💰 +1B Everyone
+                </button>
+
+                <button class="event-btn stop"
+                    onclick="adminEvent('stop')">
+                    🛑 Stop Event
+                </button>
+
+            </div>
+
+            <br>
+
+            <input
+                id="announcementInput"
+                class="input"
+                maxlength="200"
+                placeholder="Global announcement..."
+            >
+
+            <button
+                class="event-btn"
+                style="width:100%"
+                onclick="sendAnnouncement()">
+                📢 Send Global Announcement
+            </button>
+
+        </div>
+    </div>
+
+
+    <div class="panel" style="margin-top:18px">
+
+        <div class="panel-title">
+            👥 PLAYERS
+        </div>
+
+        <div id="players" class="player-list">
+            <div class="player">
+                <span>Waiting for players...</span>
+            </div>
+        </div>
+
+    </div>
+
+</aside>
+
+</div>
+
+
+<!-- NICKNAME -->
+
+<div id="nicknameModal" class="login">
+
+    <div class="login-box">
+
+        <h2>🍪 Welcome to Cookie Empire</h2>
+
+        <p>
+            Choose your nickname to enter the empire.
+        </p>
 
         <input
             id="nicknameInput"
-            class="nicknameInput"
+            class="big-input"
             maxlength="20"
             placeholder="Nickname:"
             autocomplete="off"
         >
 
         <button
-            class="nicknameButton"
-            onclick="joinGame()"
-        >
-            ENTER EMPIRE
+            class="primary"
+            onclick="submitNickname()">
+            ENTER EMPIRE 👑
         </button>
 
-        <div
-            id="nicknameError"
-            class="nicknameError"
-        ></div>
+        <div id="nicknameError" class="error"></div>
 
     </div>
 
 </div>
 
-<!-- ================================================
-     MAIN APP
-================================================ -->
 
-<div id="app">
+<!-- ADMIN LOGIN -->
 
-    <header class="header">
+<div id="adminModal" class="login hidden">
 
-        <div class="logo">
-            <span>🍪</span>
-            COOKIE EMPIRE
-        </div>
+    <div class="login-box">
 
-        <div class="headerRight">
+        <h2>👑 Admin Login</h2>
 
-            <div
-                id="roleBadge"
-                class="roleBadge"
-            >
-                👑 OWNER
-            </div>
-
-            <div
-                id="nickDisplay"
-                class="nickDisplay"
-            >
-                Guest
-            </div>
-
-            <button
-                class="btn"
-                onclick="openAdminLogin()"
-            >
-                🛡️ Admin
-            </button>
-
-            <button
-                class="btn gold"
-                onclick="openOwnerLogin()"
-            >
-                👑 Owner
-            </button>
-
-        </div>
-
-    </header>
-
-    <main class="main">
-
-        <div class="layout">
-
-            <!-- =====================================
-                 GAME
-            ====================================== -->
-
-            <section class="gamePanel">
-
-                <div
-                    id="cookieCount"
-                    class="cookieCount"
-                >
-                    0
-                </div>
-
-                <div class="cookieLabel">
-                    Cookies
-                </div>
-
-                <button
-                    id="cookieButton"
-                    class="cookieButton"
-                    onclick="clickCookie()"
-                >
-
-                    <span class="cookieEmoji">
-                        🍪
-                    </span>
-
-                    <i class="chip c1"></i>
-                    <i class="chip c2"></i>
-                    <i class="chip c3"></i>
-                    <i class="chip c4"></i>
-                    <i class="chip c5"></i>
-                    <i class="chip c6"></i>
-                    <i class="chip c7"></i>
-                    <i class="chip c8"></i>
-
-                </button>
-
-                <div class="stats">
-
-                    <div class="stat">
-
-                        <div class="statTitle">
-                            Cash
-                        </div>
-
-                        <div
-                            id="cash"
-                            class="statValue gold"
-                        >
-                            $0
-                        </div>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <div class="statTitle">
-                            CPS
-                        </div>
-
-                        <div
-                            id="cps"
-                            class="statValue"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <div class="statTitle">
-                            Players
-                        </div>
-
-                        <div
-                            id="playerCount"
-                            class="statValue"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- =====================================
-                 SIDE
-            ====================================== -->
-
-            <aside class="sidePanel">
-
-                <div class="card">
-
-                    <div class="cardTitle">
-
-                        <span>
-                            👥 Players
-                        </span>
-
-                        <span
-                            id="onlineText"
-                            style="font-size:11px;color:#b99d80"
-                        >
-                            0 online
-                        </span>
-
-                    </div>
-
-                    <div
-                        id="playerList"
-                        class="playerList"
-                    >
-                        <div class="empty">
-                            Connecting...
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="card">
-
-                    <div class="cardTitle">
-                        📢 Empire News
-                    </div>
-
-                    <div
-                        id="announcement"
-                        style="
-                            color:#b99d80;
-                            font-size:13px;
-                            line-height:1.5;
-                        "
-                    >
-                        Welcome to Cookie Empire!
-                    </div>
-
-                </div>
-
-            </aside>
-
-        </div>
-
-    </main>
-
-</div>
-
-<!-- ================================================
-     LOGIN OVERLAY
-================================================ -->
-
-<div
-    id="loginOverlay"
-    class="overlay"
->
-
-    <div class="loginBox">
-
-        <h2 id="loginTitle">
-            Admin Login
-        </h2>
-
-        <p id="loginDescription">
-            Enter your password.
+        <p>
+            Enter the administrator password.
         </p>
 
         <input
-            id="loginPassword"
-            class="input"
+            id="adminPassword"
+            class="big-input"
             type="password"
-            placeholder="Password"
-            onkeydown="
-                if(event.key==='Enter'){
-                    submitLogin();
-                }
-            "
+            placeholder="Admin Password"
         >
 
-        <div class="buttonRow">
+        <button
+            class="primary"
+            onclick="loginAdmin()">
+            LOGIN
+        </button>
 
-            <button
-                class="btn gold"
-                onclick="submitLogin()"
-            >
-                LOGIN
-            </button>
+        <div id="adminError" class="error"></div>
 
-            <button
-                class="btn"
-                onclick="closeLogin()"
-            >
-                CANCEL
-            </button>
-
-        </div>
-
-        <div
-            id="loginError"
-            class="loginError"
-        ></div>
+        <button
+            class="admin-btn"
+            onclick="closeAdmin()">
+            Cancel
+        </button>
 
     </div>
 
 </div>
 
-<!-- ================================================
-     ADMIN PANEL
-================================================ -->
+<div id="toast" class="toast"></div>
 
-<div
-    id="adminOverlay"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panelHeader">
-
-            <h2>
-                🛡️ Admin Panel
-            </h2>
-
-            <button
-                class="closeBtn"
-                onclick="closePanel('adminOverlay')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <div class="adminGrid">
-
-            <div class="adminCard">
-
-                <h3>
-                    📢 Announcement
-                </h3>
-
-                <input
-                    id="announceInput"
-                    class="input"
-                    maxlength="250"
-                    placeholder="Message everyone..."
-                >
-
-                <button
-                    class="btn gold"
-                    onclick="sendAnnouncement()"
-                >
-                    SEND ANNOUNCEMENT
-                </button>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    🍪 Give Cookies
-                </h3>
-
-                <select
-                    id="cookiePlayer"
-                    class="input"
-                >
-                </select>
-
-                <input
-                    id="cookieAmount"
-                    class="input"
-                    type="number"
-                    value="100"
-                    placeholder="Amount"
-                >
-
-                <button
-                    class="btn gold"
-                    onclick="giveCookies()"
-                >
-                    GIVE COOKIES
-                </button>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    💰 Give Cash
-                </h3>
-
-                <select
-                    id="cashPlayer"
-                    class="input"
-                >
-                </select>
-
-                <input
-                    id="cashAmount"
-                    class="input"
-                    type="number"
-                    value="100"
-                    placeholder="Amount"
-                >
-
-                <button
-                    class="btn gold"
-                    onclick="giveCash()"
-                >
-                    GIVE CASH
-                </button>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    👤 Player Controls
-                </h3>
-
-                <select
-                    id="controlPlayer"
-                    class="input"
-                >
-                </select>
-
-                <div class="buttonRow">
-
-                    <button
-                        class="btn red"
-                        onclick="kickPlayer()"
-                    >
-                        KICK
-                    </button>
-
-                    <button
-                        class="btn"
-                        onclick="resetPlayer()"
-                    >
-                        RESET
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ================================================
-     OWNER PANEL
-================================================ -->
-
-<div
-    id="ownerOverlay"
-    class="overlay"
->
-
-    <div class="panel">
-
-        <div class="panelHeader">
-
-            <h2>
-                👑 Owner Panel
-            </h2>
-
-            <button
-                class="closeBtn"
-                onclick="closePanel('ownerOverlay')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <div class="adminGrid">
-
-            <div class="adminCard">
-
-                <h3>
-                    👑 Owner Role
-                </h3>
-
-                <p
-                    style="
-                        color:#b99d80;
-                        font-size:12px;
-                        margin-bottom:14px;
-                    "
-                >
-                    Give or remove the Owner badge
-                    shown in the player list.
-                </p>
-
-                <select
-                    id="ownerPlayer"
-                    class="input"
-                >
-                </select>
-
-                <div class="buttonRow">
-
-                    <button
-                        class="btn gold"
-                        onclick="setOwnerRole(true)"
-                    >
-                        👑 GIVE OWNER
-                    </button>
-
-                    <button
-                        class="btn"
-                        onclick="setOwnerRole(false)"
-                    >
-                        REMOVE OWNER
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    🔨 Moderation
-                </h3>
-
-                <select
-                    id="ownerControlPlayer"
-                    class="input"
-                >
-                </select>
-
-                <div class="buttonRow">
-
-                    <button
-                        class="btn red"
-                        onclick="ownerKick()"
-                    >
-                        KICK
-                    </button>
-
-                    <button
-                        class="btn red"
-                        onclick="banPlayer()"
-                    >
-                        BAN
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    🔓 Unban
-                </h3>
-
-                <input
-                    id="unbanName"
-                    class="input"
-                    placeholder="Nickname to unban"
-                >
-
-                <button
-                    class="btn green"
-                    onclick="unbanPlayer()"
-                >
-                    UNBAN PLAYER
-                </button>
-
-            </div>
-
-            <div class="adminCard">
-
-                <h3>
-                    💥 Server Reset
-                </h3>
-
-                <p
-                    style="
-                        color:#b99d80;
-                        font-size:12px;
-                        margin-bottom:14px;
-                    "
-                >
-                    Resets cookies, cash and CPS
-                    for every online player.
-                </p>
-
-                <button
-                    class="btn red"
-                    onclick="serverReset()"
-                >
-                    RESET ENTIRE EMPIRE
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ================================================
-     TOAST
-================================================ -->
-
-<div id="toastContainer"></div>
 
 <script>
 
-/* ================================================
-   VARIABLES
-================================================ */
+/* =========================================
+   COOKIE EMPIRE CLIENT
+========================================= */
 
 let socket = null;
 
-let myPlayer = null;
+let nickname =
+    localStorage.getItem("cookieEmpireNickname") || "";
 
-let allPlayers = [];
+let cookies =
+    Number(localStorage.getItem("cookieEmpireCookies") || 0);
 
-let loginMode = null;
+let cps = 0;
+
+let multiplier = 1;
+
+let isAdmin = false;
+
+let currentEvent = null;
 
 let reconnectTimer = null;
 
-/* ================================================
-   ELEMENTS
-================================================ */
 
-const nicknameScreen =
-    document.getElementById("nicknameScreen");
+/* =========================================
+   FORMAT NUMBERS
+========================================= */
 
-const nicknameInput =
-    document.getElementById("nicknameInput");
+function formatNumber(num){
 
-const nicknameError =
-    document.getElementById("nicknameError");
+    num = Number(num) || 0;
 
-const app =
-    document.getElementById("app");
+    if(num < 1000)
+        return Math.floor(num).toString();
 
-const cookieCount =
-    document.getElementById("cookieCount");
+    if(num < 1000000)
+        return (num/1000).toFixed(1) + "K";
 
-const cash =
-    document.getElementById("cash");
+    if(num < 1000000000)
+        return (num/1000000).toFixed(1) + "M";
 
-const cps =
-    document.getElementById("cps");
+    if(num < 1000000000000)
+        return (num/1000000000).toFixed(1) + "B";
 
-const playerCount =
-    document.getElementById("playerCount");
-
-const playerList =
-    document.getElementById("playerList");
-
-const nickDisplay =
-    document.getElementById("nickDisplay");
-
-const roleBadge =
-    document.getElementById("roleBadge");
-
-const announcement =
-    document.getElementById("announcement");
-
-const onlineText =
-    document.getElementById("onlineText");
-
-/* ================================================
-   SAVED NICKNAME
-================================================ */
-
-const savedNickname =
-    localStorage.getItem("cookieEmpireNickname");
-
-if(savedNickname){
-
-    nicknameInput.value =
-        savedNickname;
+    return (num/1000000000000).toFixed(1) + "T";
 }
 
-nicknameInput.addEventListener(
-    "keydown",
-    e => {
 
-        if(e.key === "Enter"){
-            joinGame();
-        }
+/* =========================================
+   UPDATE UI
+========================================= */
 
-    }
-);
+function updateCookies(){
 
-/* ================================================
-   JOIN
-================================================ */
+    const text = formatNumber(cookies);
 
-function joinGame(){
+    document.getElementById("cookies").textContent = text;
 
-    let nickname =
-        nicknameInput.value.trim();
+    document.getElementById("sideCookies").textContent = text;
 
-    nickname =
-        nickname
-            .replace(/[<>]/g,"")
-            .replace(/\s+/g," ");
+    document.getElementById("cps").textContent =
+        formatNumber(cps * multiplier);
 
-    if(!nickname){
-
-        nicknameError.textContent =
-            "Please enter a nickname.";
-
-        return;
-    }
-
-    if(nickname.length < 1){
-
-        nicknameError.textContent =
-            "Nickname is too short.";
-
-        return;
-    }
-
-    if(nickname.length > 20){
-
-        nicknameError.textContent =
-            "Nickname must be 20 characters or less.";
-
-        return;
-    }
-
-    nicknameError.textContent = "";
+    document.getElementById("sideCps").textContent =
+        formatNumber(cps * multiplier);
 
     localStorage.setItem(
-        "cookieEmpireNickname",
-        nickname
+        "cookieEmpireCookies",
+        String(cookies)
     );
-
-    connect(nickname);
 }
 
-/* ================================================
-   CONNECT
-================================================ */
 
-function connect(nickname){
+function updateNickname(){
 
-    if(socket){
+    document.getElementById("nicknameDisplay")
+        .textContent = nickname || "Unknown";
 
-        try{
-            socket.close();
-        }catch{}
+    document.getElementById("welcomeName")
+        .textContent = nickname || "Unknown";
+}
+
+
+/* =========================================
+   WEBSOCKET CONNECTION
+========================================= */
+
+function connect(){
+
+    if(
+        socket &&
+        (
+            socket.readyState === WebSocket.OPEN ||
+            socket.readyState === WebSocket.CONNECTING
+        )
+    ){
+        return;
     }
 
     const protocol =
@@ -1896,997 +823,736 @@ function connect(nickname){
             ? "wss:"
             : "ws:";
 
-    socket =
-        new WebSocket(
-            protocol +
-            "//" +
-            location.host
-        );
+    const wsUrl =
+        protocol + "//" + location.host;
 
-    socket.addEventListener(
-        "open",
-        () => {
+    try{
 
-            socket.send(
-                JSON.stringify({
-                    type:"join",
-                    nickname:nickname
-                })
-            );
+        socket = new WebSocket(wsUrl);
+
+    }catch(error){
+
+        scheduleReconnect();
+        return;
+
+    }
+
+
+    socket.addEventListener("open", () => {
+
+        document.getElementById("statusDot")
+            .classList.add("online");
+
+        document.getElementById("connectionText")
+            .textContent = "Connected";
+
+        clearTimeout(reconnectTimer);
+
+        showToast("🌎 Connected to Cookie Empire!");
+
+        /*
+         * Re-send saved nickname after every reconnect.
+         */
+        if(nickname){
+
+            socket.send(JSON.stringify({
+                type:"setNickname",
+                nickname:nickname
+            }));
 
         }
-    );
 
-    socket.addEventListener(
-        "message",
-        event => {
+    });
 
-            let data;
 
-            try{
-                data =
-                    JSON.parse(event.data);
-            }catch{
-                return;
+    socket.addEventListener("close", () => {
+
+        document.getElementById("statusDot")
+            .classList.remove("online");
+
+        document.getElementById("connectionText")
+            .textContent = "Disconnected";
+
+        scheduleReconnect();
+
+    });
+
+
+    socket.addEventListener("error", () => {
+
+        document.getElementById("connectionText")
+            .textContent = "Connection Error";
+
+    });
+
+
+    socket.addEventListener("message", event => {
+
+        let data;
+
+        try{
+
+            data = JSON.parse(event.data);
+
+        }catch{
+
+            return;
+
+        }
+
+
+        /* =====================================
+           CONNECTED
+        ===================================== */
+
+        if(data.type === "connected"){
+
+            if(typeof data.online === "number"){
+
+                document.getElementById("online")
+                    .textContent = data.online;
+
             }
 
-            handleMessage(data);
         }
-    );
 
-    socket.addEventListener(
-        "close",
-        () => {
 
-            if(myPlayer){
+        /* =====================================
+           ONLINE COUNT
+        ===================================== */
 
-                showToast(
-                    "Disconnected from server.",
-                    "error"
+        if(data.type === "onlineCount"){
+
+            document.getElementById("online")
+                .textContent = data.count;
+
+        }
+
+
+        /* =====================================
+           NICKNAME
+        ===================================== */
+
+        if(data.type === "nicknameResult"){
+
+            if(data.success){
+
+                nickname = data.nickname;
+
+                localStorage.setItem(
+                    "cookieEmpireNickname",
+                    nickname
                 );
 
-                setTimeout(() => {
+                updateNickname();
 
-                    if(myPlayer){
-                        connect(myPlayer.nickname);
-                    }
+                document.getElementById("nicknameModal")
+                    .classList.add("hidden");
 
-                },3000);
+                document.getElementById("nicknameError")
+                    .textContent = "";
+
+                showToast(
+                    "👤 Welcome, " + nickname + "!"
+                );
+
+            }else{
+
+                document.getElementById("nicknameError")
+                    .textContent =
+                    data.message || "Nickname error.";
+
             }
-        }
-    );
 
-    socket.addEventListener(
-        "error",
-        () => {}
-    );
-}
-
-/* ================================================
-   MESSAGES
-================================================ */
-
-function handleMessage(data){
-
-    if(data.type === "connected"){
-        return;
-    }
-
-    if(data.type === "joinError"){
-
-        nicknameError.textContent =
-            data.message;
-
-        return;
-    }
-
-    if(data.type === "state"){
-
-        myPlayer =
-            data.player;
-
-        allPlayers =
-            data.players || [];
-
-        nicknameScreen.style.display =
-            "none";
-
-        app.style.display =
-            "block";
-
-        updateUI();
-
-        if(data.announcement){
-
-            announcement.textContent =
-                data.announcement;
         }
 
-        return;
-    }
 
-    if(data.type === "players"){
+        /* =====================================
+           ADMIN LOGIN
+        ===================================== */
 
-        allPlayers =
-            data.players || [];
+        if(data.type === "adminLoginResult"){
 
-        updatePlayers();
+            if(data.success){
 
-        updateSelects();
+                isAdmin = true;
 
-        return;
-    }
+                document.querySelector(".admin")
+                    .classList.add("show");
 
-    if(data.type === "announcement"){
+                document.getElementById("adminModal")
+                    .classList.add("hidden");
 
-        announcement.textContent =
-            data.message;
+                document.getElementById("adminError")
+                    .textContent = "";
 
-        showToast(
-            data.message
-        );
+                showToast("👑 Admin Mode Activated!");
 
-        return;
-    }
+            }else{
 
-    if(data.type === "adminLoginResult"){
+                document.getElementById("adminError")
+                    .textContent =
+                    "❌ Incorrect password.";
 
-        if(data.success){
+            }
 
-            closeLogin();
+        }
 
-            document.getElementById(
-                "adminOverlay"
-            ).style.display =
-                "flex";
+
+        /* =====================================
+           PLAYER LIST
+        ===================================== */
+
+        if(data.type === "playerList"){
+
+            renderPlayers(data.players);
+
+        }
+
+
+        /* =====================================
+           GLOBAL EVENT
+        ===================================== */
+
+        if(data.type === "globalEvent"){
+
+            applyEvent(data.event);
+
+        }
+
+
+        /* =====================================
+           ADMIN ANNOUNCEMENT
+        ===================================== */
+
+        if(data.type === "adminAnnouncement"){
+
+            showToast(data.message);
+
+        }
+
+
+        /* =====================================
+           GLOBAL ANNOUNCEMENT
+        ===================================== */
+
+        if(data.type === "announcement"){
+
+            const box =
+                document.getElementById("announcement");
+
+            box.textContent =
+                "📢 " + data.message;
+
+            box.style.display = "block";
+
+        }
+
+
+        /* =====================================
+           GLOBAL REWARD
+        ===================================== */
+
+        if(data.type === "globalReward"){
+
+            const amount =
+                Number(data.amount || 0);
+
+            cookies += amount;
+
+            updateCookies();
 
             showToast(
-                "🛡️ Admin access granted!"
+                "💰 Everyone received " +
+                formatNumber(amount) +
+                " cookies!"
             );
 
-        }else{
-
-            document.getElementById(
-                "loginError"
-            ).textContent =
-                data.message;
         }
 
-        return;
-    }
 
-    if(data.type === "ownerLoginResult"){
+        /* =====================================
+           SERVER ERROR
+        ===================================== */
 
-        if(data.success){
+        if(data.type === "error"){
 
-            closeLogin();
+            showToast("⚠️ " + data.message);
 
-            document.getElementById(
-                "ownerOverlay"
-            ).style.display =
-                "flex";
-
-            showToast(
-                "👑 Owner access granted!"
-            );
-
-        }else{
-
-            document.getElementById(
-                "loginError"
-            ).textContent =
-                data.message;
         }
 
-        return;
-    }
+    });
 
-    if(data.type === "roleChanged"){
-
-        if(myPlayer){
-
-            myPlayer.isOwner =
-                data.isOwner;
-        }
-
-        updateUI();
-
-        return;
-    }
-
-    if(data.type === "kicked"){
-
-        alert(data.message);
-
-        myPlayer = null;
-
-        nicknameScreen.style.display =
-            "flex";
-
-        app.style.display =
-            "none";
-
-        return;
-    }
-
-    if(data.type === "error"){
-
-        showToast(
-            "⚠️ " + data.message,
-            "error"
-        );
-
-        return;
-    }
-
-    if(data.type === "notice"){
-
-        showToast(
-            data.message
-        );
-    }
 }
 
-/* ================================================
-   SEND
-================================================ */
 
-function send(data){
+/* =========================================
+   RECONNECT
+========================================= */
+
+function scheduleReconnect(){
+
+    clearTimeout(reconnectTimer);
+
+    reconnectTimer = setTimeout(() => {
+
+        connect();
+
+    },3000);
+
+}
+
+
+/* =========================================
+   NICKNAME
+========================================= */
+
+function submitNickname(){
+
+    const input =
+        document.getElementById("nicknameInput");
+
+    let name =
+        input.value.trim().slice(0,20);
+
+    if(!name){
+
+        document.getElementById("nicknameError")
+            .textContent =
+            "Please enter a nickname.";
+
+        return;
+
+    }
+
 
     if(
-        socket &&
-        socket.readyState === WebSocket.OPEN
+        !socket ||
+        socket.readyState !== WebSocket.OPEN
     ){
 
-        socket.send(
-            JSON.stringify(data)
-        );
+        document.getElementById("nicknameError")
+            .textContent =
+            "Connecting to server...";
 
-    }else{
-
-        showToast(
-            "Not connected to server.",
-            "error"
-        );
-    }
-}
-
-/* ================================================
-   COOKIE CLICK
-================================================ */
-
-function clickCookie(){
-
-    if(!myPlayer) return;
-
-    send({
-        type:"click",
-        amount:1
-    });
-
-    const button =
-        document.getElementById(
-            "cookieButton"
-        );
-
-    button.animate(
-        [
-            {
-                transform:"scale(1)"
-            },
-            {
-                transform:"scale(.92)"
-            },
-            {
-                transform:"scale(1)"
-            }
-        ],
-        {
-            duration:90
-        }
-    );
-}
-
-/* ================================================
-   UI
-================================================ */
-
-function updateUI(){
-
-    if(!myPlayer) return;
-
-    cookieCount.textContent =
-        formatNumber(
-            myPlayer.cookies
-        );
-
-    cash.textContent =
-        "$" +
-        formatNumber(
-            myPlayer.cash
-        );
-
-    cps.textContent =
-        formatNumber(
-            myPlayer.cps
-        );
-
-    nickDisplay.textContent =
-        myPlayer.nickname;
-
-    playerCount.textContent =
-        allPlayers.length;
-
-    onlineText.textContent =
-        allPlayers.length +
-        " online";
-
-    roleBadge.style.display =
-        myPlayer.isOwner
-            ? "block"
-            : "none";
-
-    updatePlayers();
-
-    updateSelects();
-}
-
-/* ================================================
-   PLAYER LIST
-================================================ */
-
-function updatePlayers(){
-
-    if(!allPlayers.length){
-
-        playerList.innerHTML =
-            `<div class="empty">
-                Nobody is online.
-            </div>`;
+        connect();
 
         return;
+
     }
 
-    playerList.innerHTML =
-        allPlayers
-            .map(player => {
 
-                const isYou =
-                    myPlayer &&
-                    player.id === myPlayer.id;
+    socket.send(JSON.stringify({
 
-                let role = "";
+        type:"setNickname",
 
-                if(player.isOwner){
+        nickname:name
 
-                    role =
-                        `<span class="playerRole">
-                            👑 OWNER
-                        </span>`;
+    }));
 
-                }else if(player.isAdmin){
-
-                    role =
-                        `<span
-                            class="playerRole"
-                            style="color:#65baff"
-                        >
-                            🛡️ ADMIN
-                        </span>`;
-                }
-
-                return `
-
-                    <div class="player">
-
-                        <div class="playerLeft">
-
-                            <div class="playerAvatar">
-                                🍪
-                            </div>
-
-                            <div>
-
-                                <div class="playerName">
-
-                                    ${escapeHTML(
-                                        player.nickname
-                                    )}
-
-                                    ${role}
-
-                                    ${
-                                        isYou
-                                            ? `
-                                            <span class="youTag">
-                                                YOU
-                                            </span>
-                                            `
-                                            : ""
-                                    }
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="playerCookies">
-
-                            🍪
-                            ${formatNumber(
-                                player.cookies
-                            )}
-
-                        </div>
-
-                    </div>
-                `;
-            })
-            .join("");
 }
 
-/* ================================================
-   SELECTS
-================================================ */
 
-function updateSelects(){
+/* =========================================
+   COOKIE CLICK
+========================================= */
 
-    const ids = [
-        "cookiePlayer",
-        "cashPlayer",
-        "controlPlayer",
-        "ownerPlayer",
-        "ownerControlPlayer"
-    ];
+document.getElementById("cookie")
+    .addEventListener("click", () => {
 
-    ids.forEach(id => {
+        const amount =
+            1 * multiplier;
 
-        const select =
-            document.getElementById(id);
+        cookies += amount;
 
-        if(!select) return;
+        updateCookies();
 
-        const old =
-            select.value;
-
-        select.innerHTML =
-            allPlayers
-                .map(player => `
-
-                    <option
-                        value="${player.id}"
-                    >
-                        ${escapeHTML(
-                            player.nickname
-                        )}
-                        ${
-                            player.isOwner
-                                ? " 👑"
-                                : ""
-                        }
-                    </option>
-
-                `)
-                .join("");
-
-        if(
-            [...select.options]
-                .some(o => o.value === old)
-        ){
-
-            select.value = old;
-        }
     });
+
+
+/* =========================================
+   CPS
+========================================= */
+
+setInterval(() => {
+
+    if(cps > 0){
+
+        cookies += cps * multiplier;
+
+        updateCookies();
+
+    }
+
+},1000);
+
+
+/* =========================================
+   GLOBAL EVENTS
+========================================= */
+
+function applyEvent(event){
+
+    currentEvent = event;
+
+    const box =
+        document.getElementById("event");
+
+
+    if(
+        !event ||
+        event.type === "none"
+    ){
+
+        multiplier = 1;
+
+        box.style.display = "none";
+
+        updateCookies();
+
+        return;
+
+    }
+
+
+    multiplier =
+        Number(event.multiplier || 1);
+
+
+    box.style.display = "block";
+
+
+    const names = {
+
+        cookieRain:
+            "🌧️ COOKIE RAIN",
+
+        frenzy:
+            "⚡ GLOBAL ×100 COOKIE FRENZY",
+
+        goldenStorm:
+            "🌟 GOLDEN COOKIE STORM",
+
+        glitch:
+            "🌀 GLOBAL GLITCH EVENT",
+
+        apocalypse:
+            "☠️ COOKIE APOCALYPSE"
+
+    };
+
+
+    box.textContent =
+        names[event.type] ||
+        "🌎 GLOBAL EVENT";
+
+
+    updateCookies();
+
 }
 
-/* ================================================
+
+/* =========================================
    ADMIN LOGIN
-================================================ */
+========================================= */
 
-function openAdminLogin(){
+function openAdmin(){
 
-    loginMode =
-        "admin";
+    if(isAdmin){
 
-    document.getElementById(
-        "loginTitle"
-    ).textContent =
-        "🛡️ Admin Login";
+        document.querySelector(".admin")
+            .classList.add("show");
 
-    document.getElementById(
-        "loginDescription"
-    ).textContent =
-        "Enter the Admin password.";
+        return;
 
-    document.getElementById(
-        "loginPassword"
-    ).value = "";
+    }
 
-    document.getElementById(
-        "loginError"
-    ).textContent = "";
 
-    document.getElementById(
-        "loginOverlay"
-    ).style.display =
-        "flex";
+    document.getElementById("adminModal")
+        .classList.remove("hidden");
 
-    setTimeout(
-        () =>
-            document.getElementById(
-                "loginPassword"
-            ).focus(),
-        50
-    );
+    document.getElementById("adminError")
+        .textContent = "";
+
+    document.getElementById("adminPassword")
+        .value = "";
+
+    document.getElementById("adminPassword")
+        .focus();
+
 }
 
-/* ================================================
-   OWNER LOGIN
-================================================ */
 
-function openOwnerLogin(){
+function closeAdmin(){
 
-    loginMode =
-        "owner";
+    document.getElementById("adminModal")
+        .classList.add("hidden");
 
-    document.getElementById(
-        "loginTitle"
-    ).textContent =
-        "👑 Owner Login";
-
-    document.getElementById(
-        "loginDescription"
-    ).textContent =
-        "Enter the Owner password.";
-
-    document.getElementById(
-        "loginPassword"
-    ).value = "";
-
-    document.getElementById(
-        "loginError"
-    ).textContent = "";
-
-    document.getElementById(
-        "loginOverlay"
-    ).style.display =
-        "flex";
-
-    setTimeout(
-        () =>
-            document.getElementById(
-                "loginPassword"
-            ).focus(),
-        50
-    );
 }
 
-/* ================================================
-   SUBMIT LOGIN
-================================================ */
 
-function submitLogin(){
+function loginAdmin(){
 
     const password =
-        document.getElementById(
-            "loginPassword"
-        ).value;
+        document.getElementById("adminPassword")
+            .value;
 
-    if(!password){
 
-        document.getElementById(
-            "loginError"
-        ).textContent =
-            "Enter a password.";
+    if(
+        !socket ||
+        socket.readyState !== WebSocket.OPEN
+    ){
+
+        document.getElementById("adminError")
+            .textContent =
+            "Server is not connected.";
 
         return;
-    }
-
-    if(loginMode === "admin"){
-
-        send({
-            type:"adminLogin",
-            password:password
-        });
 
     }
 
-    if(loginMode === "owner"){
 
-        send({
-            type:"ownerLogin",
-            password:password
-        });
+    socket.send(JSON.stringify({
+
+        type:"adminLogin",
+
+        password:password
+
+    }));
+
+}
+
+
+/* =========================================
+   ADMIN EVENTS
+========================================= */
+
+function adminEvent(event){
+
+    if(!isAdmin)
+        return;
+
+
+    if(
+        !socket ||
+        socket.readyState !== WebSocket.OPEN
+    ){
+
+        showToast("⚠️ Server is not connected.");
+
+        return;
 
     }
+
+
+    socket.send(JSON.stringify({
+
+        type:"adminEvent",
+
+        event:event
+
+    }));
+
 }
 
-/* ================================================
-   CLOSE LOGIN
-================================================ */
 
-function closeLogin(){
-
-    document.getElementById(
-        "loginOverlay"
-    ).style.display =
-        "none";
-}
-
-/* ================================================
-   CLOSE PANEL
-================================================ */
-
-function closePanel(id){
-
-    document.getElementById(
-        id
-    ).style.display =
-        "none";
-}
-
-/* ================================================
-   ANNOUNCEMENT
-================================================ */
+/* =========================================
+   GLOBAL ANNOUNCEMENT
+========================================= */
 
 function sendAnnouncement(){
 
+    if(!isAdmin)
+        return;
+
+
+    if(
+        !socket ||
+        socket.readyState !== WebSocket.OPEN
+    ){
+
+        showToast("⚠️ Server is not connected.");
+
+        return;
+
+    }
+
+
     const input =
-        document.getElementById(
-            "announceInput"
-        );
+        document.getElementById("announcementInput");
+
 
     const message =
-        input.value.trim();
+        input.value.trim().slice(0,200);
 
-    if(!message) return;
 
-    send({
-        type:"announce",
+    if(!message)
+        return;
+
+
+    socket.send(JSON.stringify({
+
+        type:"announcement",
+
         message:message
-    });
+
+    }));
+
 
     input.value = "";
+
 }
 
-/* ================================================
-   GIVE COOKIES
-================================================ */
 
-function giveCookies(){
+/* =========================================
+   PLAYER LIST
+========================================= */
 
-    const playerId =
-        document.getElementById(
-            "cookiePlayer"
-        ).value;
-
-    const amount =
-        Number(
-            document.getElementById(
-                "cookieAmount"
-            ).value
-        );
-
-    send({
-        type:"giveCookies",
-        playerId,
-        amount
-    });
-}
-
-/* ================================================
-   GIVE CASH
-================================================ */
-
-function giveCash(){
-
-    const playerId =
-        document.getElementById(
-            "cashPlayer"
-        ).value;
-
-    const amount =
-        Number(
-            document.getElementById(
-                "cashAmount"
-            ).value
-        );
-
-    send({
-        type:"giveCash",
-        playerId,
-        amount
-    });
-}
-
-/* ================================================
-   KICK
-================================================ */
-
-function kickPlayer(){
-
-    const playerId =
-        document.getElementById(
-            "controlPlayer"
-        ).value;
-
-    if(!playerId) return;
-
-    send({
-        type:"kick",
-        playerId
-    });
-}
-
-/* ================================================
-   OWNER KICK
-================================================ */
-
-function ownerKick(){
-
-    const playerId =
-        document.getElementById(
-            "ownerControlPlayer"
-        ).value;
-
-    if(!playerId) return;
-
-    send({
-        type:"kick",
-        playerId
-    });
-}
-
-/* ================================================
-   BAN
-================================================ */
-
-function banPlayer(){
-
-    const playerId =
-        document.getElementById(
-            "ownerControlPlayer"
-        ).value;
-
-    if(!playerId) return;
-
-    if(
-        !confirm(
-            "Ban this player?"
-        )
-    ){
-
-        return;
-    }
-
-    send({
-        type:"ban",
-        playerId
-    });
-}
-
-/* ================================================
-   UNBAN
-================================================ */
-
-function unbanPlayer(){
-
-    const nickname =
-        document.getElementById(
-            "unbanName"
-        ).value.trim();
-
-    if(!nickname) return;
-
-    send({
-        type:"unban",
-        nickname
-    });
-}
-
-/* ================================================
-   RESET PLAYER
-================================================ */
-
-function resetPlayer(){
-
-    const playerId =
-        document.getElementById(
-            "controlPlayer"
-        ).value;
-
-    if(!playerId) return;
-
-    if(
-        !confirm(
-            "Reset this player's cookies, cash and CPS?"
-        )
-    ){
-
-        return;
-    }
-
-    send({
-        type:"resetPlayer",
-        playerId
-    });
-}
-
-/* ================================================
-   OWNER ROLE
-================================================ */
-
-function setOwnerRole(enabled){
-
-    const playerId =
-        document.getElementById(
-            "ownerPlayer"
-        ).value;
-
-    if(!playerId) return;
-
-    send({
-        type:"setOwnerRole",
-        playerId,
-        enabled
-    });
-}
-
-/* ================================================
-   SERVER RESET
-================================================ */
-
-function serverReset(){
-
-    if(
-        !confirm(
-            "RESET THE ENTIRE COOKIE EMPIRE?"
-        )
-    ){
-
-        return;
-    }
-
-    if(
-        !confirm(
-            "This will reset every online player's cookies, cash and CPS. Continue?"
-        )
-    ){
-
-        return;
-    }
-
-    send({
-        type:"serverReset"
-    });
-}
-
-/* ================================================
-   FORMAT NUMBER
-================================================ */
-
-function formatNumber(number){
-
-    number =
-        Number(number) || 0;
-
-    if(number < 1000){
-
-        if(
-            Number.isInteger(number)
-        ){
-
-            return String(number);
-        }
-
-        return number.toFixed(2);
-    }
-
-    const units = [
-        "",
-        "K",
-        "M",
-        "B",
-        "T",
-        "Qa",
-        "Qi",
-        "Sx",
-        "Sp",
-        "Oc",
-        "No",
-        "Dc"
-    ];
-
-    let index = 0;
-
-    while(
-        number >= 1000 &&
-        index < units.length - 1
-    ){
-
-        number /= 1000;
-
-        index++;
-    }
-
-    return number.toFixed(
-        number >= 100
-            ? 0
-            : number >= 10
-                ? 1
-                : 2
-    ) + units[index];
-}
-
-/* ================================================
-   ESCAPE HTML
-================================================ */
-
-function escapeHTML(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-/* ================================================
-   TOAST
-================================================ */
-
-function showToast(
-    message,
-    type = "normal"
-){
+function renderPlayers(list){
 
     const container =
-        document.getElementById(
-            "toastContainer"
-        );
+        document.getElementById("players");
 
-    const toast =
-        document.createElement("div");
 
-    toast.className =
-        "toast";
+    container.innerHTML = "";
 
-    if(type === "error"){
 
-        toast.style.borderColor =
-            "#74241e";
+    if(
+        !Array.isArray(list) ||
+        list.length === 0
+    ){
+
+        container.innerHTML =
+            `<div class="player">
+                <span>No players online.</span>
+             </div>`;
+
+        return;
+
     }
 
-    toast.textContent =
-        message;
 
-    container.appendChild(toast);
+    list.forEach(player => {
 
-    setTimeout(() => {
+        const row =
+            document.createElement("div");
 
-        toast.style.opacity =
-            "0";
+        row.className = "player";
 
-        toast.style.transform =
-            "translateX(20px)";
 
-        setTimeout(
-            () => toast.remove(),
-            250
-        );
+        const name =
+            document.createElement("span");
 
-    },3000);
+        name.textContent =
+            player.nickname || "Unknown";
+
+
+        const role =
+            document.createElement("span");
+
+        role.className = "role";
+
+
+        role.textContent =
+            player.admin
+                ? "👑 ADMIN"
+                : "PLAYER";
+
+
+        if(player.admin)
+            role.classList.add("admin");
+
+
+        row.appendChild(name);
+
+        row.appendChild(role);
+
+        container.appendChild(row);
+
+    });
+
 }
 
-/* ================================================
-   INITIAL
-================================================ */
 
-updateSelects();
+/* =========================================
+   TOAST
+========================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent = message;
+
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        },3000);
+
+}
+
+
+/* =========================================
+   ENTER KEY SUPPORT
+========================================= */
+
+document.getElementById("nicknameInput")
+    .addEventListener("keydown", e => {
+
+        if(e.key === "Enter")
+            submitNickname();
+
+    });
+
+
+document.getElementById("adminPassword")
+    .addEventListener("keydown", e => {
+
+        if(e.key === "Enter")
+            loginAdmin();
+
+    });
+
+
+/* =========================================
+   START
+========================================= */
+
+updateNickname();
+
+updateCookies();
+
+
+if(nickname){
+
+    document.getElementById("nicknameModal")
+        .classList.add("hidden");
+
+}else{
+
+    document.getElementById("nicknameModal")
+        .classList.remove("hidden");
+
+}
+
+
+connect();
 
 </script>
 
 </body>
 </html>
+```

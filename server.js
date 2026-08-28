@@ -9,897 +9,405 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const PORT = process.env.PORT || 3000;
-
-/*
-====================================================
-COOKIE EMPIRE SERVER
-====================================================
-
-IMPORTANT:
-Set these environment variables on Render:
-
-ADMIN_PASSWORD=your_admin_password
-OWNER_PASSWORD=your_owner_password
-
-Do NOT put your real passwords inside the HTML.
-*/
-
-const ADMIN_PASSWORD =
-    process.env.ADMIN_PASSWORD || "CHANGE_ADMIN_PASSWORD";
-
-const OWNER_PASSWORD =
-    process.env.OWNER_PASSWORD || "CHANGE_OWNER_PASSWORD";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Chain1964";
 
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "Cookie Empire.html"));
+res.sendFile(path.join(__dirname, "Cookie Empire.html"));
 });
-
-/*
-====================================================
-DATA
-====================================================
-*/
 
 const players = new Map();
 
-const bannedIPs = new Set();
-const bannedNames = new Set();
+let globalEvent = {
+type: "none",
+endsAt: 0,
+multiplier: 1
+};
 
-let serverAnnouncement = "";
-
-const ownerRoles = new Set();
-
-/*
-====================================================
-PLAYER OBJECT
-====================================================
-*/
-
-function createPlayer(ws, nickname) {
-    const id = crypto.randomUUID();
-
-    return {
-        id,
-        ws,
-        nickname,
-        cookies: 0,
-        cash: 0,
-        cps: 0,
-        connectedAt: Date.now(),
-        isAdmin: false,
-        isOwner: false
-    };
-}
-
-/*
-====================================================
-NICKNAME
-====================================================
-*/
-
-function cleanNickname(name) {
-    if (typeof name !== "string") return "";
-
-    name = name.trim();
-
-    name = name
-        .replace(/[<>]/g, "")
-        .replace(/\s+/g, " ");
-
-    if (name.length < 1) return "";
-    if (name.length > 20) {
-        name = name.substring(0, 20);
-    }
-
-    return name;
-}
-
-function nicknameTaken(name, exceptId = null) {
-    for (const player of players.values()) {
-        if (
-            player.id !== exceptId &&
-            player.nickname.toLowerCase() === name.toLowerCase()
-        ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-/*
-====================================================
-PLAYER LIST
-====================================================
-*/
-
-function getPublicPlayers() {
-    return [...players.values()].map(player => ({
-        id: player.id,
-        nickname: player.nickname,
-        cookies: Math.floor(player.cookies),
-        cash: Math.floor(player.cash),
-        cps: Number(player.cps.toFixed(2)),
-        isAdmin: player.isAdmin,
-        isOwner: player.isOwner
-    }));
-}
-
-/*
-====================================================
-SEND
-====================================================
-*/
+let announcement = "";
 
 function send(ws, data) {
-    if (!ws || ws.readyState !== WebSocket.OPEN) return;
-
-    try {
-        ws.send(JSON.stringify(data));
-    } catch (err) {
-        console.log("Send error:", err.message);
-    }
+if (ws.readyState === WebSocket.OPEN) {
+ws.send(JSON.stringify(data));
+}
 }
 
 function broadcast(data) {
-    const message = JSON.stringify(data);
+const message = JSON.stringify(data);
 
-    for (const player of players.values()) {
-        if (player.ws.readyState === WebSocket.OPEN) {
-            try {
-                player.ws.send(message);
-            } catch {}
-        }
+```
+wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+        client.send(message);
     }
+});
+```
+
+}
+
+function getOnlineCount() {
+let count = 0;
+
+```
+wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+        count++;
+    }
+});
+
+return count;
+```
+
+}
+
+function broadcastOnline() {
+broadcast({
+type: "onlineCount",
+count: getOnlineCount()
+});
 }
 
 function broadcastPlayers() {
-    broadcast({
-        type: "players",
-        players: getPublicPlayers()
-    });
-}
-
-/*
-====================================================
-SERVER STATE
-====================================================
-*/
-
-function sendState(player) {
-    send(player.ws, {
-        type: "state",
-        player: {
-            id: player.id,
-            nickname: player.nickname,
-            cookies: player.cookies,
-            cash: player.cash,
-            cps: player.cps,
-            isAdmin: player.isAdmin,
-            isOwner: player.isOwner
-        },
-        players: getPublicPlayers(),
-        announcement: serverAnnouncement
-    });
-}
-
-/*
-====================================================
-AUTH
-====================================================
-*/
-
-function authenticateAdmin(player, password) {
-    if (password !== ADMIN_PASSWORD) {
-        return false;
-    }
-
-    player.isAdmin = true;
-
-    return true;
-}
-
-function authenticateOwner(player, password) {
-    if (password !== OWNER_PASSWORD) {
-        return false;
-    }
-
-    player.isOwner = true;
-    ownerRoles.add(player.nickname.toLowerCase());
-
-    return true;
-}
-
-/*
-====================================================
-WEBSOCKET
-====================================================
-*/
-
-wss.on("connection", (ws, req) => {
-
-    const ip =
-        req.headers["x-forwarded-for"] ||
-        req.socket.remoteAddress ||
-        "unknown";
-
-    let currentPlayer = null;
-
-    send(ws, {
-        type: "connected"
-    });
-
-    ws.on("message", raw => {
-
-        let data;
-
-        try {
-            data = JSON.parse(raw.toString());
-        } catch {
-            send(ws, {
-                type: "error",
-                message: "Invalid message."
-            });
-
-            return;
-        }
-
-        /*
-        ================================================
-        JOIN
-        ================================================
-        */
-
-        if (data.type === "join") {
-
-            let nickname = cleanNickname(data.nickname);
-
-            if (!nickname) {
-                send(ws, {
-                    type: "joinError",
-                    message: "Enter a nickname."
-                });
-
-                return;
-            }
-
-            if (bannedIPs.has(ip)) {
-                send(ws, {
-                    type: "joinError",
-                    message: "You are banned."
-                });
-
-                return;
-            }
-
-            if (bannedNames.has(nickname.toLowerCase())) {
-                send(ws, {
-                    type: "joinError",
-                    message: "That nickname is banned."
-                });
-
-                return;
-            }
-
-            if (nicknameTaken(nickname)) {
-                send(ws, {
-                    type: "joinError",
-                    message: "That nickname is already being used."
-                });
-
-                return;
-            }
-
-            currentPlayer = createPlayer(ws, nickname);
-
-            /*
-            Owner role persists by nickname.
-            */
-            if (ownerRoles.has(nickname.toLowerCase())) {
-                currentPlayer.isOwner = true;
-            }
-
-            players.set(currentPlayer.id, currentPlayer);
-
-            sendState(currentPlayer);
-
-            broadcast({
-                type: "announcement",
-                message: `${nickname} joined Cookie Empire!`
-            });
-
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        SECURITY
-        ================================================
-        */
-
-        if (!currentPlayer) {
-            send(ws, {
-                type: "error",
-                message: "You must join first."
-            });
-
-            return;
-        }
-
-        /*
-        ================================================
-        COOKIE CLICK
-        ================================================
-        */
-
-        if (data.type === "click") {
-
-            const amount = Number(data.amount);
-
-            if (!Number.isFinite(amount)) return;
-
-            /*
-            Prevent ridiculous client-side values.
-            */
-
-            const safeAmount = Math.max(
-                1,
-                Math.min(Math.floor(amount), 100)
-            );
-
-            currentPlayer.cookies += safeAmount;
-            currentPlayer.cash += safeAmount;
-
-            sendState(currentPlayer);
-
-            return;
-        }
-
-        /*
-        ================================================
-        UPDATE CPS
-        ================================================
-        */
-
-        if (data.type === "setCps") {
-
-            const cps = Number(data.cps);
-
-            if (!Number.isFinite(cps)) return;
-
-            currentPlayer.cps = Math.max(
-                0,
-                Math.min(cps, 1000000)
-            );
-
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        ADMIN LOGIN
-        ================================================
-        */
-
-        if (data.type === "adminLogin") {
-
-            if (authenticateAdmin(currentPlayer, data.password)) {
-
-                send(ws, {
-                    type: "adminLoginResult",
-                    success: true,
-                    message: "Admin access granted."
-                });
-
-                sendState(currentPlayer);
-
-            } else {
-
-                send(ws, {
-                    type: "adminLoginResult",
-                    success: false,
-                    message: "Wrong admin password."
-                });
-            }
-
-            return;
-        }
-
-        /*
-        ================================================
-        OWNER LOGIN
-        ================================================
-        */
-
-        if (data.type === "ownerLogin") {
-
-            if (authenticateOwner(currentPlayer, data.password)) {
-
-                send(ws, {
-                    type: "ownerLoginResult",
-                    success: true,
-                    message: "Owner access granted."
-                });
-
-                sendState(currentPlayer);
-
-                broadcastPlayers();
-
-            } else {
-
-                send(ws, {
-                    type: "ownerLoginResult",
-                    success: false,
-                    message: "Wrong owner password."
-                });
-            }
-
-            return;
-        }
-
-        /*
-        ================================================
-        OWNER ROLE
-        ================================================
-        */
-
-        if (data.type === "setOwnerRole") {
-
-            if (!currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Owner access required."
-                });
-
-                return;
-            }
-
-            const targetId = String(data.playerId || "");
-
-            const target = players.get(targetId);
-
-            if (!target) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Player not found."
-                });
-
-                return;
-            }
-
-            const enabled = Boolean(data.enabled);
-
-            target.isOwner = enabled;
-
-            if (enabled) {
-                ownerRoles.add(target.nickname.toLowerCase());
-            } else {
-                ownerRoles.delete(target.nickname.toLowerCase());
-            }
-
-            send(target.ws, {
-                type: "roleChanged",
-                isOwner: target.isOwner
-            });
-
-            broadcast({
-                type: "announcement",
-                message: enabled
-                    ? `${target.nickname} is now an Owner! 👑`
-                    : `${target.nickname} is no longer an Owner.`
-            });
-
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        GIVE COOKIES
-        ================================================
-        */
-
-        if (data.type === "giveCookies") {
-
-            if (!currentPlayer.isAdmin && !currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admin access required."
-                });
-
-                return;
-            }
-
-            const target = players.get(String(data.playerId || ""));
-
-            if (!target) return;
-
-            let amount = Number(data.amount);
-
-            if (!Number.isFinite(amount)) return;
-
-            amount = Math.max(
-                -1000000000,
-                Math.min(amount, 1000000000)
-            );
-
-            target.cookies += amount;
-
-            if (target.cookies < 0) {
-                target.cookies = 0;
-            }
-
-            sendState(target);
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        GIVE CASH
-        ================================================
-        */
-
-        if (data.type === "giveCash") {
-
-            if (!currentPlayer.isAdmin && !currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admin access required."
-                });
-
-                return;
-            }
-
-            const target = players.get(String(data.playerId || ""));
-
-            if (!target) return;
-
-            let amount = Number(data.amount);
-
-            if (!Number.isFinite(amount)) return;
-
-            amount = Math.max(
-                -1000000000,
-                Math.min(amount, 1000000000)
-            );
-
-            target.cash += amount;
-
-            if (target.cash < 0) {
-                target.cash = 0;
-            }
-
-            sendState(target);
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        ANNOUNCEMENT
-        ================================================
-        */
-
-        if (data.type === "announce") {
-
-            if (!currentPlayer.isAdmin && !currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admin access required."
-                });
-
-                return;
-            }
-
-            let message = String(data.message || "").trim();
-
-            message = message.substring(0, 250);
-
-            if (!message) return;
-
-            serverAnnouncement = message;
-
-            broadcast({
-                type: "announcement",
-                message
-            });
-
-            return;
-        }
-
-        /*
-        ================================================
-        KICK
-        ================================================
-        */
-
-        if (data.type === "kick") {
-
-            if (!currentPlayer.isAdmin && !currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admin access required."
-                });
-
-                return;
-            }
-
-            const target = players.get(String(data.playerId || ""));
-
-            if (!target) return;
-
-            /*
-            Admin cannot kick Owner.
-            Owner cannot be kicked by Admin.
-            */
-
-            if (
-                target.isOwner &&
-                !currentPlayer.isOwner
-            ) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admins cannot kick an Owner."
-                });
-
-                return;
-            }
-
-            send(target.ws, {
-                type: "kicked",
-                message: "You were kicked from Cookie Empire."
-            });
-
-            target.ws.close();
-
-            return;
-        }
-
-        /*
-        ================================================
-        BAN
-        ================================================
-        */
-
-        if (data.type === "ban") {
-
-            if (!currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Owner access required."
-                });
-
-                return;
-            }
-
-            const target = players.get(String(data.playerId || ""));
-
-            if (!target) return;
-
-            if (target.id === currentPlayer.id) {
-
-                send(ws, {
-                    type: "error",
-                    message: "You cannot ban yourself."
-                });
-
-                return;
-            }
-
-            bannedNames.add(target.nickname.toLowerCase());
-
-            send(target.ws, {
-                type: "kicked",
-                message: "You were banned from Cookie Empire."
-            });
-
-            target.ws.close();
-
-            broadcast({
-                type: "announcement",
-                message: `${target.nickname} was banned.`
-            });
-
-            return;
-        }
-
-        /*
-        ================================================
-        UNBAN
-        ================================================
-        */
-
-        if (data.type === "unban") {
-
-            if (!currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Owner access required."
-                });
-
-                return;
-            }
-
-            const nickname = cleanNickname(data.nickname);
-
-            bannedNames.delete(nickname.toLowerCase());
-
-            send(ws, {
-                type: "notice",
-                message: `${nickname} has been unbanned.`
-            });
-
-            return;
-        }
-
-        /*
-        ================================================
-        RESET PLAYER
-        ================================================
-        */
-
-        if (data.type === "resetPlayer") {
-
-            if (!currentPlayer.isAdmin && !currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Admin access required."
-                });
-
-                return;
-            }
-
-            const target = players.get(String(data.playerId || ""));
-
-            if (!target) return;
-
-            target.cookies = 0;
-            target.cash = 0;
-            target.cps = 0;
-
-            sendState(target);
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        SERVER RESET
-        ================================================
-        */
-
-        if (data.type === "serverReset") {
-
-            if (!currentPlayer.isOwner) {
-
-                send(ws, {
-                    type: "error",
-                    message: "Owner access required."
-                });
-
-                return;
-            }
-
-            for (const player of players.values()) {
-
-                player.cookies = 0;
-                player.cash = 0;
-                player.cps = 0;
-
-                sendState(player);
-            }
-
-            broadcast({
-                type: "announcement",
-                message: "🍪 The Owner reset the Cookie Empire!"
-            });
-
-            broadcastPlayers();
-
-            return;
-        }
-
-        /*
-        ================================================
-        PING
-        ================================================
-        */
-
-        if (data.type === "ping") {
-
-            send(ws, {
-                type: "pong",
-                time: Date.now()
-            });
-
-            return;
-        }
-    });
-
-    /*
-    ================================================
-    DISCONNECT
-    ================================================
-    */
-
-    ws.on("close", () => {
-
-        if (!currentPlayer) return;
-
-        players.delete(currentPlayer.id);
-
-        broadcast({
-            type: "announcement",
-            message: `${currentPlayer.nickname} left Cookie Empire.`
-        });
-
-        broadcastPlayers();
-    });
-
-    ws.on("error", () => {
-        try {
-            ws.close();
-        } catch {}
+const list = [];
+
+```
+players.forEach(player => {
+    list.push({
+        id: player.id,
+        nickname: player.nickname || "Unknown",
+        admin: player.admin === true
     });
 });
 
-/*
-====================================================
-PASSIVE CPS
-====================================================
-*/
+wss.clients.forEach(client => {
+    if (
+        client.readyState === WebSocket.OPEN &&
+        client.isAdmin === true
+    ) {
+        send(client, {
+            type: "playerList",
+            players: list
+        });
+    }
+});
+```
 
-setInterval(() => {
+}
 
-    for (const player of players.values()) {
+function startEvent(type, seconds, multiplier) {
+globalEvent = {
+type: type,
+endsAt: Date.now() + seconds * 1000,
+multiplier: multiplier
+};
 
-        if (player.cps <= 0) continue;
+```
+broadcast({
+    type: "globalEvent",
+    event: globalEvent
+});
 
-        const earned = player.cps / 10;
+broadcast({
+    type: "adminAnnouncement",
+    message: "🌎 " + type + " EVENT STARTED!"
+});
 
-        player.cookies += earned;
-        player.cash += earned;
+console.log("🌎 Global event started: " + type);
+```
 
-        sendState(player);
+}
+
+function stopEvent() {
+globalEvent = {
+type: "none",
+endsAt: 0,
+multiplier: 1
+};
+
+```
+broadcast({
+    type: "globalEvent",
+    event: globalEvent
+});
+
+console.log("🛑 Global event stopped.");
+```
+
+}
+
+wss.on("connection", ws => {
+const playerId = crypto.randomUUID();
+
+```
+ws.playerId = playerId;
+ws.isAdmin = false;
+
+players.set(playerId, {
+    id: playerId,
+    nickname: "Unknown",
+    admin: false
+});
+
+console.log("🍪 Player connected: " + playerId);
+
+send(ws, {
+    type: "connected",
+    playerId: playerId,
+    online: getOnlineCount()
+});
+
+if (globalEvent.type !== "none") {
+    send(ws, {
+        type: "globalEvent",
+        event: globalEvent
+    });
+}
+
+if (announcement) {
+    send(ws, {
+        type: "announcement",
+        message: announcement
+    });
+}
+
+broadcastOnline();
+broadcastPlayers();
+
+ws.on("message", raw => {
+    let data;
+
+    try {
+        data = JSON.parse(raw.toString());
+    } catch (error) {
+        send(ws, {
+            type: "error",
+            message: "Invalid message."
+        });
+        return;
     }
 
-}, 100);
+    if (data.type === "setNickname") {
+        let nickname = String(data.nickname || "")
+            .trim()
+            .slice(0, 20);
 
-/*
-====================================================
-START
-====================================================
-*/
+        if (!nickname) {
+            send(ws, {
+                type: "nicknameResult",
+                success: false,
+                message: "Nickname cannot be empty."
+            });
+            return;
+        }
 
-server.listen(PORT, () => {
+        const player = players.get(ws.playerId);
 
-    console.log("");
-    console.log("======================================");
-    console.log("🍪 COOKIE EMPIRE SERVER");
-    console.log("======================================");
-    console.log(`Server running on port ${PORT}`);
-    console.log(`http://localhost:${PORT}`);
-    console.log("======================================");
-    console.log("");
+        if (!player) {
+            send(ws, {
+                type: "nicknameResult",
+                success: false,
+                message: "Player not found."
+            });
+            return;
+        }
+
+        player.nickname = nickname;
+
+        console.log(
+            "👤 " + nickname + " joined."
+        );
+
+        send(ws, {
+            type: "nicknameResult",
+            success: true,
+            nickname: nickname
+        });
+
+        broadcastPlayers();
+        return;
+    }
+
+    if (data.type === "adminLogin") {
+        const password = String(data.password || "");
+
+        if (password !== ADMIN_PASSWORD) {
+            send(ws, {
+                type: "adminLoginResult",
+                success: false
+            });
+            return;
+        }
+
+        ws.isAdmin = true;
+
+        const player = players.get(ws.playerId);
+
+        if (player) {
+            player.admin = true;
+        }
+
+        send(ws, {
+            type: "adminLoginResult",
+            success: true
+        });
+
+        console.log(
+            "👑 Admin logged in: " + ws.playerId
+        );
+
+        broadcastPlayers();
+        return;
+    }
+
+    if (!ws.isAdmin) {
+        send(ws, {
+            type: "error",
+            message: "Admin authentication required."
+        });
+        return;
+    }
+
+    if (data.type === "adminEvent") {
+        switch (data.event) {
+            case "cookieRain":
+                startEvent("cookieRain", 30, 1);
+                break;
+
+            case "frenzy":
+                startEvent("frenzy", 30, 100);
+                break;
+
+            case "goldenStorm":
+                startEvent("goldenStorm", 30, 1);
+                break;
+
+            case "glitch":
+                startEvent("glitch", 20, 1);
+                break;
+
+            case "apocalypse":
+                startEvent("apocalypse", 15, 1);
+                break;
+
+            case "megaReward":
+                broadcast({
+                    type: "globalReward",
+                    amount: 1000000000
+                });
+
+                broadcast({
+                    type: "adminAnnouncement",
+                    message:
+                        "💰 EVERYONE RECEIVED 1 BILLION COOKIES!"
+                });
+
+                console.log(
+                    "💰 Global reward activated."
+                );
+                break;
+
+            case "stop":
+                stopEvent();
+
+                broadcast({
+                    type: "adminAnnouncement",
+                    message:
+                        "🛑 GLOBAL EVENT STOPPED."
+                });
+                break;
+
+            default:
+                send(ws, {
+                    type: "error",
+                    message: "Unknown admin event."
+                });
+                break;
+        }
+
+        return;
+    }
+
+    if (data.type === "announcement") {
+        const message = String(data.message || "")
+            .trim()
+            .slice(0, 200);
+
+        if (!message) {
+            return;
+        }
+
+        announcement = message;
+
+        broadcast({
+            type: "announcement",
+            message: message
+        });
+
+        console.log(
+            "📢 Announcement: " + message
+        );
+
+        return;
+    }
+
+    if (data.type === "getPlayers") {
+        broadcastPlayers();
+        return;
+    }
+});
+
+ws.on("close", () => {
+    const player = players.get(ws.playerId);
+
+    if (player) {
+        console.log(
+            "👋 " + player.nickname + " left."
+        );
+    }
+
+    players.delete(ws.playerId);
+
+    broadcastOnline();
+    broadcastPlayers();
+});
+
+ws.on("error", error => {
+    console.error(
+        "WebSocket error:",
+        error.message
+    );
+});
+```
+
+});
+
+setInterval(() => {
+if (
+globalEvent.type !== "none" &&
+Date.now() >= globalEvent.endsAt
+) {
+stopEvent();
+}
+}, 1000);
+
+server.listen(PORT, "0.0.0.0", () => {
+console.log("");
+console.log("🍪 COOKIE EMPIRE GLOBAL");
+console.log("-----------------------------");
+console.log(
+"🌎 Server running on port " + PORT
+);
+console.log("🔌 WebSocket: ACTIVE");
+console.log("👑 Global Admin Abuse: ACTIVE");
+console.log("👤 Nickname System: ACTIVE");
+console.log("-----------------------------");
+console.log("");
+});
+
+server.on("error", error => {
+console.error(
+"❌ Server error:",
+error
+);
 });
